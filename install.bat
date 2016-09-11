@@ -1,0 +1,15 @@
+@echo off
+mkdir "%LOCALAPPDATA%\wsltty"
+mkdir "%LOCALAPPDATA%\wsltty\bin"
+mkdir "%LOCALAPPDATA%\wsltty\etc"
+copy LICENSE.mintty "%LOCALAPPDATA%\wsltty"
+copy LICENSE.wslbridge "%LOCALAPPDATA%\wsltty"
+copy etc/minttyrc "%LOCALAPPDATA%\wsltty\etc"
+copy cygwin1.dll "%LOCALAPPDATA%\wsltty\bin"
+copy cygwin-console-helper.exe "%LOCALAPPDATA%\wsltty\bin"
+copy mintty.exe "%LOCALAPPDATA%\wsltty\bin"
+copy wslbridge.exe "%LOCALAPPDATA%\wsltty\bin"
+copy wslbridge-backend "%LOCALAPPDATA%\wsltty\bin"
+copy "Bash on UoW in Mintty.lnk" "%USERPROFILE%\Desktop"
+copy "Bash on UoW in Mintty.lnk" "%APPDATA%\Microsoft\Windows\Start Menu"
+
