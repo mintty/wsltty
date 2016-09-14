@@ -43,8 +43,6 @@ cygwin:
 	cp /bin/cygwin-console-helper.exe bin/
 
 wsltty:
-	mkdir -p etc
-	touch etc/minttyrc
 
 pkg:
 	mkdir -p rel
@@ -56,7 +54,6 @@ pkg:
 	cp bin/wslbridge-backend rel/
 	cp LICENSE.mintty rel/
 	cp LICENSE.wslbridge rel/
-	cp etc/minttyrc rel/
 	cp "Bash on UoW in Mintty.lnk" rel/
 	cp install.bat rel/
 	cd rel; iexpress /n wsltty.SED
