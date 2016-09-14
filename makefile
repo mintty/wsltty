@@ -2,8 +2,8 @@
 # default: generate all
 all:	wslbridge mintty cygwin wsltty pkg
 
+ver=0.5
 wslbridgever=0.1.0
-ver=$(wslbridgever)
 
 TARGET := $(shell $(CC) -dumpmachine)
 
@@ -19,19 +19,22 @@ else
   $(error Target '$(TARGET)' not supported)
 endif
 
+wget=curl -R -L -O --connect-timeout 55
+
 #############################################################################
 # generation
 
 wslbridge:
-	wget https://github.com/rprichard/wslbridge/releases/download/$(wslbridgever)/wslbridge-$(wslbridgever)-$(sys).tar.gz -O wslbridge-$(wslbridgever)-$(sys).tar.gz
+	$(wget) https://github.com/rprichard/wslbridge/releases/download/$(wslbridgever)/wslbridge-$(wslbridgever)-$(sys).tar.gz
 	tar xvzf wslbridge-$(wslbridgever)-$(sys).tar.gz
 	mkdir -p bin
 	cp wslbridge-$(wslbridgever)-$(sys)/wslbridge* bin/
 	cp wslbridge-$(wslbridgever)-$(sys)/LICENSE.txt LICENSE.wslbridge
 
 mintty:
-	wget https://github.com/mintty/mintty/archive/master.zip -O mintty.zip
-	unzip mintty.zip
+	$(wget) https://github.com/mintty/mintty/archive/master.zip
+	mv master.zip mintty-master.zip
+	unzip mintty-master.zip
 	cd mintty-master/src; make LDFLAGS="-static -static-libgcc -s"
 	mkdir -p bin
 	cp mintty-master/bin/mintty.exe bin/
