@@ -1,8 +1,12 @@
 @echo off
 
+
+:deploy
+
 mkdir "%LOCALAPPDATA%\wsltty"
 copy LICENSE.mintty "%LOCALAPPDATA%\wsltty"
 copy LICENSE.wslbridge "%LOCALAPPDATA%\wsltty"
+copy uninstall.bat "%LOCALAPPDATA%\wsltty"
 
 mkdir "%LOCALAPPDATA%\wsltty\bin"
 copy cygwin1.dll "%LOCALAPPDATA%\wsltty\bin"
@@ -15,6 +19,9 @@ rem create "home directory" to enable storage of config file
 mkdir "%LOCALAPPDATA%\wsltty\home
 mkdir "%LOCALAPPDATA%\wsltty\home\%USERNAME%"
 
+
+:shortcuts
+
 rem create Desktop Shorcut
 copy "Bash on UoW in Mintty.lnk" "%USERPROFILE%\Desktop"
 
@@ -23,6 +30,7 @@ copy "Bash on UoW in Mintty.lnk" "%APPDATA%\Microsoft\Windows\Start Menu"
 
 
 :explorer
+
 rem Explorer context menu
 set userdirname=HKEY_CURRENT_USER\Software\Classes\Directory\shell
 set userdirpane=HKEY_CURRENT_USER\Software\Classes\Directory\Background\shell
@@ -50,3 +58,5 @@ reg add "%userdirpane%\wsltty" /d "%label% %here%" /f
 reg add "%userdirpane%\wsltty" /v Icon /d "%icon%" /f
 reg add "%userdirpane%\wsltty\command" /d "%target%" /f
 
+
+:end

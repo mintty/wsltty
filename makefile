@@ -59,6 +59,7 @@ pkg:
 	cp LICENSE.wslbridge rel/
 	cp "Bash on UoW in Mintty.lnk" rel/
 	cp install.bat rel/
+	cp uninstall.bat rel/
 	cd rel; iexpress /n wsltty.SED
 
 #############################################################################
