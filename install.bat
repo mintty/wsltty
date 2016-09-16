@@ -1,5 +1,4 @@
 @echo off
-goto explorer
 
 mkdir "%LOCALAPPDATA%\wsltty"
 copy LICENSE.mintty "%LOCALAPPDATA%\wsltty"
