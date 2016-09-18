@@ -1,4 +1,4 @@
-@echo off
+rem @echo off
 
 
 :deploy
@@ -8,9 +8,14 @@ copy LICENSE.mintty "%LOCALAPPDATA%\wsltty"
 copy LICENSE.wslbridge "%LOCALAPPDATA%\wsltty"
 copy uninstall.bat "%LOCALAPPDATA%\wsltty"
 
+copy wsl.bat "%LOCALAPPDATA%\wsltty"
+rem does not work without admin rights:
+rem copy wsl.bat "%SYSTEMROOT%\System32"
+
 mkdir "%LOCALAPPDATA%\wsltty\bin"
 copy cygwin1.dll "%LOCALAPPDATA%\wsltty\bin"
 copy cygwin-console-helper.exe "%LOCALAPPDATA%\wsltty\bin"
+copy dash.exe "%LOCALAPPDATA%\wsltty\bin"
 copy mintty.exe "%LOCALAPPDATA%\wsltty\bin"
 copy wslbridge.exe "%LOCALAPPDATA%\wsltty\bin"
 copy wslbridge-backend "%LOCALAPPDATA%\wsltty\bin"
@@ -48,15 +53,18 @@ set shell=/bin/bash
 
 rem Mintty invocation
 set cmd=%LOCALAPPDATA%\wsltty\bin\mintty.exe
+set cset=-o Locale=C -o Charset=UTF-8
+set icon=%LOCALAPPDATA%\lxss\bash.ico
 set arg=/bin/wslbridge -t %shell%
-set target=\"%cmd%\" %arg%
+set target0=\"%cmd%\" %cset% -i \"%icon%\" %arg%
+set target1=\"%cmd%\" %cset% -i \"%icon%\" /bin/dash -c \"cd '%%1'; exec %arg%\"
 
 reg add "%userdirname%\wsltty" /d "%label% %here%" /f
 reg add "%userdirname%\wsltty" /v Icon /d "%icon%" /f
-reg add "%userdirname%\wsltty\command" /d "%target%" /f
+reg add "%userdirname%\wsltty\command" /d "%target1%" /f
 reg add "%userdirpane%\wsltty" /d "%label% %here%" /f
 reg add "%userdirpane%\wsltty" /v Icon /d "%icon%" /f
-reg add "%userdirpane%\wsltty\command" /d "%target%" /f
+reg add "%userdirpane%\wsltty\command" /d "%target0%" /f
 
 
 :end

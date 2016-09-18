@@ -2,7 +2,7 @@
 # default: generate all
 all:	wslbridge mintty cygwin wsltty pkg
 
-ver=0.5.1
+ver=0.6.0
 wslbridgever=0.1.0
 
 TARGET := $(shell $(CC) -dumpmachine)
@@ -34,7 +34,7 @@ wslbridge:
 mintty:
 	$(wget) https://github.com/mintty/mintty/archive/master.zip
 	mv master.zip mintty-master.zip
-	unzip mintty-master.zip
+	unzip -o mintty-master.zip
 	cd mintty-master/src; make LDFLAGS="-static -static-libgcc -s"
 	mkdir -p bin
 	cp mintty-master/bin/mintty.exe bin/
@@ -44,6 +44,7 @@ cygwin:
 	mkdir -p bin
 	cp /bin/cygwin1.dll bin/
 	cp /bin/cygwin-console-helper.exe bin/
+	cp /bin/dash.exe bin/
 
 wsltty:
 
@@ -52,12 +53,14 @@ pkg:
 	sed -e "s,%version%,$(ver)," makewinx.cfg > rel/wsltty.SED
 	cp bin/cygwin1.dll rel/
 	cp bin/cygwin-console-helper.exe rel/
+	cp bin/dash.exe rel/
 	cp bin/mintty.exe rel/
 	cp bin/wslbridge.exe rel/
 	cp bin/wslbridge-backend rel/
 	cp LICENSE.mintty rel/
 	cp LICENSE.wslbridge rel/
 	cp "Bash on UoW in Mintty.lnk" rel/
+	cp wsl.bat rel/
 	cp install.bat rel/
 	cp uninstall.bat rel/
 	cd rel; iexpress /n wsltty.SED
