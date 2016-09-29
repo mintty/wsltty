@@ -2,8 +2,8 @@
 # default: generate all
 all:	wslbridge mintty cygwin wsltty pkg
 
-ver=0.6.0
-wslbridgever=0.1.0
+ver=0.6.1
+wslbridgever=0.2.0
 
 TARGET := $(shell $(CC) -dumpmachine)
 
@@ -44,7 +44,7 @@ cygwin:
 	mkdir -p bin
 	cp /bin/cygwin1.dll bin/
 	cp /bin/cygwin-console-helper.exe bin/
-	cp /bin/dash.exe bin/
+	#cp /bin/dash.exe bin/
 
 wsltty:
 
@@ -53,7 +53,7 @@ pkg:
 	sed -e "s,%version%,$(ver)," makewinx.cfg > rel/wsltty.SED
 	cp bin/cygwin1.dll rel/
 	cp bin/cygwin-console-helper.exe rel/
-	cp bin/dash.exe rel/
+	#cp bin/dash.exe rel/
 	cp bin/mintty.exe rel/
 	cp bin/wslbridge.exe rel/
 	cp bin/wslbridge-backend rel/

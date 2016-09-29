@@ -15,7 +15,7 @@ rem copy wsl.bat "%SYSTEMROOT%\System32"
 mkdir "%LOCALAPPDATA%\wsltty\bin"
 copy cygwin1.dll "%LOCALAPPDATA%\wsltty\bin"
 copy cygwin-console-helper.exe "%LOCALAPPDATA%\wsltty\bin"
-copy dash.exe "%LOCALAPPDATA%\wsltty\bin"
+rem copy dash.exe "%LOCALAPPDATA%\wsltty\bin"
 copy mintty.exe "%LOCALAPPDATA%\wsltty\bin"
 copy wslbridge.exe "%LOCALAPPDATA%\wsltty\bin"
 copy wslbridge-backend "%LOCALAPPDATA%\wsltty\bin"
@@ -57,7 +57,8 @@ set cset=-o Locale=C -o Charset=UTF-8
 set icon=%LOCALAPPDATA%\lxss\bash.ico
 set arg=/bin/wslbridge -t %shell%
 set target0=\"%cmd%\" %cset% -i \"%icon%\" %arg%
-set target1=\"%cmd%\" %cset% -i \"%icon%\" /bin/dash -c \"cd '%%1'; exec %arg%\"
+rem set target1=\"%cmd%\" %cset% -i \"%icon%\" /bin/dash -c \"cd '%%1'; exec %arg%\"
+set target1=\"%cmd%\" %cset% -i \"%icon%\" --dir \"%%1\" %arg%
 
 reg add "%userdirname%\wsltty" /d "%label% %here%" /f
 reg add "%userdirname%\wsltty" /v Icon /d "%icon%" /f
