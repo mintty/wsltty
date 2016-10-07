@@ -2,7 +2,7 @@
 # default: generate all
 all:	wslbridge mintty cygwin wsltty pkg
 
-ver=0.6.1
+ver=0.6.2
 wslbridgever=0.2.0
 
 TARGET := $(shell $(CC) -dumpmachine)
