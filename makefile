@@ -35,6 +35,7 @@ mintty:
 	$(wget) https://github.com/mintty/mintty/archive/master.zip
 	mv master.zip mintty-master.zip
 	unzip -o mintty-master.zip
+	cd mintty-master; patch -p0 -i ../mintty_drag_drop_file.patch
 	cd mintty-master/src; make LDFLAGS="-static -static-libgcc -s"
 	mkdir -p bin
 	cp mintty-master/bin/mintty.exe bin/
