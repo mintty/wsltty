@@ -1,0 +1,19 @@
+--- src/charset.h.orig	2016-10-07 16:12:34.000000000 +0200
++++ src/charset.h	2016-10-09 02:04:58.517284900 +0200
+@@ -79,7 +79,15 @@ extern bool widerange(xchar c);
+ 
+ static inline char *
+ path_win_w_to_posix(const wchar * wp)
+-{ return cygwin_create_path(CCP_WIN_W_TO_POSIX, wp); }
++{
++  char *p;
++  p = cygwin_create_path(CCP_WIN_W_TO_POSIX, wp);
++  if (strncmp("/cygdrive/", p, 10) == 0) {
++    strncpy(p, "/mnt/", 5);
++    strcpy(p+5, p+10);
++  }
++  return p;
++}
+ 
+ static inline wchar *
+ path_posix_to_win_w(const char * p)
