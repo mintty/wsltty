@@ -1,8 +1,8 @@
 #############################################################################
 # default: generate all
-all:	wslbridge mintty cygwin wsltty pkg
+all:	check wslbridge mintty cygwin wsltty pkg
 
-ver=0.6.2
+ver=0.6.3
 wslbridgever=0.2.0
 
 TARGET := $(shell $(CC) -dumpmachine)
@@ -20,6 +20,16 @@ else
 endif
 
 wget=curl -R -L -O --connect-timeout 55
+
+#############################################################################
+# system check;
+# for now, let's enforce Cygwin 32-Bit as the container for wsltty
+# just in case there is a 32-Bit WSL released, and to ensure 
+# the path name drag-and-drop adaptation works
+
+check:
+	uname | grep CYGWIN
+	uname -m | grep i686
 
 #############################################################################
 # generation
@@ -60,7 +70,9 @@ pkg:
 	cp LICENSE.mintty rel/
 	cp LICENSE.wslbridge rel/
 	cp "Bash on UoW in Mintty.lnk" rel/
+	cp "Bash ~ on UoW in Mintty.lnk" rel/
 	cp wsl.bat rel/
+	cp wsl~.bat rel/
 	cp install.bat rel/
 	cp uninstall.bat rel/
 	cd rel; iexpress /n wsltty.SED
