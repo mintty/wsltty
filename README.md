@@ -12,7 +12,7 @@ Run the [installer](https://github.com/mintty/wsltty/releases) to install
 
 ### Configuration ###
 
-#### Command line script wsl.bat ####
+#### Command line scripts wsl.bat and wsl~.bat ####
 
 * To enable invocation of this script from WIN+R or from cmd.exe, 
   copy it from `%LOCALAPPDATA%\wsltty` into `%SYSTEMROOT%\System32`.
@@ -21,13 +21,27 @@ Run the [installer](https://github.com/mintty/wsltty/releases) to install
   modify it (or a copy for this purpose) and remove the final `-l` parameter.
 * To enforce starting in your Linux home directory, do *either* of:
   * On Linux side, add a `cd` command to your `$HOME/.profile`.
-  * In the script (or a copy for this purpose), add `-C~` as first parameter of `wslbridge`: `... /bin/wslbridge -C~ -t /bin/bash -l`.
+  * Use wsl~.bat instead of wsl.bat (or rename it as desired).
 
 #### Desktop shortcut and Start menu shortcut ####
 
 To enforce starting in your Linux home directory, do *either* of:
 * On Linux side, add a `cd` command to your `$HOME/.profile`.
-* Open Shortcut Properties; in the Target, add `-C~` as first parameter of `wslbridge`: `... /bin/wslbridge -C~ -t /bin/bash -l`.
+* Use the shortcut `Bash ~ on UoW in Mintty` instead.
+
+#### Mintty settings ####
+
+Mintty can maintain its configuration file in various locations, 
+with the following precedence:
+* file given with mintty option `-c`
+* `%LOCALAPPDATA%\wsltty\home\%USERNAME%\.minttyrc`
+* `%LOCALAPPDATA%\wsltty\home\%USERNAME%\.config\mintty\config`
+* `%APPDATA%\mintty\config`
+* `%LOCALAPPDATA%\wsltty\etc\minttyrc`
+
+Note that the `%APPDATA%\mintty\config` option provides the possibility 
+to maintain common mintty settings for various installations (like 
+wsltty, Cygwin, MinGW/msys, Git for Windows).
 
 ### Components ###
 
