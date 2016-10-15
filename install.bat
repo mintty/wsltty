@@ -3,28 +3,30 @@ rem @echo off
 
 :deploy
 
-mkdir "%LOCALAPPDATA%\wsltty"
-copy LICENSE.mintty "%LOCALAPPDATA%\wsltty"
-copy LICENSE.wslbridge "%LOCALAPPDATA%\wsltty"
-copy uninstall.bat "%LOCALAPPDATA%\wsltty"
+set installdir=%LOCALAPPDATA%\wsltty
 
-copy wsl.bat "%LOCALAPPDATA%\wsltty"
-copy wsl~.bat "%LOCALAPPDATA%\wsltty"
+mkdir "%installdir%"
+copy LICENSE.mintty "%installdir%"
+copy LICENSE.wslbridge "%installdir%"
+copy uninstall.bat "%installdir%"
+
+copy wsl.bat "%installdir%"
+copy wsl~.bat "%installdir%"
 rem does not work without admin rights:
 rem copy wsl.bat "%SYSTEMROOT%\System32"
 rem copy wsl~.bat "%SYSTEMROOT%\System32"
 
-mkdir "%LOCALAPPDATA%\wsltty\bin"
-copy cygwin1.dll "%LOCALAPPDATA%\wsltty\bin"
-copy cygwin-console-helper.exe "%LOCALAPPDATA%\wsltty\bin"
-rem copy dash.exe "%LOCALAPPDATA%\wsltty\bin"
-copy mintty.exe "%LOCALAPPDATA%\wsltty\bin"
-copy wslbridge.exe "%LOCALAPPDATA%\wsltty\bin"
-copy wslbridge-backend "%LOCALAPPDATA%\wsltty\bin"
+mkdir "%installdir%\bin"
+copy cygwin1.dll "%installdir%\bin"
+copy cygwin-console-helper.exe "%installdir%\bin"
+rem copy dash.exe "%installdir%\bin"
+copy mintty.exe "%installdir%\bin"
+copy wslbridge.exe "%installdir%\bin"
+copy wslbridge-backend "%installdir%\bin"
 
 rem create "home directory" to enable storage of config file
-mkdir "%LOCALAPPDATA%\wsltty\home
-mkdir "%LOCALAPPDATA%\wsltty\home\%USERNAME%"
+mkdir "%installdir%\home
+mkdir "%installdir%\home\%USERNAME%"
 
 
 :shortcuts
@@ -56,7 +58,7 @@ rem WSL target shell
 set shell=/bin/bash
 
 rem Mintty invocation
-set cmd=%LOCALAPPDATA%\wsltty\bin\mintty.exe
+set cmd=%installdir%\bin\mintty.exe
 set cset=-o Locale=C -o Charset=UTF-8
 set opts=--wsl
 set icon=%LOCALAPPDATA%\lxss\bash.ico
