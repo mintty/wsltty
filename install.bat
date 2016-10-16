@@ -1,9 +1,13 @@
 rem @echo off
 
+rem If you change the installation directory,
+rem it also needs to be adapted in
+rem - the Shortcut links *.lnk
+rem - the cmd invocation scripts wsl*.bat
+set installdir=%LOCALAPPDATA%\wsltty
+
 
 :deploy
-
-set installdir=%LOCALAPPDATA%\wsltty
 
 mkdir "%installdir%"
 copy LICENSE.mintty "%installdir%"
@@ -61,12 +65,12 @@ rem Mintty invocation
 set cmd=%installdir%\bin\mintty.exe
 set cset=-o Locale=C -o Charset=UTF-8
 set opts=--wsl
-set icon=%LOCALAPPDATA%\lxss\bash.ico
 set arg=/bin/wslbridge -t %shell%
 set target0=\"%cmd%\" %opts% %cset% -i \"%icon%\" %arg%
 rem set target1=\"%cmd%\" %opts% %cset% -i \"%icon%\" /bin/dash -c \"cd '%%1'; exec %arg%\"
 set target1=\"%cmd%\" %opts% %cset% -i \"%icon%\" --dir \"%%1\" %arg%
 
+rem Registry entries
 reg add "%userdirname%\wsltty" /d "%label% %here%" /f
 reg add "%userdirname%\wsltty" /v Icon /d "%icon%" /f
 reg add "%userdirname%\wsltty\command" /d "%target1%" /f
