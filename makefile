@@ -1,9 +1,22 @@
 #############################################################################
 # default: generate all
-all:	check wslbridge mintty cygwin wsltty pkg
+all:	check pkg
 
-ver=0.6.3
+# wsltty release
+ver=0.7.0
+
+# mintty release version
+minver=2.7.0
+#minver=master
+
+# wslbridge backend version
 wslbridgever=0.2.0
+# wslbridge frontend version
+# release 0.2.0 does not have cygwin_internal(CW_SYNC_WINENV) yet;
+# therefore using "master" below
+
+#############################################################################
+# target checking and some defs
 
 TARGET := $(shell $(CC) -dumpmachine)
 
@@ -19,36 +32,48 @@ else
   $(error Target '$(TARGET)' not supported)
 endif
 
-wget=curl -R -L -O --connect-timeout 55
+wget=curl -R -L --connect-timeout 55 -O
+wgeto=curl -R -L --connect-timeout 55
 
 #############################################################################
 # system check;
 # for now, let's enforce Cygwin 32-Bit as the container for wsltty
-# just in case there is a 32-Bit WSL released, and to ensure 
-# the path name drag-and-drop adaptation works
+# just in case there is a 32-Bit WSL released (-> 32 bit), and to ensure 
+# the path name drag-and-drop adaptation works (-> cygwin, not msys)
 
 check:
-	uname | grep CYGWIN
-	uname -m | grep i686
+	# checking suitable host environment; run `make pkg` to bypass
+	uname | grep CYGWIN	# check cygwin (vs msys) for proper drag-and-drop paths
+	uname -m | grep i686	# check 32 bit (vs 64 bit) just in case
 
 #############################################################################
 # generation
 
-wslbridge:
+wslbridge:	wslbridge-backend wslbridge-frontend
+
+wslbridge-backend:
 	$(wget) https://github.com/rprichard/wslbridge/releases/download/$(wslbridgever)/wslbridge-$(wslbridgever)-$(sys).tar.gz
 	tar xvzf wslbridge-$(wslbridgever)-$(sys).tar.gz
 	mkdir -p bin
-	cp wslbridge-$(wslbridgever)-$(sys)/wslbridge* bin/
+	cp wslbridge-$(wslbridgever)-$(sys)/wslbridge-backend bin/
 	cp wslbridge-$(wslbridgever)-$(sys)/LICENSE.txt LICENSE.wslbridge
 
-mintty:
-	$(wget) https://github.com/mintty/mintty/archive/master.zip
-	mv master.zip mintty-master.zip
-	unzip -o mintty-master.zip
-	cd mintty-master/src; make LDFLAGS="-static -static-libgcc -s"
+wslbridge-frontend:
+	$(wgeto) https://github.com/rprichard/wslbridge/archive/master.zip -o wslbridge-master.zip
+	unzip -o wslbridge-master.zip
+	cd wslbridge-master/frontend; make
+	strip wslbridge-master/out/wslbridge.exe
 	mkdir -p bin
-	cp mintty-master/bin/mintty.exe bin/
-	cp mintty-master/LICENSE LICENSE.mintty
+	cp wslbridge-master/out/wslbridge.exe bin/
+	cp wslbridge-master/LICENSE.txt LICENSE.wslbridge
+
+mintty:
+	$(wgeto) https://github.com/mintty/mintty/archive/$(minver).zip -o mintty-$(minver).zip
+	unzip -o mintty-$(minver).zip
+	cd mintty-$(minver)/src; make LDFLAGS="-static -static-libgcc -s"
+	mkdir -p bin
+	cp mintty-$(minver)/bin/mintty.exe bin/
+	cp mintty-$(minver)/LICENSE LICENSE.mintty
 
 cygwin:
 	mkdir -p bin
@@ -58,7 +83,7 @@ cygwin:
 
 wsltty:
 
-pkg:
+pkg:	wslbridge mintty cygwin wsltty
 	mkdir -p rel
 	sed -e "s,%version%,$(ver)," makewinx.cfg > rel/wsltty.SED
 	cp bin/cygwin1.dll rel/
