@@ -21,7 +21,7 @@ Run the [installer](https://github.com/mintty/wsltty/releases) to install
   modify it (or a copy for this purpose) and remove the final `-l` parameter.
 * To enforce starting in your Linux home directory, do *either* of:
   * On Linux side, add a `cd` command to your `$HOME/.profile`.
-  * Use wsl~.bat instead of wsl.bat (or rename it as desired).
+  * Use `wsl~.bat` instead of `wsl.bat` (or rename it as desired).
 
 #### Desktop shortcut and Start menu shortcut ####
 
@@ -41,7 +41,7 @@ with the following precedence:
 
 Note that the `%APPDATA%\mintty\config` option provides the possibility 
 to maintain common mintty settings for various installations (like 
-wsltty, Cygwin, MinGW/msys, Git for Windows).
+wsltty, Cygwin, MinGW/msys, Git for Windows, MinEd for Windows).
 
 ### Components ###
 
