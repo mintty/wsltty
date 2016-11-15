@@ -10,10 +10,13 @@ minver=2.7.0
 #minver=master
 
 # wslbridge backend version
-wslbridgever=0.2.0
+wslbridgever=0.2.1
 # wslbridge frontend version
 # release 0.2.0 does not have cygwin_internal(CW_SYNC_WINENV) yet;
 # therefore using "master" below
+#wslbridge-frontend=wslbridge-frontend
+# release 0.2.1 is updated and complete, no separate frontend build needed:
+wslbridge-frontend=
 
 #############################################################################
 # target checking and some defs
@@ -43,19 +46,21 @@ wgeto=curl -R -L --connect-timeout 55
 
 check:
 	# checking suitable host environment; run `make pkg` to bypass
-	uname | grep CYGWIN	# check cygwin (vs msys) for proper drag-and-drop paths
-	uname -m | grep i686	# check 32 bit (vs 64 bit) just in case
+	# check cygwin (vs msys) for proper drag-and-drop paths:
+	uname | grep CYGWIN
+	# check 32 bit (vs 64 bit) to ensure 32-Bit Windows support, just in case:
+	uname -m | grep i686
 
 #############################################################################
 # generation
 
-wslbridge:	wslbridge-backend wslbridge-frontend
+wslbridge:	wslbridge-backend $(wslbridge-frontend)
 
 wslbridge-backend:
 	$(wget) https://github.com/rprichard/wslbridge/releases/download/$(wslbridgever)/wslbridge-$(wslbridgever)-$(sys).tar.gz
 	tar xvzf wslbridge-$(wslbridgever)-$(sys).tar.gz
 	mkdir -p bin
-	cp wslbridge-$(wslbridgever)-$(sys)/wslbridge-backend bin/
+	cp wslbridge-$(wslbridgever)-$(sys)/wslbridge* bin/
 	cp wslbridge-$(wslbridgever)-$(sys)/LICENSE.txt LICENSE.wslbridge
 
 wslbridge-frontend:
