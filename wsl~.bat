@@ -8,5 +8,5 @@ rem you may want to copy this script into "%SYSTEMROOT%\System32"
 rem You may want a variant of this script without trailing "-l" 
 rem to start in the current directory from cmd.exe
 
-"%LOCALAPPDATA%\wsltty\bin\mintty.exe" --wsl -o Locale=C -o Charset=UTF-8 -i "%LOCALAPPDATA%\lxss\bash.ico" /bin/wslbridge -C~ -t /bin/bash -l
+"%LOCALAPPDATA%\wsltty\bin\mintty.exe" --wsl -o Locale=C -o Charset=UTF-8 -i "%LOCALAPPDATA%\lxss\bash.ico" /bin/wslbridge -C~ -t /bin/bash
 

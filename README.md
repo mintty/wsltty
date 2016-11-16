@@ -3,31 +3,36 @@ Mintty as a terminal for Bash on Ubuntu on Windows / WSL.
 ### Overview ###
 
 Run the [installer](https://github.com/mintty/wsltty/releases) to install
-* wsltty package components (see below) in the user’s application directory (where WSL is also installed)
+* wsltty package components (see below) in the user’s application folder (where WSL is also installed)
 * an empty wsltty “home directory” to enable storage of a mintty config file
-* a Desktop Shortcut and a Start Menu Shortcut to start WSL with a login bash in the *Windows user profile* directory; to start in the Linux home directory instead, add a `cd` command to your Linux `$HOME/.profile` script
-* context menu entries for Windows Explorer to start WSL with a bash in the respective directory
-* a script `wsl.bat` to invoke wsltty manually; copy the script from `%LOCALAPPDATA%\wsltty` to `%SYSTEMROOT%\System32` if desired
+* Start Menu and Desktop shortcuts to start a WSL bash (with some variations, see below)
+* optional context menu entries for Windows Explorer to start a WSL bash in the respective folder, installable from the Start Menu subfolder
+* `wsl*.bat` scripts to invoke wsltty manually (with some variations and invocation options, see below)
 * an uninstall script that can be invoked manually to remove shortcuts and context menu entries
 
 ### Configuration ###
 
-#### Command line scripts wsl.bat and wsl~.bat ####
+#### Command line scripts wsl*.bat ####
 
-* To enable invocation of this script from WIN+R or from cmd.exe, 
-  copy it from `%LOCALAPPDATA%\wsltty` into `%SYSTEMROOT%\System32`.
-  (The package does not do this to avoid trouble with missing admin privileges.)
-* To start the terminal in the current directory when calling the script from the command line,
-  modify it (or a copy for this purpose) and remove the final `-l` parameter.
-* To enforce starting in your Linux home directory, do *either* of:
-  * On Linux side, add a `cd` command to your `$HOME/.profile`.
-  * Use `wsl~.bat` instead of `wsl.bat` (or rename it as desired).
+WSLtty installs the following scripts in its application folder `%LOCALAPPDATA%\wsltty`:
+* `wsl.bat` to start a WSL bash in the current folder/directory
+* `wsl~.bat` to start a WSL bash in the WSL user home
+* `wsl-l.bat` to start a WSL login bash
 
-#### Desktop shortcut and Start menu shortcut ####
+To enable invocation of these scripts from WIN+R or from cmd.exe, 
+copy them from `%LOCALAPPDATA%\wsltty` into `%SYSTEMROOT%\System32`, 
+renaming them as desired.
+(The package does not do this to avoid trouble with missing admin privileges.)
 
-To enforce starting in your Linux home directory, do *either* of:
-* On Linux side, add a `cd` command to your `$HOME/.profile`.
-* Use the shortcut `Bash ~ on UoW in Mintty` instead.
+#### Start Menu and Desktop shortcuts ####
+
+The Start Menu subfolder WSLtty offers three shortcuts:
+* `WSL Bash % in Mintty` to start a WSL bash in the Windows %USERPROFILE% home
+* `WSL Bash ~ in Mintty` to start a WSL bash in the WSL user home
+* `WSL Bash -l in Mintty` to start a WSL login bash
+
+To ensure a login bash to start in your Linux home directory, 
+add a `cd` command to your `$HOME/.profile` on Linux side.
 
 #### Mintty settings ####
 

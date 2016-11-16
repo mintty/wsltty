@@ -97,14 +97,10 @@ pkg:	wslbridge mintty cygwin wsltty
 	cp bin/mintty.exe rel/
 	cp bin/wslbridge.exe rel/
 	cp bin/wslbridge-backend rel/
-	cp LICENSE.mintty rel/
-	cp LICENSE.wslbridge rel/
-	cp "Bash on UoW in Mintty.lnk" rel/
-	cp "Bash ~ on UoW in Mintty.lnk" rel/
-	cp wsl.bat rel/
-	cp wsl~.bat rel/
-	cp install.bat rel/
-	cp uninstall.bat rel/
+	cp LICENSE.* rel/
+	cp *.lnk rel/
+	cp *.url rel/
+	cp *.bat rel/
 	cd rel; iexpress /n wsltty.SED
 
 #############################################################################
