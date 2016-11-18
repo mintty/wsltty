@@ -18,7 +18,7 @@ del "%USERPROFILE%\Desktop\WSL Bash ~ in Mintty.lnk"
 
 :explorer context menu
 
-call "%installdir%\remove from context menu.bat"
+call "%installdir%\config-context-menu.bat" /U
 
 
 :undeploy

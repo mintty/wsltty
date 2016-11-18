@@ -1,10 +1,16 @@
 @echo off
 
 rem See comments in install.bat about changing the installation directory.
-
 set installdir=%LOCALAPPDATA%\wsltty
 
-rem Explorer context menu
+
+if "%1"=="/U" goto remove
+if "%1"=="/u" goto remove
+
+
+:add
+rem add to Explorer context menu
+
 set userdirname=HKEY_CURRENT_USER\Software\Classes\Directory\shell
 set userdirpane=HKEY_CURRENT_USER\Software\Classes\Directory\Background\shell
 
@@ -35,5 +41,19 @@ reg add "%userdirname%\wsltty\command" /d "%target1%" /f
 reg add "%userdirpane%\wsltty" /d "%label% %here%" /f
 reg add "%userdirpane%\wsltty" /v Icon /d "%icon%" /f
 reg add "%userdirpane%\wsltty\command" /d "%target0%" /f
+
+goto end
+
+
+:remove
+rem remove from Explorer context menu
+
+rem delete Explorer context menu
+set userdirname=HKEY_CURRENT_USER\Software\Classes\Directory\shell
+set userdirpane=HKEY_CURRENT_USER\Software\Classes\Directory\Background\shell
+
+reg delete "%userdirname%\wsltty" /f
+reg delete "%userdirpane%\wsltty" /f
+
 
 :end

@@ -6,7 +6,8 @@ Run the [installer](https://github.com/mintty/wsltty/releases) to install
 * wsltty package components (see below) in the user’s application folder (where WSL is also installed)
 * an empty wsltty “home directory” to enable storage of a mintty config file
 * Start Menu and Desktop shortcuts to start a WSL bash (with some variations, see below)
-* optional context menu entries for Windows Explorer to start a WSL bash in the respective folder, installable from the Start Menu subfolder
+* optional context menu entries for Windows Explorer to start a WSL bash in the respective folder
+* install/uninstall context menu items from Start Menu subfolder
 * `wsl*.bat` scripts to invoke wsltty manually (with some variations and invocation options, see below)
 * an uninstall script that can be invoked manually to remove shortcuts and context menu entries
 
