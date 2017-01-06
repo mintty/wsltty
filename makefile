@@ -79,22 +79,27 @@ mintty:
 	mkdir -p bin
 	cp mintty-$(minver)/bin/mintty.exe bin/
 	cp mintty-$(minver)/LICENSE LICENSE.mintty
+	cd mintty-$(minver)/lang; zoo a po *.po; mv po.zoo ../../
 
 cygwin:
 	mkdir -p bin
 	cp /bin/cygwin1.dll bin/
 	cp /bin/cygwin-console-helper.exe bin/
 	#cp /bin/dash.exe bin/
+	cp /bin/zoo.exe bin/
 
 wsltty:
 
-pkg:	wslbridge mintty cygwin wsltty
+cab:
 	mkdir -p rel
+	rm -fr rel/wsltty-$(ver)-install.exe
 	sed -e "s,%version%,$(ver)," makewinx.cfg > rel/wsltty.SED
 	cp bin/cygwin1.dll rel/
 	cp bin/cygwin-console-helper.exe rel/
 	#cp bin/dash.exe rel/
 	cp bin/mintty.exe rel/
+	cp bin/zoo.exe rel/
+	cp po.zoo rel/
 	cp bin/wslbridge.exe rel/
 	cp bin/wslbridge-backend rel/
 	cp LICENSE.* rel/
@@ -102,6 +107,8 @@ pkg:	wslbridge mintty cygwin wsltty
 	cp *.url rel/
 	cp *.bat rel/
 	cd rel; iexpress /n wsltty.SED
+
+pkg:	wslbridge mintty cygwin wsltty cab
 
 #############################################################################
 # end

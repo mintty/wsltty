@@ -31,12 +31,19 @@ copy cygwin1.dll "%installdir%\bin"
 copy cygwin-console-helper.exe "%installdir%\bin"
 rem copy dash.exe "%installdir%\bin"
 copy mintty.exe "%installdir%\bin"
+copy zoo.exe "%installdir%\bin"
 copy wslbridge.exe "%installdir%\bin"
 copy wslbridge-backend "%installdir%\bin"
 
 rem create "home directory" to enable storage of config file
 mkdir "%installdir%\home
 mkdir "%installdir%\home\%USERNAME%"
+
+rem create "config directory" and copy config archive
+mkdir "%installdir%\home\%USERNAME%\.config"
+mkdir "%installdir%\home\%USERNAME%\.config\mintty"
+mkdir "%installdir%\home\%USERNAME%\.config\mintty\lang"
+copy po.zoo "%installdir%\home\%USERNAME%\.config\mintty\lang"
 
 
 :shortcuts
@@ -56,6 +63,13 @@ copy "remove from context menu.lnk" "%smf%\context menu shortcuts"
 rem create Desktop Shorcuts
 copy "WSL Bash %% in Mintty.lnk" "%USERPROFILE%\Desktop"
 copy "WSL Bash ~ in Mintty.lnk" "%USERPROFILE%\Desktop"
+
+
+:config
+
+rem unpack config files
+cd /D "%installdir%\home\%USERNAME%\.config\mintty\lang"
+"%installdir%\bin\zoo" x po
 
 
 :end
