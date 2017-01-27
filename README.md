@@ -51,7 +51,10 @@ wsltty, Cygwin, MinGW/msys, Git for Windows, MinEd for Windows).
 
 ### Components ###
 
-For mintty, see the [Mintty homepage](http://mintty.github.io/).
+For mintty, see the [Mintty homepage](http://mintty.github.io/), 
+then [Mintty manual page](http://mintty.github.io/mintty.1.html), 
+and the [Mintty Wiki](https://github.com/mintty/mintty/wiki), 
+including a [Hints and Tips page](https://github.com/mintty/mintty/wiki/Tips).
 
 It is based on [Cygwin](http://cygwin.com) 
 and includes its runtime library ([sources](http://mirrors.dotsrc.org/cygwin/x86/release/cygwin)).
