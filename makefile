@@ -3,11 +3,11 @@
 all:	check pkg
 
 # wsltty release
-ver=0.7.3
+ver=0.7.4
 
 # mintty release version
-minver=2.7.3
-#minver=master
+minttyver=2.7.4
+#minttyver=master
 
 # wslbridge backend version
 wslbridgever=0.2.1
@@ -17,6 +17,12 @@ wslbridgever=0.2.1
 #wslbridge-frontend=wslbridge-frontend
 # release 0.2.1 is updated and complete, no separate frontend build needed:
 wslbridge-frontend=
+
+help:
+	echo configure `ver=...` and `minttyver=` in this makefile
+	echo run `make` to build a distributable installer
+	echo run `make pkg` to build an installer, bypassing the system checks
+	echo run `make wsltty` to build an installer using the local copy of mintty
 
 #############################################################################
 # target checking and some defs
@@ -72,14 +78,18 @@ wslbridge-frontend:
 	cp wslbridge-master/out/wslbridge.exe bin/
 	cp wslbridge-master/LICENSE.txt LICENSE.wslbridge
 
-mintty:
-	$(wgeto) https://github.com/mintty/mintty/archive/$(minver).zip -o mintty-$(minver).zip
-	unzip -o mintty-$(minver).zip
-	cd mintty-$(minver)/src; make LDFLAGS="-static -static-libgcc -s"
+mintty:	mintty-get mintty-build
+
+mintty-get:
+	$(wgeto) https://github.com/mintty/mintty/archive/$(minttyver).zip -o mintty-$(minttyver).zip
+	unzip -o mintty-$(minttyver).zip
+
+mintty-build:
+	cd mintty-$(minttyver)/src; make LDFLAGS="-static -static-libgcc -s"
 	mkdir -p bin
-	cp mintty-$(minver)/bin/mintty.exe bin/
-	cp mintty-$(minver)/LICENSE LICENSE.mintty
-	cd mintty-$(minver)/lang; zoo a po *.po; mv po.zoo ../../
+	cp mintty-$(minttyver)/bin/mintty.exe bin/
+	cp mintty-$(minttyver)/LICENSE LICENSE.mintty
+	cd mintty-$(minttyver)/lang; zoo a po *.po; mv po.zoo ../../
 
 cygwin:
 	mkdir -p bin
@@ -87,8 +97,6 @@ cygwin:
 	cp /bin/cygwin-console-helper.exe bin/
 	#cp /bin/dash.exe bin/
 	cp /bin/zoo.exe bin/
-
-wsltty:
 
 cab:
 	mkdir -p rel
@@ -108,7 +116,9 @@ cab:
 	cp *.bat rel/
 	cd rel; iexpress /n wsltty.SED
 
-pkg:	wslbridge mintty cygwin wsltty cab
+pkg:	wslbridge cygwin mintty cab
+
+wsltty:	wslbridge cygwin mintty-build cab
 
 #############################################################################
 # end
