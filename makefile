@@ -1,5 +1,11 @@
 #############################################################################
-# default: generate all
+# build a wsltty installer package:
+# configure ver=... and minttyver= in this makefile
+# make targets:
+# make [all]	to build a distributable installer (default)
+# make pkg	to build an installer, bypassing the system checks
+# make wsltty	to build an installer using the local copy of mintty
+
 all:	check pkg
 
 # wsltty release
@@ -17,12 +23,6 @@ wslbridgever=0.2.1
 #wslbridge-frontend=wslbridge-frontend
 # release 0.2.1 is updated and complete, no separate frontend build needed:
 wslbridge-frontend=
-
-help:
-	echo configure `ver=...` and `minttyver=` in this makefile
-	echo run `make` to build a distributable installer
-	echo run `make pkg` to build an installer, bypassing the system checks
-	echo run `make wsltty` to build an installer using the local copy of mintty
 
 #############################################################################
 # target checking and some defs
