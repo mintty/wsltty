@@ -13,7 +13,7 @@ Run the [installer](https://github.com/mintty/wsltty/releases) to install
 
 ### Configuration ###
 
-#### Command line scripts wsl*.bat ####
+#### Command line scripts `wsl*.bat` ####
 
 WSLtty installs the following scripts in its application folder `%LOCALAPPDATA%\wsltty`:
 * `wsl.bat` to start a WSL bash in the current folder/directory
@@ -48,6 +48,12 @@ with the following precedence:
 Note that the `%APPDATA%\mintty\config` option provides the possibility 
 to maintain common mintty settings for various installations (like 
 wsltty, Cygwin, MinGW/msys, Git for Windows, MinEd for Windows).
+
+#### Shell selection ####
+
+To invoke your favourite shell, simply replace `/bin/bash` with its pathname 
+in the Desktop shortcuts, `wsl*.bat` invocation scripts, 
+or Explorer context menu commands (configured in `config-context-menu.bat`).
 
 ### Components ###
 
