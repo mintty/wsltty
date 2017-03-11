@@ -9,10 +9,10 @@
 all:	check pkg
 
 # wsltty release
-ver=0.7.4
+ver=0.7.5
 
 # mintty release version
-minttyver=2.7.4
+minttyver=2.7.5
 #minttyver=master
 
 # wslbridge backend version
