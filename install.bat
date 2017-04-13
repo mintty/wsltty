@@ -45,6 +45,9 @@ mkdir "%installdir%\home\%USERNAME%\.config\mintty"
 mkdir "%installdir%\home\%USERNAME%\.config\mintty\lang"
 copy po.zoo "%installdir%\home\%USERNAME%\.config\mintty\lang"
 
+rem create "temp directory" for version checking
+mkdir "%installdir%\tmp
+
 
 :shortcuts
 

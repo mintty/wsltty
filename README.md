@@ -11,6 +11,9 @@ Run the [installer](https://github.com/mintty/wsltty/releases) to install
 * `wsl*.bat` scripts to invoke wsltty manually (with some variations and invocation options, see below)
 * an uninstall script that can be invoked manually to remove shortcuts and context menu entries
 
+If Windows complains with a “Windows protected your PC” popup, 
+you may need to click “Run anyway” to proceed with the installation.
+
 ### Configuration ###
 
 #### Command line scripts `wsl*.bat` ####

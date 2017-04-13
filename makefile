@@ -9,10 +9,10 @@
 all:	check pkg
 
 # wsltty release
-ver=0.7.5
+ver=0.7.6
 
 # mintty release version
-minttyver=2.7.5
+minttyver=2.7.6
 #minttyver=master
 
 # wslbridge backend version
@@ -55,7 +55,9 @@ check:
 	# check cygwin (vs msys) for proper drag-and-drop paths:
 	uname | grep CYGWIN
 	# check 32 bit (vs 64 bit) to ensure 32-Bit Windows support, just in case:
-	uname -m | grep i686
+	#uname -m | grep i686
+	# check 64 bit (vs 32 bit) to provide 64-Bit stability support:
+	uname -m | grep x86_64
 
 #############################################################################
 # generation
