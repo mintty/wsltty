@@ -13,6 +13,9 @@ Run the [installer](https://github.com/mintty/wsltty/releases) to install
 
 If Windows complains with a “Windows protected your PC” popup, 
 you may need to click “Run anyway” to proceed with the installation.
+You may need to open the Properties of the installer first, tab “General” 
+section “Security” (if available) and select “Unblock”, 
+to enable the “Run anyway” button.
 
 ### Configuration ###
 
