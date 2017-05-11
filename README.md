@@ -43,14 +43,19 @@ add a `cd` command to your `$HOME/.profile` on Linux side.
 Mintty can maintain its configuration file in various locations, 
 with the following precedence:
 * file given with mintty option `-c`
-* `%LOCALAPPDATA%\wsltty\home\%USERNAME%\.minttyrc`
-* `%LOCALAPPDATA%\wsltty\home\%USERNAME%\.config\mintty\config`
+* `%HOME%\.minttyrc`
+* `%HOME%\.config\mintty\config`
 * `%APPDATA%\mintty\config`
 * `%LOCALAPPDATA%\wsltty\etc\minttyrc`
 
-Note that the `%APPDATA%\mintty\config` option provides the possibility 
-to maintain common mintty settings for various installations (like 
-wsltty, Cygwin, MinGW/msys, Git for Windows, MinEd for Windows).
+Note:
+* By default, `%HOME%` would refer to the root directory of the cygwin standalone 
+  installation hosting wsltty. So `%HOME%` would mean `%LOCALAPPDATA%\wsltty\home\%USERNAME%`.
+  If you define `HOME` at Windows level, this changes accordingly.
+  Note, however, that the WSL `HOME` is a completely different setting.
+* The `%APPDATA%\mintty\config` option provides the possibility to 
+  maintain common mintty settings for various installations (like 
+  wsltty, Cygwin, MinGW/msys, Git for Windows, MinEd for Windows).
 
 #### Shell selection ####
 
