@@ -1,7 +1,7 @@
 @echo off
 
-rem See comments in install.bat about changing the installation directory.
-set installdir=%LOCALAPPDATA%\wsltty
+if "%installdir%" == "" set installdir=%LOCALAPPDATA%\wsltty
+if "%configdir%" == "" set configdir=%APPDATA%\wsltty
 
 
 if "%1"=="/U" goto remove

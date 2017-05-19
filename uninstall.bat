@@ -1,8 +1,6 @@
 @echo off
 
-rem See comments in install.bat about changing the installation directory.
-
-set installdir=%LOCALAPPDATA%\wsltty
+if "%installdir%" == "" set installdir=%LOCALAPPDATA%\wsltty
 
 
 :shortcuts
@@ -23,8 +21,9 @@ call "%installdir%\config-context-menu.bat" /U
 
 :undeploy
 
+cd %installdir%
+
 rem currently not removing software
-rem in any case, at least the config file (home\...) should not be removed
 
 
 :end
