@@ -9,10 +9,10 @@
 all:	check pkg
 
 # wsltty release
-ver=0.7.6
+ver=0.7.7
 
 # mintty release version
-minttyver=2.7.6
+minttyver=2.7.7
 #minttyver=master
 
 # wslbridge backend version
@@ -100,7 +100,7 @@ cygwin:
 	#cp /bin/dash.exe bin/
 	cp /bin/zoo.exe bin/
 
-cab:
+cop:	ver
 	mkdir -p rel
 	rm -fr rel/wsltty-$(ver)-install.exe
 	sed -e "s,%version%,$(ver)," makewinx.cfg > rel/wsltty.SED
@@ -116,7 +116,18 @@ cab:
 	cp *.lnk rel/
 	cp *.url rel/
 	cp *.bat rel/
+	cp *.vbs rel/
+
+cab:	cop
 	cd rel; iexpress /n wsltty.SED
+
+install:	cop installbat
+
+installbat:
+	cd rel; cmd /C install
+
+ver:
+	echo $(ver) > VERSION
 
 pkg:	wslbridge cygwin mintty cab
 
