@@ -38,6 +38,16 @@ Within the installation process, provide parameters to the script `install.bat`.
 The optional first parameter designates the installation target,
 the optional second parameter designates the configuration directory.
 
+### Invocation ###
+
+WSLtty can be invoked with
+* installed desktop shortcuts or Start menu shortcuts
+* wsl*.bat scripts generated into the installation directory
+* Explorer context menu (if installed from the Start menu)
+
+Starting the mintty terminal directly from the WSLtty installation location 
+is discouraged because that would bypass the `--configdir` option.
+
 ### Configuration ###
 
 #### Command line scripts `wsl*.bat` ####
