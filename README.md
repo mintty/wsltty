@@ -78,7 +78,7 @@ Mintty can maintain its configuration file in various locations,
 with the following precedence:
 * file given with mintty option `-c` (not used by wsltty default installation)
 * file `config` in directory given with mintty option `--configdir`
-  * This is `%APPDATA%\mintty\config` in the default wsltty installation.
+  * This is `%APPDATA%\wsltty\config` in the default wsltty installation.
 * `%HOME%\.minttyrc` (usage deprecated with wsltty)
 * `%HOME%\.config\mintty\config` (usage deprecated with wsltty)
 * `%APPDATA%\mintty\config`
