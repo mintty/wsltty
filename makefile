@@ -9,7 +9,7 @@
 all:	check pkg
 
 # wsltty release
-ver=0.7.7.1
+ver=0.7.7.2
 
 # mintty release version
 minttyver=2.7.7

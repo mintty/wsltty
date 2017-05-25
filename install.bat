@@ -105,5 +105,8 @@ mkdir "%configdir%\lang"
 mkdir "%configdir%\sounds"
 mkdir "%configdir%\themes"
 
+rem create config file if it does not yet exist
+if not exist "%configdir%\config" echo # To use common configuration in %%APPDATA%%\mintty, simply remove this file>"%configdir%\config"
+
 
 :end
