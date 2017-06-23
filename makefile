@@ -9,20 +9,22 @@
 all:	check pkg
 
 # wsltty release
-ver=0.7.7.2
+ver=0.7.8
 
 # mintty release version
-minttyver=2.7.7
+minttyver=2.7.8
 #minttyver=master
 
 # wslbridge backend version
-wslbridgever=0.2.1
+wslbridgever=0.2.2
+
 # wslbridge frontend version
 # release 0.2.0 does not have cygwin_internal(CW_SYNC_WINENV) yet;
 # therefore using "master" below
 #wslbridge-frontend=wslbridge-frontend
 # release 0.2.1 is updated and complete, no separate frontend build needed:
-wslbridge-frontend=
+#wslbridge-frontend=
+wslbridge-frontend=wslbridge-frontend
 
 #############################################################################
 # target checking and some defs
