@@ -11,5 +11,5 @@ rem you may want to copy this script into "%SYSTEMROOT%\System32"
 rem You may want a variant of this script without trailing "-l" 
 rem to start in the current directory from cmd.exe
 
-"%installdir%\bin\mintty.exe" --wsl "--configdir=%configdir%" -o Locale=C -o Charset=UTF-8 -i "%LOCALAPPDATA%\lxss\bash.ico" /bin/wslbridge -t /bin/bash
+"%installdir%\bin\mintty.exe" --wsl -h err "--configdir=%configdir%" -o Locale=C -o Charset=UTF-8 -i "%LOCALAPPDATA%\lxss\bash.ico" /bin/wslbridge -t /bin/bash
 

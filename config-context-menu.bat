@@ -28,7 +28,7 @@ set shell=/bin/bash
 rem Mintty invocation
 set cmd=%installdir%\bin\mintty.exe
 set cset=-o Locale=C -o Charset=UTF-8
-set opts=--wsl
+set opts=--wsl -h err
 set arg=/bin/wslbridge -t %shell%
 set target0=\"%cmd%\" %opts% %cset% --configdir \"%configdir%\" -i \"%icon%\" %arg%
 rem set target1=\"%cmd%\" %opts% %cset% --configdir \"%configdir%\" -i \"%icon%\" /bin/dash -c \"cd '%%1'; exec %arg%\"

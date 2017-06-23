@@ -1,11 +1,11 @@
 rem cscript mkshortcut.vbs [/param:arg] /target:link
 
 rem %
-rem /arguments:--wsl -o Locale=C -o Charset=UTF-8 /bin/wslbridge -t /bin/bash
+rem /arguments:--wsl -h err -o Locale=C -o Charset=UTF-8 /bin/wslbridge -t /bin/bash
 rem ~
-rem /arguments:--wsl -o Locale=C -o Charset=UTF-8 /bin/wslbridge -C~ -t /bin/bash
+rem /arguments:--wsl -h err -o Locale=C -o Charset=UTF-8 /bin/wslbridge -C~ -t /bin/bash
 rem -l
-rem /arguments:--wsl -o Locale=C -o Charset=UTF-8 /bin/wslbridge -t /bin/bash -l
+rem /arguments:--wsl -h err -o Locale=C -o Charset=UTF-8 /bin/wslbridge -t /bin/bash -l
 rem /target:%LOCALAPPDATA%\wsltty\bin\mintty.exe
 rem /workingdir:%USERPROFILE%
 rem /icon:%LOCALAPPDATA%\lxss\bash.ico

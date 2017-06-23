@@ -51,7 +51,7 @@ rem generate shortcuts
 
 set icon=%%LOCALAPPDATA%%\lxss\bash.ico
 set target=%refinstalldir%\bin\mintty.exe
-set minttyargs=--wsl --configdir="%refconfigdir%" -o Locale=C -o Charset=UTF-8 /bin/wslbridge 
+set minttyargs=--wsl -h err --configdir="%refconfigdir%" -o Locale=C -o Charset=UTF-8 /bin/wslbridge 
 set bridgeargs=-t /bin/bash
 cscript mkshortcut.vbs "/name:WSL Bash %% in Mintty"
 set bridgeargs=-C~ -t /bin/bash
