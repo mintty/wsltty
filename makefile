@@ -23,8 +23,7 @@ wslbridgever=0.2.2
 # therefore using "master" below
 #wslbridge-frontend=wslbridge-frontend
 # release 0.2.1 is updated and complete, no separate frontend build needed:
-#wslbridge-frontend=
-wslbridge-frontend=wslbridge-frontend
+wslbridge-frontend=
 
 #############################################################################
 # target checking and some defs
