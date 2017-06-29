@@ -88,7 +88,7 @@ mintty-get:
 	unzip -o mintty-$(minttyver).zip
 
 mintty-build:
-	cd mintty-$(minttyver)/src; make LDFLAGS="-static -static-libgcc -s"
+	cd mintty-$(minttyver)/src; make LDFLAGS="-static -static-libgcc -s" VERSION_SUFFIX="– wsltty $(ver)"
 	mkdir -p bin
 	cp mintty-$(minttyver)/bin/mintty.exe bin/
 	cp mintty-$(minttyver)/LICENSE LICENSE.mintty
