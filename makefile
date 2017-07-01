@@ -9,14 +9,14 @@
 all:	check pkg
 
 # wsltty release
-ver=0.7.8.1
+ver=0.7.8.3
 
 # mintty release version
-minttyver=2.7.8
-#minttyver=master
+#minttyver=2.7.8
+minttyver=master
 
 # wslbridge backend version
-wslbridgever=0.2.2
+wslbridgever=0.2.3
 
 # wslbridge frontend version
 # release 0.2.0 does not have cygwin_internal(CW_SYNC_WINENV) yet;
