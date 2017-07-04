@@ -1,5 +1,7 @@
 Mintty as a terminal for Bash on Ubuntu on Windows / WSL.
 
+<img align=right src=wsltty.png>
+
 ### Overview ###
 
 WSLtty components
@@ -107,9 +109,10 @@ or Explorer context menu commands (configured in `config-context-menu.bat`).
 
 ### Components ###
 
-For mintty, see the [Mintty homepage](http://mintty.github.io/), 
-then [Mintty manual page](http://mintty.github.io/mintty.1.html), 
-and the [Mintty Wiki](https://github.com/mintty/mintty/wiki), 
+For mintty, see the [Mintty homepage](http://mintty.github.io/) 
+(with further screenshots), 
+the [Mintty manual page](http://mintty.github.io/mintty.1.html), 
+<br>and the [Mintty Wiki](https://github.com/mintty/mintty/wiki), 
 including a [Hints and Tips page](https://github.com/mintty/mintty/wiki/Tips).
 
 It is based on [Cygwin](http://cygwin.com) 
