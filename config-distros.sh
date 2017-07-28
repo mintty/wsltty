@@ -95,7 +95,7 @@ do
 	#then	bridgeargs='-t /bin/bash'
 	#else	bridgeargs='-l "'"$launch"'" -t /bin/bash'
 	#fi
-	bridgeargs="--distro-guid $guid -t /bin/bash"
+	bridgeargs='--distro-guid "'"$guid"'" -t /bin/bash'
 
 	export target minttyargs bridgeargs icon
 	export distro

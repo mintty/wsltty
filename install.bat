@@ -25,8 +25,11 @@ echo set configdir=%configdir%>> setdirs.bat
 copy setdirs.bat + uninstall.bat "%installdir%\uninstall.bat"
 
 copy setdirs.bat + wsl.bat "%installdir%\wsl.bat"
+copy setdirs.bat + wsl.bat "%LOCALAPPDATA%\Microsoft\WindowsApps\wsl.bat"
 copy setdirs.bat + wsl~.bat "%installdir%\wsl~.bat"
+copy setdirs.bat + wsl~.bat "%LOCALAPPDATA%\Microsoft\WindowsApps\wsl~.bat"
 copy setdirs.bat + wsl-l.bat "%installdir%\wsl-l.bat"
+copy setdirs.bat + wsl-l.bat "%LOCALAPPDATA%\Microsoft\WindowsApps\wsl-l.bat"
 
 copy "add to context menu.lnk" "%installdir%"
 copy "remove from context menu.lnk" "%installdir%"
@@ -83,8 +86,11 @@ rem clean up previous installation
 rmdir /S /Q "%smf%\context menu shortcuts"
 
 rem create launch shortcuts for default WSL distro
+copy "WSL %% in Mintty.lnk" "%installdir%"
 copy "WSL %% in Mintty.lnk" "%smf%"
+copy "WSL ~ in Mintty.lnk" "%installdir%"
 copy "WSL ~ in Mintty.lnk" "%smf%"
+copy "WSL -l in Mintty.lnk" "%installdir%"
 copy "WSL -l in Mintty.lnk" "%smf%"
 rem clean up previous installation
 del "%smf%\WSL Bash %% in Mintty.lnk"
