@@ -9,10 +9,11 @@
 all:	check pkg
 
 # wsltty release
-ver=0.7.8.3
+#ver=1.7.9
+ver=0.7.9
 
 # mintty release version
-#minttyver=2.7.8
+#minttyver=2.7.9
 minttyver=master
 
 # wslbridge backend version
@@ -23,7 +24,11 @@ wslbridgever=0.2.3
 # therefore using "master" below
 #wslbridge-frontend=wslbridge-frontend
 # release 0.2.1 is updated and complete, no separate frontend build needed:
-wslbridge-frontend=
+#wslbridge-frontend=
+#wslbridge-commit=master
+# use --distro-guid option:
+wslbridge-frontend=wslbridge-frontend
+wslbridge-commit=cb22e3f6f989cefe5b6599d3c04422ded74db664
 
 #############################################################################
 # target checking and some defs
@@ -70,16 +75,16 @@ wslbridge-backend:
 	tar xvzf wslbridge-$(wslbridgever)-$(sys).tar.gz
 	mkdir -p bin
 	cp wslbridge-$(wslbridgever)-$(sys)/wslbridge* bin/
-	cp wslbridge-$(wslbridgever)-$(sys)/LICENSE.txt LICENSE.wslbridge
+	tr -d '\015' < wslbridge-$(wslbridgever)-$(sys)/LICENSE.txt > LICENSE.wslbridge
 
 wslbridge-frontend:
-	$(wgeto) https://github.com/rprichard/wslbridge/archive/master.zip -o wslbridge-master.zip
-	unzip -o wslbridge-master.zip
-	cd wslbridge-master/frontend; make
-	strip wslbridge-master/out/wslbridge.exe
+	$(wgeto) https://github.com/rprichard/wslbridge/archive/$(wslbridge-commit).zip -o wslbridge-$(wslbridge-commit).zip
+	unzip -o wslbridge-$(wslbridge-commit).zip
+	cd wslbridge-$(wslbridge-commit)/frontend; make
+	strip wslbridge-$(wslbridge-commit)/out/wslbridge.exe
 	mkdir -p bin
-	cp wslbridge-master/out/wslbridge.exe bin/
-	cp wslbridge-master/LICENSE.txt LICENSE.wslbridge
+	cp wslbridge-$(wslbridge-commit)/out/wslbridge.exe bin/
+	tr -d '\015' < wslbridge-$(wslbridge-commit)/LICENSE.txt > LICENSE.wslbridge
 
 mintty:	mintty-get mintty-build
 
@@ -98,7 +103,8 @@ cygwin:
 	mkdir -p bin
 	cp /bin/cygwin1.dll bin/
 	cp /bin/cygwin-console-helper.exe bin/
-	#cp /bin/dash.exe bin/
+	cp /bin/dash.exe bin/
+	cp /bin/regtool.exe bin/
 	cp /bin/zoo.exe bin/
 
 cop:	ver
@@ -107,16 +113,20 @@ cop:	ver
 	sed -e "s,%version%,$(ver)," makewinx.cfg > rel/wsltty.SED
 	cp bin/cygwin1.dll rel/
 	cp bin/cygwin-console-helper.exe rel/
-	#cp bin/dash.exe rel/
+	cp bin/dash.exe rel/
+	cp bin/regtool.exe rel/
 	cp bin/mintty.exe rel/
 	cp bin/zoo.exe rel/
 	cp po.zoo rel/
 	cp bin/wslbridge.exe rel/
 	cp bin/wslbridge-backend rel/
 	cp LICENSE.* rel/
+	cp VERSION rel/
 	cp *.lnk rel/
+	cp *.ico rel/
 	cp *.url rel/
 	cp *.bat rel/
+	cp *.sh rel/
 	cp *.vbs rel/
 
 cab:	cop
