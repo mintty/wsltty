@@ -112,10 +112,10 @@ do
       else
 	reg add "$direckey\\shell\\$name" /d "$name in Mintty Here" /f
 	reg add "$direckey\\shell\\$name" /v Icon /d "$icon" /f
-	cmd /C reg add "$direckey\\shell\\$name\\command" /d "\"$target\" -i \"$icon\" --dir \"%1\" $minttyargs $brigdeargs" /f
+	cmd /C reg add "$direckey\\shell\\$name\\command" /d "\"$target\" -i \"$icon\" --dir \"%1\" $minttyargs $bridgeargs" /f
 	reg add "$direckey\\Background\\shell\\$name" /d "$name in Mintty Here" /f
 	reg add "$direckey\\Background\\shell\\$name" /v Icon /d "$icon" /f
-	cmd /C reg add "$direckey\\Background\\shell\\$name\\command" /d "\"$target\" -i \"$icon\" $minttyargs $brigdeargs" /f
+	cmd /C reg add "$direckey\\Background\\shell\\$name\\command" /d "\"$target\" -i \"$icon\" $minttyargs $bridgeargs" /f
       fi
     else
 
