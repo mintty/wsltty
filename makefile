@@ -9,25 +9,27 @@
 all:	check pkg
 
 # wsltty release
-ver=1.7.9
+ver=1.8.0
 
 # mintty release version
-minttyver=2.7.9
+minttyver=2.8.0
 #minttyver=master
 
 # wslbridge backend version
-wslbridgever=0.2.3
+wslbridgever=0.2.4
 
 # wslbridge frontend version
 # release 0.2.0 does not have cygwin_internal(CW_SYNC_WINENV) yet;
 # therefore using "master" below
 #wslbridge-frontend=wslbridge-frontend
 # release 0.2.1 is updated and complete, no separate frontend build needed:
-#wslbridge-frontend=
-#wslbridge-commit=master
-# use --distro-guid option:
-wslbridge-frontend=wslbridge-frontend
-wslbridge-commit=cb22e3f6f989cefe5b6599d3c04422ded74db664
+wslbridge-frontend=
+# only used if wslbridge-frontend non-empty:
+wslbridge-commit=master
+
+# use --distro-guid option (merged into 0.2.4):
+#wslbridge-frontend=wslbridge-frontend
+#wslbridge-commit=cb22e3f6f989cefe5b6599d3c04422ded74db664
 
 #############################################################################
 # target checking and some defs
@@ -91,8 +93,11 @@ mintty-get:
 	$(wgeto) https://github.com/mintty/mintty/archive/$(minttyver).zip -o mintty-$(minttyver).zip
 	unzip -o mintty-$(minttyver).zip
 
+wslbuild=LDFLAGS="-static -static-libgcc -s"
+wslversion=VERSION_SUFFIX="– wsltty $(ver)" WSLTTY_VERSION="$(ver)"
+
 mintty-build:
-	cd mintty-$(minttyver)/src; make LDFLAGS="-static -static-libgcc -s" VERSION_SUFFIX="– wsltty $(ver)"
+	cd mintty-$(minttyver)/src; make $(wslbuild) $(wslversion)
 	mkdir -p bin
 	cp mintty-$(minttyver)/bin/mintty.exe bin/
 	cp mintty-$(minttyver)/LICENSE LICENSE.mintty
