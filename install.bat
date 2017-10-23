@@ -14,22 +14,13 @@ if not "%2" == "" set refconfigdir=%2 && set configdir=%2
 :deploy
 
 mkdir "%installdir%"
+
+rem clean up previous installation artefacts
+del /Q "%installdir%\*.bat"
+del /Q "%installdir%\*.lnk"
+
 copy LICENSE.mintty "%installdir%"
 copy LICENSE.wslbridge "%installdir%"
-
-echo @echo off> setdirs.bat
-echo set refinstalldir=%refinstalldir%>> setdirs.bat
-echo set installdir=%installdir%>> setdirs.bat
-echo set refconfigdir=%refconfigdir%>> setdirs.bat
-echo set configdir=%configdir%>> setdirs.bat
-copy setdirs.bat + uninstall.bat "%installdir%\uninstall.bat"
-
-copy setdirs.bat + wsl.bat "%installdir%\wsl.bat"
-copy setdirs.bat + wsl.bat "%LOCALAPPDATA%\Microsoft\WindowsApps\wsl.bat"
-copy setdirs.bat + wsl~.bat "%installdir%\wsl~.bat"
-copy setdirs.bat + wsl~.bat "%LOCALAPPDATA%\Microsoft\WindowsApps\wsl~.bat"
-copy setdirs.bat + wsl-l.bat "%installdir%\wsl-l.bat"
-copy setdirs.bat + wsl-l.bat "%LOCALAPPDATA%\Microsoft\WindowsApps\wsl-l.bat"
 
 copy "add to context menu.lnk" "%installdir%"
 copy "remove from context menu.lnk" "%installdir%"
@@ -37,8 +28,6 @@ copy "configure WSL shortcuts.lnk" "%installdir%"
 copy wsl.ico "%installdir%"
 copy config-distros.sh "%installdir%"
 copy mkshortcut.vbs "%installdir%"
-rem clean up previous installation
-del "%installdir%\config-context-menu.bat"
 
 mkdir "%installdir%\bin"
 copy cygwin1.dll "%installdir%\bin"
@@ -55,56 +44,19 @@ mkdir "%installdir%\usr\share\mintty\lang"
 copy po.zoo "%installdir%\usr\share\mintty\lang"
 
 
-:shortcuts
-
-rem generate shortcuts
-
-rem set icon=%%LOCALAPPDATA%%\lxss\bash.ico
-set lxicon=%%LOCALAPPDATA%%\lxss\bash.ico
-set icon=%%LOCALAPPDATA%%\wsltty\wsl.ico
-if exist "%installdir%\wsl.ico" goto iconok
-if exist "%lxicon" copy "%lxicon" "%installdir%\wsl.ico"
-:iconok
-
-set target=%refinstalldir%\bin\mintty.exe
-set minttyargs=--wsl -h err --configdir="%refconfigdir%" -o Locale=C -o Charset=UTF-8 /bin/wslbridge 
-set bridgeargs=-t /bin/bash
-cscript mkshortcut.vbs "/name:WSL %% in Mintty"
-set bridgeargs=-C~ -t /bin/bash
-cscript mkshortcut.vbs "/name:WSL ~ in Mintty"
-set bridgeargs=-t /bin/bash -l
-cscript mkshortcut.vbs "/name:WSL -l in Mintty"
-
 rem create Start Menu Folder
 set smf=%APPDATA%\Microsoft\Windows\Start Menu\Programs\WSLtty
 mkdir "%smf%"
+
+rem clean up previous installation
+del /Q "%smf%\*.lnk"
+
 copy "wsltty home & help.url" "%smf%"
 copy "add to context menu.lnk" "%smf%"
 copy "remove from context menu.lnk" "%smf%"
 copy "configure WSL shortcuts.lnk" "%smf%"
 rem clean up previous installation
 rmdir /S /Q "%smf%\context menu shortcuts"
-
-rem create launch shortcuts for default WSL distro
-copy "WSL %% in Mintty.lnk" "%installdir%"
-copy "WSL %% in Mintty.lnk" "%smf%"
-copy "WSL ~ in Mintty.lnk" "%installdir%"
-copy "WSL ~ in Mintty.lnk" "%smf%"
-copy "WSL -l in Mintty.lnk" "%installdir%"
-copy "WSL -l in Mintty.lnk" "%smf%"
-rem clean up previous installation
-del "%smf%\WSL Bash %% in Mintty.lnk"
-del "%smf%\WSL Bash ~ in Mintty.lnk"
-del "%smf%\WSL Bash -l in Mintty.lnk"
-
-goto sysconfig
-
-rem create Desktop Shorcuts
-copy "WSL %% in Mintty.lnk" "%USERPROFILE%\Desktop"
-copy "WSL ~ in Mintty.lnk" "%USERPROFILE%\Desktop"
-
-
-:sysconfig
 
 rem unpack config files in system config directory
 cd /D "%installdir%\usr\share\mintty\lang"
@@ -140,7 +92,7 @@ if not exist "%configdir%\config" echo # To use common configuration in %%APPDAT
 rem distro-specific stuff: shortcuts and launch scripts
 cd "%installdir%"
 bin\dash.exe "%installdir%\config-distros.sh"
-bin\dash.exe "%installdir%\config-distros.sh" -contextmenu
+rem bin\dash.exe "%installdir%\config-distros.sh" -contextmenu
 
 
 :end
