@@ -23,6 +23,7 @@ copy LICENSE.mintty "%installdir%"
 copy LICENSE.wslbridge "%installdir%"
 
 copy "add to context menu.lnk" "%installdir%"
+copy "add default to context menu.lnk" "%installdir%"
 copy "remove from context menu.lnk" "%installdir%"
 copy "configure WSL shortcuts.lnk" "%installdir%"
 copy wsl.ico "%installdir%"
@@ -53,6 +54,7 @@ del /Q "%smf%\*.lnk"
 
 copy "wsltty home & help.url" "%smf%"
 copy "add to context menu.lnk" "%smf%"
+copy "add default to context menu.lnk" "%smf%"
 copy "remove from context menu.lnk" "%smf%"
 copy "configure WSL shortcuts.lnk" "%smf%"
 rem clean up previous installation

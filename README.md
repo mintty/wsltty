@@ -86,7 +86,8 @@ WSLtty provides context menu entries for all installed WSL distributions
 and one for the configured default distribution,
 to start a respective WSL terminal in a specific folder from an Explorer window.
 They are not installed by default.
-To add or remove context menu entries, run the respective script from the 
+To add launch entries for the default or all WSL distributions to the 
+Explorer context menu, or remove them, run the respective script from the 
 Start Menu subfolder `WSLtty`.
 
 #### Mintty settings ####

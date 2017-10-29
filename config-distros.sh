@@ -2,12 +2,17 @@
 
 contextmenu=false
 remove=false
+alldistros=true
 case "$1" in
 -shortcuts-remove)
   remove=true
   shift;;
 -contextmenu)
   contextmenu=true
+  shift;;
+-contextmenu-default)
+  contextmenu=true
+  alldistros=false
   shift;;
 -contextmenu-remove)
   contextmenu=true
@@ -18,7 +23,7 @@ case "$1" in
   while read name
   do
     case `regtool get "$direckey/shell/$name/command/"` in
-    *bin\\mintty.exe*/bin/wslbridge*)
+    *bin\\mintty.exe*/bin/wslbridge*|*bin\\mintty.exe*--WSL*)
       regtool remove "$direckey/shell/$name/command"
       regtool remove "$direckey/shell/$name"
       ;;
@@ -29,7 +34,7 @@ case "$1" in
   while read name
   do
     case `regtool get "$direckey/Background/shell/$name/command/"` in
-    *bin\\mintty.exe*/bin/wslbridge*)
+    *bin\\mintty.exe*/bin/wslbridge*|*bin\\mintty.exe*--WSL*)
       regtool remove "$direckey/Background/shell/$name/command"
       regtool remove "$direckey/Background/shell/$name"
       ;;
@@ -84,7 +89,12 @@ PATH=/bin:$PATH
 lxss="/HKEY_CURRENT_USER/Software/Microsoft/Windows/CurrentVersion/Lxss"
 schema="/HKEY_CURRENT_USER/Software/Classes/Local Settings/Software/Microsoft/Windows/CurrentVersion/AppModel/SystemAppData"
 
-(regtool list "$lxss" 2>/dev/null && echo || echo "No WSL packages registered" >&2) |
+#(regtool list "$lxss" 2>/dev/null && echo || echo "No WSL packages registered" >&2) |
+(
+  if $alldistros
+  then  regtool list "$lxss" 2>/dev/null
+  else  true
+  fi && echo || echo "No WSL packages registered" >&2) |
 while read guid
 do
   ok=false
