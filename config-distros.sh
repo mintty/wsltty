@@ -3,7 +3,17 @@
 contextmenu=false
 remove=false
 alldistros=true
+config=true
+
+case "`basename $0`" in
+wsl*)
+  config=false;;
+esac
+
 case "$1" in
+-info)
+  config=false
+  shift;;
 -shortcuts-remove)
   remove=true
   shift;;
@@ -154,7 +164,7 @@ do
   target='%LOCALAPPDATA%\wsltty\bin\mintty.exe'
   bridgeargs=" "
 
-  if $ok
+  if $ok && $config
   then
     export target minttyargs bridgeargs icon
 
