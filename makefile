@@ -101,7 +101,8 @@ mintty-build:
 	mkdir -p bin
 	cp mintty-$(minttyver)/bin/mintty.exe bin/
 	cp mintty-$(minttyver)/LICENSE LICENSE.mintty
-	cd mintty-$(minttyver)/lang; zoo a po *.po; mv po.zoo ../../
+	cd mintty-$(minttyver)/lang; zoo a lang *.po; mv lang.zoo ../../
+	cd mintty-$(minttyver)/themes; zoo a themes *[!~]; mv themes.zoo ../../
 
 cygwin:
 	mkdir -p bin
@@ -121,7 +122,8 @@ cop:	ver
 	cp bin/regtool.exe rel/
 	cp bin/mintty.exe rel/
 	cp bin/zoo.exe rel/
-	cp po.zoo rel/
+	cp lang.zoo rel/
+	cp themes.zoo rel/
 	cp bin/wslbridge.exe rel/
 	cp bin/wslbridge-backend rel/
 	cp LICENSE.* rel/

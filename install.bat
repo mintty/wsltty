@@ -42,7 +42,9 @@ copy wslbridge-backend "%installdir%\bin"
 
 rem create system config directory and copy config archive
 mkdir "%installdir%\usr\share\mintty\lang"
-copy po.zoo "%installdir%\usr\share\mintty\lang"
+copy lang.zoo "%installdir%\usr\share\mintty\lang"
+mkdir "%installdir%\usr\share\mintty\themes"
+copy themes.zoo "%installdir%\usr\share\mintty\themes"
 
 
 rem create Start Menu Folder
@@ -62,7 +64,9 @@ rmdir /S /Q "%smf%\context menu shortcuts"
 
 rem unpack config files in system config directory
 cd /D "%installdir%\usr\share\mintty\lang"
-"%installdir%\bin\zoo" xO po
+"%installdir%\bin\zoo" xO lang
+cd /D "%installdir%\usr\share\mintty\themes"
+"%installdir%\bin\zoo" xO themes
 
 
 :migrate configuration
