@@ -30,15 +30,27 @@ copy wsl.ico "%installdir%"
 copy config-distros.sh "%installdir%"
 copy mkshortcut.vbs "%installdir%"
 
+if not exist "%installdir%\bin" goto instbin
+rem move previous programs possibly in use out of the way
+del /Q "%installdir%\bin\*.old"
+ren "%installdir%\bin\cygwin1.dll" cygwin1.dll.old
+ren "%installdir%\bin\cygwin-console-helper.exe" cygwin-console-helper.exe.old
+ren "%installdir%\bin\mintty.exe" mintty.exe.old
+ren "%installdir%\bin\wslbridge.exe" wslbridge.exe.old
+ren "%installdir%\bin\wslbridge-backend" wslbridge-backend.old
+del /Q "%installdir%\bin\*.old"
+
+:instbin
 mkdir "%installdir%\bin"
 copy cygwin1.dll "%installdir%\bin"
 copy cygwin-console-helper.exe "%installdir%\bin"
-copy dash.exe "%installdir%\bin"
-copy regtool.exe "%installdir%\bin"
 copy mintty.exe "%installdir%\bin"
-copy zoo.exe "%installdir%\bin"
 copy wslbridge.exe "%installdir%\bin"
 copy wslbridge-backend "%installdir%\bin"
+
+copy dash.exe "%installdir%\bin"
+copy regtool.exe "%installdir%\bin"
+copy zoo.exe "%installdir%\bin"
 
 rem create system config directory and copy config archive
 mkdir "%installdir%\usr\share\mintty\lang"
