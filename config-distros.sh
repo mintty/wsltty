@@ -1,5 +1,7 @@
 #! /bin/sh
 
+PATH=/bin:$PATH
+
 contextmenu=false
 remove=false
 alldistros=true
@@ -85,7 +87,8 @@ echoc () {
   cmd /c echo $*
 }
 
-while read line; do echo "$line"; done <</EOB > mkbat.bat
+if $config
+then while read line; do echo "$line"; done <</EOB > mkbat.bat
 @echo off
 echo Creating %1.bat
 
@@ -93,6 +96,7 @@ echo @echo off> %1.bat
 echo rem Start mintty terminal for WSL package %name% in current directory>> %1.bat
 echo %target% -i "%icon%" %minttyargs% %bridgeargs%>> %1.bat
 /EOB
+fi
 
 PATH=/bin:$PATH
 
