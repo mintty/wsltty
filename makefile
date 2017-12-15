@@ -6,30 +6,39 @@
 # make pkg	to build an installer, bypassing the system checks
 # make wsltty	to build an installer using the local copy of mintty
 
-all:	check pkg
 
 # wsltty release
-ver=1.8.1
+ver=1.8.2
 
+##############################
 # mintty release version
-minttyver=2.8.1
-#minttyver=master
+minttyver=2.8.2
 
-# wslbridge backend version
+# or mintty branch or commit version
+minttyver=master
+
+##############################
+# wslbridge binary package
+wslbridge=wslbridge-package
 wslbridgever=0.2.4
 
-# wslbridge frontend version
-# release 0.2.0 does not have cygwin_internal(CW_SYNC_WINENV) yet;
-# therefore using "master" below
-#wslbridge-frontend=wslbridge-frontend
-# release 0.2.1 is updated and complete, no separate frontend build needed:
-wslbridge-frontend=
-# only used if wslbridge-frontend non-empty:
-wslbridge-commit=master
+# or wslbridge branch or commit to build from source;
+# also set wslbridge-commit
+wslbridge=wslbridge-frontend wslbridge-backend
+
+# release 0.2.0 does not have cygwin_internal(CW_SYNC_WINENV) yet:
+#wslbridge-commit=master
 
 # use --distro-guid option (merged into 0.2.4):
-#wslbridge-frontend=wslbridge-frontend
 #wslbridge-commit=cb22e3f6f989cefe5b6599d3c04422ded74db664
+
+# after 0.2.4, from branch login-mode:
+wslbridge-commit=04a060505860915c99bc336dbeb80269771a80b7
+
+#############################################################################
+# default target
+
+all:	check pkg
 
 #############################################################################
 # target checking and some defs
@@ -69,23 +78,30 @@ check:
 #############################################################################
 # generation
 
-wslbridge:	wslbridge-backend $(wslbridge-frontend)
+wslbridge:	$(wslbridge)
 
-wslbridge-backend:
+wslbridge-package:
 	$(wget) https://github.com/rprichard/wslbridge/releases/download/$(wslbridgever)/wslbridge-$(wslbridgever)-$(sys).tar.gz
 	tar xvzf wslbridge-$(wslbridgever)-$(sys).tar.gz
 	mkdir -p bin
 	cp wslbridge-$(wslbridgever)-$(sys)/wslbridge* bin/
 	tr -d '\015' < wslbridge-$(wslbridgever)-$(sys)/LICENSE.txt > LICENSE.wslbridge
 
-wslbridge-frontend:
+wslbridge-source:	wslbridge-$(wslbridge-commit).zip
 	$(wgeto) https://github.com/rprichard/wslbridge/archive/$(wslbridge-commit).zip -o wslbridge-$(wslbridge-commit).zip
 	unzip -o wslbridge-$(wslbridge-commit).zip
+	tr -d '\015' < wslbridge-$(wslbridge-commit)/LICENSE.txt > LICENSE.wslbridge
+
+wslbridge-frontend:	wslbridge-source
 	cd wslbridge-$(wslbridge-commit)/frontend; make
 	strip wslbridge-$(wslbridge-commit)/out/wslbridge.exe
 	mkdir -p bin
 	cp wslbridge-$(wslbridge-commit)/out/wslbridge.exe bin/
-	tr -d '\015' < wslbridge-$(wslbridge-commit)/LICENSE.txt > LICENSE.wslbridge
+
+wslbridge-backend:	wslbridge-source
+	cd wslbridge-$(wslbridge-commit)/backend; wslbridge make
+	mkdir -p bin
+	cp wslbridge-$(wslbridge-commit)/out/wslbridge-backend bin/
 
 mintty:	mintty-get mintty-build
 
