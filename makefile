@@ -15,10 +15,10 @@ ver=1.8.2
 minttyver=2.8.2
 
 # or mintty branch or commit version
-minttyver=master
+#minttyver=master
 
 ##############################
-# wslbridge binary package
+# wslbridge binary package; may be overridden below
 wslbridge=wslbridge-package
 wslbridgever=0.2.4
 

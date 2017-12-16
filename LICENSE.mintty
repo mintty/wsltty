@@ -26,3 +26,8 @@ The program icon is the apps/utilities-terminal icon from KDE's Oxygen theme,
 retrieved from http://websvn.kde.org/trunk/KDE/kdebase/runtime/pics/oxygen. 
 Thanks to the KDE artists for their sleek design. The Oxygen icons are licensed
 under the terms of the LGPLv3; see LICENSE.Oxygen for details.
+
+The colour schemes / theme files bundled with mintty are included 
+under various licenses. The source and license or permission are 
+quoted in the respective theme files.
+
