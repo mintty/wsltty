@@ -1,15 +1,15 @@
 rem cscript mkshortcut.vbs [/param:arg] /target:link
 
-rem %
-rem /arguments:--wsl -h err -o Locale=C -o Charset=UTF-8 /bin/wslbridge -t /bin/bash
-rem ~
-rem /arguments:--wsl -h err -o Locale=C -o Charset=UTF-8 /bin/wslbridge -C~ -t /bin/bash
-rem -l
-rem /arguments:--wsl -h err -o Locale=C -o Charset=UTF-8 /bin/wslbridge -t /bin/bash -l
 rem /target:%LOCALAPPDATA%\wsltty\bin\mintty.exe
 rem /workingdir:%USERPROFILE%
-rem rem /icon:%LOCALAPPDATA%\lxss\bash.ico
 rem /icon:%LOCALAPPDATA%\wsltty\wsl.ico
+rem deprecated: /icon:%LOCALAPPDATA%\lxss\bash.ico
+rem deprecated: %
+rem /arguments:--wsl -o Locale=C -o Charset=UTF-8 /bin/wslbridge -t /bin/bash
+rem deprecated: ~
+rem /arguments:--wsl -o Locale=C -o Charset=UTF-8 /bin/wslbridge -C~ -t /bin/bash
+rem deprecated: -l
+rem /arguments:--wsl -o Locale=C -o Charset=UTF-8 /bin/wslbridge -t /bin/bash -l
 
 rem General - Name:
 name = Wscript.Arguments.Named("name") & ".lnk"

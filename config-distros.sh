@@ -140,8 +140,8 @@ do
     	root="$basepath"
     fi
 
-    minttyargs='--wsl --rootfs="'"$root"'" -h err --configdir="%APPDATA%\wsltty" -o Locale=C -o Charset=UTF-8 /bin/wslbridge '
-    minttyargs='--WSL="'"$distro"'" -h err --configdir="%APPDATA%\wsltty"'
+    minttyargs='--wsl --rootfs="'"$root"'" --configdir="%APPDATA%\wsltty" -o Locale=C -o Charset=UTF-8 /bin/wslbridge '
+    minttyargs='--WSL="'"$distro"'" --configdir="%APPDATA%\wsltty"'
     #if [ -z "$launch" ]
     #then	bridgeargs='-t /bin/bash'
     #else	bridgeargs='-l "'"$launch"'" -t /bin/bash'
@@ -154,7 +154,7 @@ do
     distro=
     name=WSL
     icon="%LOCALAPPDATA%/wsltty/wsl.ico"
-    minttyargs='--WSL= -h err --configdir="%APPDATA%\wsltty"'
+    minttyargs='--WSL= --configdir="%APPDATA%\wsltty"'
     bridgeargs='-t'
 
     ok=true;;
