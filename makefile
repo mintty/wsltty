@@ -8,11 +8,11 @@
 
 
 # wsltty release
-ver=1.8.2
+ver=1.8.3
 
 ##############################
 # mintty release version
-minttyver=2.8.2
+minttyver=2.8.3
 
 # or mintty branch or commit version
 #minttyver=master
