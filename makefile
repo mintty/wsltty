@@ -8,7 +8,7 @@
 
 
 # wsltty release
-ver=1.8.3
+ver=1.8.3.2
 
 ##############################
 # mintty release version
@@ -24,7 +24,7 @@ wslbridgever=0.2.4
 
 # or wslbridge branch or commit to build from source;
 # also set wslbridge-commit
-wslbridge=wslbridge-frontend wslbridge-backend
+#wslbridge=wslbridge-frontend wslbridge-backend
 
 # release 0.2.0 does not have cygwin_internal(CW_SYNC_WINENV) yet:
 #wslbridge-commit=master
@@ -88,9 +88,11 @@ wslbridge-package:
 	tr -d '\015' < wslbridge-$(wslbridgever)-$(sys)/LICENSE.txt > LICENSE.wslbridge
 
 wslbridge-source:	wslbridge-$(wslbridge-commit).zip
-	$(wgeto) https://github.com/rprichard/wslbridge/archive/$(wslbridge-commit).zip -o wslbridge-$(wslbridge-commit).zip
 	unzip -o wslbridge-$(wslbridge-commit).zip
 	tr -d '\015' < wslbridge-$(wslbridge-commit)/LICENSE.txt > LICENSE.wslbridge
+
+wslbridge-$(wslbridge-commit).zip:
+	$(wgeto) https://github.com/rprichard/wslbridge/archive/$(wslbridge-commit).zip -o wslbridge-$(wslbridge-commit).zip
 
 wslbridge-frontend:	wslbridge-source
 	cd wslbridge-$(wslbridge-commit)/frontend; make
