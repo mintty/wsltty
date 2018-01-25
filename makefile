@@ -115,6 +115,9 @@ wslbuild=LDFLAGS="-static -static-libgcc -s"
 wslversion=VERSION_SUFFIX="– wsltty $(ver)" WSLTTY_VERSION="$(ver)"
 
 mintty-build:
+	# ensure rebuild of version-specific check and message
+	rm -f mintty-$(minttyver)/bin/*/windialog.o
+	# build mintty
 	cd mintty-$(minttyver)/src; make $(wslbuild) $(wslversion)
 	mkdir -p bin
 	cp mintty-$(minttyver)/bin/mintty.exe bin/
