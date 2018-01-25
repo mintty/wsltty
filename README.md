@@ -117,13 +117,16 @@ Note:
   If you define `HOME` at Windows level, this changes accordingly.
   Note, however, that the WSL `HOME` is a completely different setting.
 
-#### Shell selection ####
+#### Shell selection and Login shell ####
 
 The WSLtty deployment does not impose a shell preference anymore.
 However, the intermediate gateways (`wslbridge` and its backend and the `bash.exe` Windows launcher) 
-are also involved. To invoke your favourite shell, you may append 
-a shell pathname to the mintty invocation (in shortcuts, scripts, or context menu entries), 
-or handle shell replacement within the WSL startup scripts (esp. `.profile`).
+are also involved.
+
+To invoke your favourite shell or launch the shell in login mode, 
+you may append a shell pathname and an optional `-l` parameter 
+to the mintty invocation (in shortcuts, scripts, or context menu entries):
+* `%LOCALAPPDATA%\wsltty\bin\mintty.exe --WSL= --configdir="%APPDATA%\wsltty" /bin/bash -l`
 
 ### Components and Credits ###
 
