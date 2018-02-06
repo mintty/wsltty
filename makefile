@@ -2,17 +2,17 @@
 # build a wsltty installer package:
 # configure ver=... and minttyver= in this makefile
 # make targets:
-# make [all]	to build a distributable installer (default)
-# make pkg	to build an installer, bypassing the system checks
-# make wsltty	to build an installer using the local copy of mintty
+# make [all]	build a distributable installer (default)
+# make pkg	build an installer, bypassing the system checks
+# make wsltty	build the software, using the local copy of mintty
 
 
 # wsltty release
-ver=1.8.3.2
+ver=1.8.4
 
 ##############################
 # mintty release version
-minttyver=2.8.3
+minttyver=2.8.4
 
 # or mintty branch or commit version
 #minttyver=master
@@ -61,18 +61,17 @@ wget=curl -R -L --connect-timeout 55 -O
 wgeto=curl -R -L --connect-timeout 55
 
 #############################################################################
-# system check;
-# for now, let's enforce Cygwin 32-Bit as the container for wsltty
-# just in case there is a 32-Bit WSL released (-> 32 bit), and to ensure 
-# the path name drag-and-drop adaptation works (-> cygwin, not msys)
+# system check:
+# - ensure the path name drag-and-drop adaptation works (-> Cygwin, not MSYS)
+# - 64 Bit (x86_64) for more stable invocation (avoid fork issues)
 
 check:
 	# checking suitable host environment; run `make pkg` to bypass
 	# check cygwin (vs msys) for proper drag-and-drop paths:
 	uname | grep CYGWIN
-	# check 32 bit (vs 64 bit) to ensure 32-Bit Windows support, just in case:
+	# check 32 bit to ensure 32-Bit Windows support, just in case:
 	#uname -m | grep i686
-	# check 64 bit (vs 32 bit) to provide 64-Bit stability support:
+	# check 64 bit to provide 64-Bit stability support:
 	uname -m | grep x86_64
 
 #############################################################################
@@ -169,7 +168,7 @@ ver:
 
 pkg:	wslbridge cygwin mintty cab
 
-wsltty:	wslbridge cygwin mintty-build cab
+wsltty:	wslbridge cygwin mintty-build
 
 #############################################################################
 # end

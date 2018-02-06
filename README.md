@@ -17,7 +17,7 @@ WSLtty components
 
 ### Installation ###
 
-#### WSLtty installer ####
+#### WSLtty installer ([Download](https://github.com/mintty/wsltty/releases) standalone installation) ####
 
 Run the [installer](https://github.com/mintty/wsltty/releases) to install 
 the components listed above.
