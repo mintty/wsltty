@@ -59,6 +59,8 @@ mkdir "%installdir%\usr\share\mintty\themes"
 copy themes.zoo "%installdir%\usr\share\mintty\themes"
 mkdir "%installdir%\usr\share\mintty\info"
 copy charnames.txt "%installdir%\usr\share\mintty\info"
+mkdir "%installdir%\usr\share\mintty\icon"
+copy wsl.ico "%installdir%\usr\share\mintty\icon"
 
 
 rem create Start Menu Folder
