@@ -123,6 +123,9 @@ mintty-build:
 	cp mintty-$(minttyver)/LICENSE LICENSE.mintty
 	cd mintty-$(minttyver)/lang; zoo a lang *.po; mv lang.zoo ../../
 	cd mintty-$(minttyver)/themes; zoo a themes *[!~]; mv themes.zoo ../../
+	# add charnames.txt to support "Character Info"
+	cd mintty-$(minttyver)/src; sh ./mknames
+	cp mintty-$(minttyver)/src/charnames.txt .
 
 cygwin:
 	mkdir -p bin
@@ -144,6 +147,7 @@ cop:	ver
 	cp bin/zoo.exe rel/
 	cp lang.zoo rel/
 	cp themes.zoo rel/
+	cp charnames.txt rel/
 	cp bin/wslbridge.exe rel/
 	cp bin/wslbridge-backend rel/
 	cp LICENSE.* rel/
