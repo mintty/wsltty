@@ -8,14 +8,14 @@
 
 
 # wsltty release
-ver=1.8.4
+ver=1.8.4.3
 
 ##############################
 # mintty release version
-minttyver=2.8.4
+#minttyver=2.8.4
 
 # or mintty branch or commit version
-#minttyver=master
+minttyver=master
 
 ##############################
 # wslbridge binary package; may be overridden below
@@ -24,7 +24,7 @@ wslbridgever=0.2.4
 
 # or wslbridge branch or commit to build from source;
 # also set wslbridge-commit
-#wslbridge=wslbridge-frontend wslbridge-backend
+wslbridge=wslbridge-frontend wslbridge-backend
 
 # release 0.2.0 does not have cygwin_internal(CW_SYNC_WINENV) yet:
 #wslbridge-commit=master
@@ -34,6 +34,9 @@ wslbridgever=0.2.4
 
 # after 0.2.4, from branch login-mode:
 wslbridge-commit=04a060505860915c99bc336dbeb80269771a80b7
+
+# after 0.2.4, from branch wslpath:
+wslbridge-commit=29df86d87135caec8424c08f031ce121a3a39ae1
 
 #############################################################################
 # default target
