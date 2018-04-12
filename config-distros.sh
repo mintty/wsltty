@@ -197,6 +197,8 @@ do
         cmd /C del "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\$name.bat"
         cmd /C del "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\$name~.bat"
       else
+        cmd /C copy mkshortcut.bat mkshortcut.vbs
+
         # desktop shortcut in %USERPROFILE% -> Start Menu - WSLtty
         cscript /nologo mkshortcut.vbs "/name:$name Terminal %"
         cmd /C copy "$name Terminal %.lnk" "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\WSLtty"

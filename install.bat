@@ -28,7 +28,7 @@ copy "remove from context menu.lnk" "%installdir%"
 copy "configure WSL shortcuts.lnk" "%installdir%"
 copy wsl.ico "%installdir%"
 copy config-distros.sh "%installdir%"
-copy mkshortcut.vbs "%installdir%"
+copy mkshortcut.bat "%installdir%"
 
 if not exist "%installdir%\bin" goto instbin
 rem move previous programs possibly in use out of the way
