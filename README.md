@@ -15,7 +15,7 @@ WSLtty components
 * optional context menu entries for Windows Explorer to start WSL terminals in the respective folder
 * install/uninstall context menu items from Start Menu subfolder `WSLtty`
 
-### Installation ###
+### Installation from this repository ###
 
 #### WSLtty installer ([Download](https://github.com/mintty/wsltty/releases) standalone installation) ####
 
@@ -39,6 +39,19 @@ Note this has to be done within a Cygwin environment.
 Within the installation process, provide parameters to the script `install.bat`.
 The optional first parameter designates the installation target,
 the optional second parameter designates the configuration directory.
+
+### Installation with other package management environments ###
+
+#### Chocolatey ####
+
+If you use the [Chocolatey package manager](https://chocolatey.org/), 
+invoke one of
+* `choco install wsltty`
+* `choco upgrade wsltty`
+
+#### Windows Appx package ####
+
+– under preparation –
 
 ### Invocation ###
 
