@@ -26,9 +26,11 @@ copy "add to context menu.lnk" "%installdir%"
 copy "add default to context menu.lnk" "%installdir%"
 copy "remove from context menu.lnk" "%installdir%"
 copy "configure WSL shortcuts.lnk" "%installdir%"
+copy "WSL Terminal.lnk" "%installdir%"
+copy "WSL Terminal %%.lnk" "%installdir%"
 copy wsl.ico "%installdir%"
 copy config-distros.sh "%installdir%"
-copy mkshortcut.bat "%installdir%"
+copy mkshortcut.vbs "%installdir%"
 
 if not exist "%installdir%\bin" goto instbin
 rem move previous programs possibly in use out of the way
@@ -75,6 +77,8 @@ copy "add to context menu.lnk" "%smf%"
 copy "add default to context menu.lnk" "%smf%"
 copy "remove from context menu.lnk" "%smf%"
 copy "configure WSL shortcuts.lnk" "%smf%"
+copy "WSL Terminal.lnk" "%smf%"
+copy "WSL Terminal %%.lnk" "%smf%"
 rem clean up previous installation
 rmdir /S /Q "%smf%\context menu shortcuts"
 

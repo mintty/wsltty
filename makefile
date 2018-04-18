@@ -8,7 +8,7 @@
 
 
 # wsltty release
-ver=1.8.5
+ver=1.8.5.3
 
 ##############################
 # mintty release version
@@ -163,7 +163,7 @@ cop:	ver
 	cp *.url rel/
 	cp *.bat rel/
 	cp *.sh rel/
-	#cp *.vbs rel/
+	cp *.vbs rel/
 
 cab:	cop
 	cd rel; iexpress /n wsltty.SED

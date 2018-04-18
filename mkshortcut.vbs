@@ -1,4 +1,4 @@
-rem cscript mkshortcut [/param:arg] /target:link
+rem cscript mkshortcut.vbs [/param:arg] /target:link
 
 rem /target:%LOCALAPPDATA%\wsltty\bin\mintty.exe
 rem /workingdir:%USERPROFILE%
