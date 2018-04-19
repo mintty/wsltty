@@ -51,7 +51,7 @@ invoke one of
 * `choco install wsltty`
 * `choco upgrade wsltty`
 
-#### Windows UWP Appx package ####
+#### Windows Appx package ####
 
 – under preparation –
 
