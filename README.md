@@ -15,6 +15,8 @@ WSLtty components
 * optional context menu entries for Windows Explorer to start WSL terminals in the respective folder
 * install/uninstall context menu items from Start Menu subfolder `WSLtty`
 
+---
+
 ### Installation from this repository ###
 
 #### WSLtty installer ([Download](https://github.com/mintty/wsltty/releases) standalone installation) ####
@@ -49,9 +51,11 @@ invoke one of
 * `choco install wsltty`
 * `choco upgrade wsltty`
 
-#### Windows Appx package ####
+#### Windows UWP Appx package ####
 
 – under preparation –
+
+---
 
 ### Invocation ###
 
@@ -62,6 +66,8 @@ WSLtty can be invoked with
 
 Starting the mintty terminal directly from the WSLtty installation location 
 is discouraged because that would bypass essential options.
+
+---
 
 ### Configuration ###
 
@@ -140,6 +146,8 @@ To invoke your favourite shell or launch the shell in login mode,
 you may append a shell pathname and an optional `-l` parameter 
 to the mintty invocation (in shortcuts, scripts, or context menu entries):
 * `%LOCALAPPDATA%\wsltty\bin\mintty.exe --WSL= --configdir="%APPDATA%\wsltty" /bin/bash -l`
+
+---
 
 ### Components and Credits ###
 
