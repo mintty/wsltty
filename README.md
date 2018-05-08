@@ -48,12 +48,15 @@ the optional second parameter designates the configuration directory.
 
 If you use the [Chocolatey package manager](https://chocolatey.org/), 
 invoke one of
+<img height=222 align=right src=https://github.com/mintty/wsltty.appx/raw/master/wsltty.appx.png>
 * `choco install wsltty`
 * `choco upgrade wsltty`
 
 #### Windows Appx package ####
 
-– under preparation –
+A Windows Appx package and certificate is available in the [wsltty.appx](https://github.com/mintty/wsltty.appx/) repository.
+
+<br clear=all>
 
 ---
 
