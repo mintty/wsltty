@@ -150,6 +150,14 @@ you may append a shell pathname and an optional `-l` parameter
 to the mintty invocation (in shortcuts, scripts, or context menu entries):
 * `%LOCALAPPDATA%\wsltty\bin\mintty.exe --WSL= --configdir="%APPDATA%\wsltty" /bin/bash -l`
 
+
+#### Windows Defender and wsltty
+
+If you note that "Antimalware Service Exectutable" pegs your CPU
+during usage of mintty, particularly with WSL, you may want to add
+`%LOCALAPPDATA%\wsltty\bin\` to your list of folders excluded from real-time
+antivirus scanning.
+
 ---
 
 ### Components and Credits ###
