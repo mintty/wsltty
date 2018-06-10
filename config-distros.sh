@@ -141,6 +141,7 @@ do
       if [ -r "$ProgramW6432/WindowsApps/$instdir/$executable" ]
       then  icon="%PROGRAMFILES%\\WindowsApps\\$instdir\\$executable"
       else  icon="%LOCALAPPDATA%/wsltty/wsl.ico"
+      fi
     else
       icon="%LOCALAPPDATA%/lxss/bash.ico"
       root="$basepath"
