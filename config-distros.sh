@@ -129,16 +129,19 @@ do
     basepath=`regtool get "$lxss/$guid/BasePath"`
     if package=`regtool -q get "$lxss/$guid/PackageFamilyName"`
     then
-    	instdir=`regtool get "$schema/$package/Schemas/PackageFullName"`
-    	if [ -r "$ProgramW6432/WindowsApps/$instdir/images/icon.ico" ]
-    	then	icon="%PROGRAMFILES%/WindowsApps/$instdir/images/icon.ico"
-    	else	icon="%LOCALAPPDATA%/wsltty/wsl.ico"
-    	fi
-    	root="$basepath/rootfs"
-    else
-    	icon="%LOCALAPPDATA%/lxss/bash.ico"
-    	root="$basepath"
-    fi
+  	instdir=`regtool get "$schema/$package/Schemas/PackageFullName"`
+
+  	# get actual executable path (may not match $distro) from the app manifest
+  	manifest="$ProgramW6432/WindowsApps/$instdir/AppxManifest.xml"
+  	psh_cmd='([xml]$(Get-Content '"\"$manifest\""')).Package.Applications.Application.Executable'
+  	executable=`powershell "$psh_cmd"`
+
+  	# remove trailing newline that above command introduces
+  	executable="${executable%"${executable##*[![:space:]]}"}"
+  	if [ -r "$ProgramW6432/WindowsApps/$instdir/$executable" ]
+  	then	icon="%PROGRAMFILES%\\WindowsApps\\$instdir\\$executable"
+  	else	icon="%LOCALAPPDATA%/wsltty/wsl.ico"
+  	fi
 
     minttyargs='--wsl --rootfs="'"$root"'" --configdir="%APPDATA%\wsltty" -o Locale=C -o Charset=UTF-8 /bin/wslbridge '
     minttyargs='--WSL="'"$distro"'" --configdir="%APPDATA%\wsltty"'
