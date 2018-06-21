@@ -117,47 +117,47 @@ do
     distro=`regtool get "$lxss/$guid/DistributionName"`
     case "$distro" in
     Legacy)
-      name="Bash on Windows"
-      launch=
-      launcher="$SYSTEMROOT/System32/bash.exe"
-      ;;
-    *)  name="$distro"
-      launch="$distro"
-      launcher="$LOCALAPPDATA/Microsoft/WindowsApps/$distro.exe"
-      ;;
+    	name="Bash on Windows"
+    	launch=
+    	launcher="$SYSTEMROOT/System32/bash.exe"
+    	;;
+    *)	name="$distro"
+    	launch="$distro"
+    	launcher="$LOCALAPPDATA/Microsoft/WindowsApps/$distro.exe"
+    	;;
     esac
     basepath=`regtool get "$lxss/$guid/BasePath"`
     if package=`regtool -q get "$lxss/$guid/PackageFamilyName"`
     then
-      instdir=`regtool get "$schema/$package/Schemas/PackageFullName"`
+    	instdir=`regtool get "$schema/$package/Schemas/PackageFullName"`
 
-      # get actual executable path (may not match $distro) from the app manifest
-      manifest="$ProgramW6432/WindowsApps/$instdir/AppxManifest.xml"
-      psh_cmd='([xml]$(Get-Content '"\"$manifest\""')).Package.Applications.Application.Executable'
-      executable=`powershell "$psh_cmd"`
+    	# get actual executable path (may not match $distro) from the app manifest
+    	manifest="$ProgramW6432/WindowsApps/$instdir/AppxManifest.xml"
+    	psh_cmd='([xml]$(Get-Content '"\"$manifest\""')).Package.Applications.Application.Executable'
+    	executable=`powershell "$psh_cmd"`
 
-      # remove trailing newline that above command introduces
-      executable="${executable%"${executable##*[![:space:]]}"}"
-      if [ -r "$ProgramW6432/WindowsApps/$instdir/$executable" ]
-      then  icon="%PROGRAMFILES%\\WindowsApps\\$instdir\\$executable"
-      else  icon="%LOCALAPPDATA%/wsltty/wsl.ico"
-      fi
+    	# remove trailing newline that above command introduces
+    	executable="${executable%"${executable##*[![:space:]]}"}"
+    	if [ -r "$ProgramW6432/WindowsApps/$instdir/$executable" ]
+    	then	icon="%PROGRAMFILES%\\WindowsApps\\$instdir\\$executable"
+    	else	icon="%LOCALAPPDATA%/wsltty/wsl.ico"
+    	fi
     else
-      icon="%LOCALAPPDATA%/lxss/bash.ico"
-      root="$basepath"
+    	icon="%LOCALAPPDATA%/lxss/bash.ico"
+    	root="$basepath"
     fi
 
     minttyargs='--wsl --rootfs="'"$root"'" --configdir="%APPDATA%\wsltty" -o Locale=C -o Charset=UTF-8 /bin/wslbridge '
     minttyargs='--WSL="'"$distro"'" --configdir="%APPDATA%\wsltty"'
     #if [ -z "$launch" ]
-    #then  bridgeargs='-t /bin/bash'
-    #else  bridgeargs='-l "'"$launch"'" -t /bin/bash'
+    #then	bridgeargs='-t /bin/bash'
+    #else	bridgeargs='-l "'"$launch"'" -t /bin/bash'
     #fi
     bridgeargs='--distro-guid "'"$guid"'" -t /bin/bash'
     bridgeargs='--distro-guid "'"$guid"'" -t'
 
     ok=true;;
-  "")  # WSL default installation
+  "")	# WSL default installation
     distro=
     name=WSL
     icon="%LOCALAPPDATA%/wsltty/wsl.ico"
@@ -223,7 +223,7 @@ do
 
         # default desktop shortcut in ~ -> Desktop
         if [ "$name" = "WSL" ]
-        then  cmd /C copy "$name Terminal.lnk" "%USERPROFILE%\\Desktop"
+        then	cmd /C copy "$name Terminal.lnk" "%USERPROFILE%\\Desktop"
         fi
 
         # launch script in ~ -> WSLtty home, WindowsApps launch folder
