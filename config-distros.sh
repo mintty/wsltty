@@ -139,7 +139,7 @@ do
     	# remove trailing newline that above command introduces
     	executable="${executable%"${executable##*[![:space:]]}"}"
     	if [ -r "$ProgramW6432/WindowsApps/$instdir/$executable" ]
-    	then	icon="%PROGRAMFILES%\\WindowsApps\\$instdir\\$executable"
+    	then	icon="%PROGRAMFILES%/WindowsApps/$instdir/$executable"
     	elif [ -r "$ProgramW6432/WindowsApps/$instdir/images/icon.ico" ]
     	then	icon="%PROGRAMFILES%/WindowsApps/$instdir/images/icon.ico"
     	else	icon="%LOCALAPPDATA%/wsltty/wsl.ico"
