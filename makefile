@@ -8,11 +8,11 @@
 
 
 # wsltty release
-ver=1.8.5.3
+ver=1.9.0
 
 ##############################
 # mintty release version
-minttyver=2.8.5
+minttyver=2.9.0
 
 # or mintty branch or commit version
 #minttyver=master
@@ -44,7 +44,11 @@ wslbridge-commit=06fb7acba28d7f37611f3911685af214739895a0
 #############################################################################
 # default target
 
-all:	check pkg
+all:	all-$(notdir $(CURDIR))
+
+all-wsltty:	check pkg
+
+all-wsltty.appx:	appx
 
 #############################################################################
 # target checking and some defs
@@ -110,8 +114,6 @@ wslbridge-backend:	wslbridge-source
 	mkdir -p bin
 	cp wslbridge-$(wslbridge-commit)/out/wslbridge-backend bin/
 
-mintty:	mintty-get mintty-build
-
 mintty-get:
 	$(wgeto) https://github.com/mintty/mintty/archive/$(minttyver).zip -o mintty-$(minttyver).zip
 	unzip -o mintty-$(minttyver).zip
@@ -126,12 +128,23 @@ mintty-build:
 	cd mintty-$(minttyver)/src; make $(wslbuild) $(wslversion)
 	mkdir -p bin
 	cp mintty-$(minttyver)/bin/mintty.exe bin/
+
+mintty-pkg:
 	cp mintty-$(minttyver)/LICENSE LICENSE.mintty
 	cd mintty-$(minttyver)/lang; zoo a lang *.po; mv lang.zoo ../../
 	cd mintty-$(minttyver)/themes; zoo a themes *[!~]; mv themes.zoo ../../
 	# add charnames.txt to support "Character Info"
 	cd mintty-$(minttyver)/src; sh ./mknames
 	cp mintty-$(minttyver)/src/charnames.txt .
+
+mintty-appx:
+	mkdir -p usr/share/mintty
+	cd usr/share/mintty; mkdir -p lang themes info
+	cp mintty-$(minttyver)/lang/*.po usr/share/mintty/lang/
+	cp mintty-$(minttyver)/themes/*[!~] usr/share/mintty/themes/
+	# add charnames.txt to support "Character Info"
+	cd mintty-$(minttyver)/src; sh ./mknames
+	cp mintty-$(minttyver)/src/charnames.txt usr/share/mintty/info/
 
 cygwin:
 	mkdir -p bin
@@ -140,6 +153,11 @@ cygwin:
 	cp /bin/dash.exe bin/
 	cp /bin/regtool.exe bin/
 	cp /bin/zoo.exe bin/
+
+appx-bin:
+	mkdir -p bin
+	cp /bin/cygwin1.dll bin/
+	cp /bin/cygwin-console-helper.exe bin/
 
 cop:	ver
 	mkdir -p rel
@@ -176,9 +194,22 @@ installbat:
 ver:
 	echo $(ver) > VERSION
 
-pkg:	wslbridge cygwin mintty cab
+mintty:	mintty-get mintty-build
 
-wsltty:	wslbridge cygwin mintty-build
+mintty-usr:	mintty-get mintty-appx
+
+# local wsltty build target:
+wsltty:	wslbridge cygwin mintty-build mintty-pkg
+
+# standalone wsltty package build target:
+pkg:	wslbridge cygwin mintty-get mintty-build mintty-pkg cab
+
+# appx package contents target:
+wsltty-appx:	wslbridge appx-bin mintty-get mintty-build mintty-appx
+
+# appx package target:
+appx:	wsltty-appx
+	sh ./build.sh
 
 #############################################################################
 # end
