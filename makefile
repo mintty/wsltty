@@ -8,7 +8,7 @@
 
 
 # wsltty release
-ver=1.9.0
+ver=1.9.0.2
 
 ##############################
 # mintty release version
@@ -40,6 +40,9 @@ wslbridge-commit=29df86d87135caec8424c08f031ce121a3a39ae1
 
 # after 0.2.4, merged wslpath branch:
 wslbridge-commit=06fb7acba28d7f37611f3911685af214739895a0
+
+# after 0.2.4, with --backend option:
+wslbridge-commit=47b41bec6c32da58ab01de9345087b1a4fd836e3
 
 #############################################################################
 # default target
