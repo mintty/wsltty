@@ -10,6 +10,9 @@
 # wsltty release
 ver=1.9.0.2
 
+# wsltty appx release
+verx=0.9.0.2
+
 ##############################
 # mintty release version
 minttyver=2.9.0
@@ -122,13 +125,23 @@ mintty-get:
 	unzip -o mintty-$(minttyver).zip
 
 wslbuild=LDFLAGS="-static -static-libgcc -s"
+appxbuild=$(wslbuild) -DWSLTTY_APPX
 wslversion=VERSION_SUFFIX="– wsltty $(ver)" WSLTTY_VERSION="$(ver)"
+appxversion=VERSION_SUFFIX="– wsltty appx $(verx)" WSLTTY_VERSION="$(verx)"
 
 mintty-build:
 	# ensure rebuild of version-specific check and message
 	rm -f mintty-$(minttyver)/bin/*/windialog.o
 	# build mintty
 	cd mintty-$(minttyver)/src; make $(wslbuild) $(wslversion)
+	mkdir -p bin
+	cp mintty-$(minttyver)/bin/mintty.exe bin/
+
+mintty-build-appx:
+	# ensure rebuild of version-specific check and message
+	rm -f mintty-$(minttyver)/bin/*/windialog.o
+	# build mintty
+	cd mintty-$(minttyver)/src; make $(appxbuild) $(appxversion)
 	mkdir -p bin
 	cp mintty-$(minttyver)/bin/mintty.exe bin/
 
@@ -208,7 +221,7 @@ wsltty:	wslbridge cygwin mintty-build mintty-pkg
 pkg:	wslbridge cygwin mintty-get mintty-build mintty-pkg cab
 
 # appx package contents target:
-wsltty-appx:	wslbridge appx-bin mintty-get mintty-build mintty-appx
+wsltty-appx:	wslbridge appx-bin mintty-get mintty-build-appx mintty-appx
 
 # appx package target:
 appx:	wsltty-appx
