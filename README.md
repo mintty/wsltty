@@ -52,6 +52,15 @@ invoke one of
 * `choco install wsltty`
 * `choco upgrade wsltty`
 
+#### Scoop ####
+
+If you use the [Scoop package manager](https://scoop.sh/), 
+* `scoop bucket add extras`
+
+then, invoke one of
+* `scoop install wsltty`
+* `scoop update wsltty`
+
 #### Windows Appx package ####
 
 A Windows Appx package and certificate is available in the [wsltty.appx](https://github.com/mintty/wsltty.appx/) repository.
