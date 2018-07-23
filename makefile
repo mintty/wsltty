@@ -116,7 +116,7 @@ wslbridge-frontend:	wslbridge-source
 	cp wslbridge-$(wslbridge-commit)/out/wslbridge.exe bin/
 
 wslbridge-backend:	wslbridge-source
-	cd wslbridge-$(wslbridge-commit)/backend; wslbridge make
+	cd wslbridge-$(wslbridge-commit)/backend; if uname -m | grep x86_64; then cmd /C wsl make; else wslbridge make; fi
 	mkdir -p bin
 	cp wslbridge-$(wslbridge-commit)/out/wslbridge-backend bin/
 
@@ -125,7 +125,7 @@ mintty-get:
 	unzip -o mintty-$(minttyver).zip
 
 wslbuild=LDFLAGS="-static -static-libgcc -s"
-appxbuild=$(wslbuild) -DWSLTTY_APPX
+appxbuild=$(wslbuild) CCOPT=-DWSLTTY_APPX
 wslversion=VERSION_SUFFIX="– wsltty $(ver)" WSLTTY_VERSION="$(ver)"
 appxversion=VERSION_SUFFIX="– wsltty appx $(verx)" WSLTTY_VERSION="$(verx)"
 
