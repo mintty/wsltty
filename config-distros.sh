@@ -1,6 +1,6 @@
 #! /bin/sh
 
-PATH=/bin:$PATH
+PATH=/bin:"$PATH"
 
 contextmenu=false
 remove=false
@@ -97,8 +97,6 @@ echo rem Start mintty terminal for WSL package %name% in current directory>> %1.
 echo %target% -i "%icon%" %minttyargs% %bridgeargs%>> %1.bat
 /EOB
 fi
-
-PATH=/bin:$PATH
 
 lxss="/HKEY_CURRENT_USER/Software/Microsoft/Windows/CurrentVersion/Lxss"
 schema="/HKEY_CURRENT_USER/Software/Classes/Local Settings/Software/Microsoft/Windows/CurrentVersion/AppModel/SystemAppData"
