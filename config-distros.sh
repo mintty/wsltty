@@ -1,5 +1,8 @@
 #! /bin/sh
 
+installdir=${installdir:-'%LOCALAPPDATA%\wsltty'}
+configdir=${configdir:-'%APPDATA%\wsltty'}
+
 PATH=/bin:"$PATH"
 
 contextmenu=false
@@ -130,7 +133,7 @@ do
     	instdir=`regtool get "$schema/$package/Schemas/PackageFullName"`
     	if [ -r "$ProgramW6432/WindowsApps/$instdir/images/icon.ico" ]
     	then	icon="%PROGRAMFILES%/WindowsApps/$instdir/images/icon.ico"
-    	else	icon="%LOCALAPPDATA%/wsltty/wsl.ico"
+    	else	icon="$installdir"'\wsl.ico'
     	fi
     	root="$basepath/rootfs"
     else
@@ -138,8 +141,8 @@ do
     	root="$basepath"
     fi
 
-    minttyargs='--wsl --rootfs="'"$root"'" --configdir="%APPDATA%\wsltty" -o Locale=C -o Charset=UTF-8 /bin/wslbridge '
-    minttyargs='--WSL="'"$distro"'" --configdir="%APPDATA%\wsltty"'
+    minttyargs='--wsl --rootfs="'"$root"'" --configdir="'"$configdir"'" -o Locale=C -o Charset=UTF-8 /bin/wslbridge '
+    minttyargs='--WSL="'"$distro"'" --configdir="'"$configdir"'"'
     #if [ -z "$launch" ]
     #then	bridgeargs='-t /bin/bash'
     #else	bridgeargs='-l "'"$launch"'" -t /bin/bash'
@@ -151,8 +154,8 @@ do
   "")	# WSL default installation
     distro=
     name=WSL
-    icon="%LOCALAPPDATA%/wsltty/wsl.ico"
-    minttyargs='--WSL= --configdir="%APPDATA%\wsltty"'
+    icon="$installdir"'\wsl.ico'
+    minttyargs='--WSL= --configdir="'"$configdir"'"'
     bridgeargs='-t'
 
     ok=true;;
@@ -163,7 +166,7 @@ do
   echoc "- (launcher $launcher)"
   echoc "- icon $icon"
   echoc "- root $root"
-  target='%LOCALAPPDATA%\wsltty\bin\mintty.exe'
+  target="$installdir"'\bin\mintty.exe'
   bridgeargs=" "
 
   if $ok && $config
@@ -201,8 +204,8 @@ do
 
         # launch script in . -> WSLtty home, WindowsApps launch folder
         cmd /C mkbat.bat "$name"
-        cmd /C copy "$name.bat" "%LOCALAPPDATA%\\wsltty\\$name.bat"
-        cmd /C copy "$name.bat" "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\$name.bat"
+        cmd /C copy "$name.bat" "$installdir"
+        cmd /C copy "$name.bat" "%LOCALAPPDATA%\\Microsoft\\WindowsApps"
 
         # prepare versions to target WSL home directory
         #bridgeargs="-C~ $bridgeargs"
@@ -219,8 +222,8 @@ do
 
         # launch script in ~ -> WSLtty home, WindowsApps launch folder
         cmd /C mkbat.bat "$name~"
-        cmd /C copy "$name~.bat" "%LOCALAPPDATA%\\wsltty\\$name~.bat"
-        cmd /C copy "$name~.bat" "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\$name~.bat"
+        cmd /C copy "$name~.bat" "$installdir"
+        cmd /C copy "$name~.bat" "%LOCALAPPDATA%\\Microsoft\\WindowsApps"
       fi
 
     fi
