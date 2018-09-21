@@ -10,8 +10,8 @@ remove=false
 alldistros=true
 config=true
 
-case "`basename $0`" in
-wsl*)
+case "/$0" in
+*/wsl*)
   config=false;;
 esac
 
