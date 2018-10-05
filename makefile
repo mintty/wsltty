@@ -8,14 +8,14 @@
 
 
 # wsltty release
-ver=1.9.2
+ver=1.9.3
 
 # wsltty appx release
-verx=0.9.2
+verx=0.9.3
 
 ##############################
 # mintty release version
-minttyver=2.9.2
+minttyver=2.9.3
 
 # or mintty branch or commit version
 #minttyver=master
