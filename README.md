@@ -121,6 +121,13 @@ To add launch entries for the default or all WSL distributions to the
 Explorer context menu, or remove them, run the respective script from the 
 Start Menu subfolder `WSLtty`.
 
+#### Icon ####
+
+Wsltty installation and the mintty terminal try to use the icon of the 
+respective WSL distribution. If it cannot be determined, a penguin icon 
+is used as a default. You can replace it with your preferred fallback icon 
+by replacing the icon file `%LOCALAPPDATA%\wsltty\wsl.ico`.
+
 #### Mintty settings ####
 
 Mintty can maintain its configuration file in various locations, 

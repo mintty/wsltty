@@ -28,9 +28,10 @@ copy "remove from context menu.lnk" "%installdir%"
 copy "configure WSL shortcuts.lnk" "%installdir%"
 copy "WSL Terminal.lnk" "%installdir%"
 copy "WSL Terminal %%.lnk" "%installdir%"
-copy wsl.ico "%installdir%"
 copy config-distros.sh "%installdir%"
 copy mkshortcut.vbs "%installdir%"
+rem allow persistent customization of default icon:
+if not exist "%installdir%"\wsl.ico copy wsl.ico "%installdir%"
 
 if not exist "%installdir%\bin" goto instbin
 rem move previous programs possibly in use out of the way
