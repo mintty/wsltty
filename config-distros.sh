@@ -178,17 +178,18 @@ do
       # context menu entries
       #cmd /C mkcontext "$name"
       direckey='HKEY_CURRENT_USER\Software\Classes\Directory'
+      keyname="${name}_Terminal"
       if $remove
       then
-        reg delete "$direckey\\shell\\$name" /f
-        reg delete "$direckey\\Background\\shell\\$name" /f
+        reg delete "$direckey\\shell\\$keyname" /f
+        reg delete "$direckey\\Background\\shell\\$keyname" /f
       else
-        reg add "$direckey\\shell\\$name" /d "$name Terminal" /f
-        reg add "$direckey\\shell\\$name" /v Icon /d "$icon" /f
-        cmd /C reg add "$direckey\\shell\\$name\\command" /d "\"$target\" -i \"$icon\" --dir \"%1\" $minttyargs $bridgeargs" /f
-        reg add "$direckey\\Background\\shell\\$name" /d "$name Terminal" /f
-        reg add "$direckey\\Background\\shell\\$name" /v Icon /d "$icon" /f
-        cmd /C reg add "$direckey\\Background\\shell\\$name\\command" /d "\"$target\" -i \"$icon\" $minttyargs $bridgeargs" /f
+        reg add "$direckey\\shell\\$keyname" /d "$name Terminal" /f
+        reg add "$direckey\\shell\\$keyname" /v Icon /d "$icon" /f
+        cmd /C reg add "$direckey\\shell\\$keyname\\command" /d "\"$target\" -i \"$icon\" --dir \"%1\" $minttyargs $bridgeargs" /f
+        reg add "$direckey\\Background\\shell\\$keyname" /d "$name Terminal" /f
+        reg add "$direckey\\Background\\shell\\$keyname" /v Icon /d "$icon" /f
+        cmd /C reg add "$direckey\\Background\\shell\\$keyname\\command" /d "\"$target\" -i \"$icon\" $minttyargs $bridgeargs" /f
       fi
     else
       # invocation shortcuts and scripts
