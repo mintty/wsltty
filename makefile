@@ -140,6 +140,7 @@ wslbridge-backend:	wslbridge-source
 mintty-get:
 	$(wgeto) https://github.com/mintty/mintty/archive/$(minttyver).zip -o mintty-$(minttyver).zip
 	unzip -o mintty-$(minttyver).zip
+	cp mintty-$(minttyver)/icon/terminal.ico mintty.ico
 
 wslbuild=LDFLAGS="-static -static-libgcc -s"
 appxbuild=$(wslbuild) CCOPT=-DWSLTTY_APPX
