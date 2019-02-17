@@ -73,7 +73,7 @@ A Windows Appx package and certificate is available in the [wsltty.appx](https:/
 
 WSLtty can be invoked with
 * installed Start Menu shortcuts (or Desktop shortcuts if copied there)
-* *.bat scripts
+* *.bat scripts (optionally with WSL command as parameters)
 * Explorer context menu (if installed from the Start Menu `WSLtty` subfolder)
 
 Starting the mintty terminal directly from the WSLtty installation location 
