@@ -97,7 +97,7 @@ echo Creating %1.bat
 
 echo @echo off> %1.bat
 echo rem Start mintty terminal for WSL package %name% in current directory>> %1.bat
-echo %target% -i "%icon%" %minttyargs% %bridgeargs% %%1 %%2 %%3 %%4 %%5 %%6 %%7 %%8 %%9>> %1.bat
+echo %target% -i "%icon%" %minttyargs% %bridgeargs% %%*>> %1.bat
 /EOB
 fi
 
