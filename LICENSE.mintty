@@ -17,6 +17,8 @@ See LICENSE.PuTTY for PuTTY's copyright notice, contributors, and license.
 The sources of PuTTY 0.60 can be downloaded from
 ftp://ftp.chiark.greenend.org.uk/users/sgtatham/putty-0.60.
 
+The minibidi algorithm is under MIT license as quoted in the source file.
+
 Sixel code (sixel.c) is relicensed under GPL like mintty with the 
 permission of its author (kmiya@culti); Sixel colour conversion code 
 (sixel_hls.c) is licensed by its author Ross Combs under the license 

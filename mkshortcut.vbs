@@ -24,7 +24,7 @@ rem lnk.Arguments = Wscript.Arguments.Named("arguments")
 lnk.TargetPath = wshell.ExpandEnvironmentStrings("%target%")
 minttyargs = wshell.ExpandEnvironmentStrings("%minttyargs%")
 bridgeargs = wshell.ExpandEnvironmentStrings("%bridgeargs%")
-lnk.Arguments = minttyargs & bridgeargs
+lnk.Arguments = minttyargs & " " & bridgeargs
 rem wscript.echo "minttyargs: " & minttyargs
 rem wscript.echo lnk.Arguments
 

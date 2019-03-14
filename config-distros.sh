@@ -167,7 +167,7 @@ do
   echoc "- icon $icon"
   echoc "- root $root"
   target="$installdir"'\bin\mintty.exe'
-  bridgeargs=""	# deprecated
+  bridgeargs=" "	# deprecated
 
   if $ok && $config
   then
