@@ -8,10 +8,10 @@
 
 
 # wsltty release
-ver=1.9.7
+ver=1.9.8
 
 # wsltty appx release - must have 4 parts!
-verx=1.9.7.0
+verx=1.9.8.0
 
 # Windows SDK version for appx
 WINSDKKEY=/HKEY_LOCAL_MACHINE/SOFTWARE/WOW6432Node/Microsoft/.NET Framework Platform/Setup/Multi-Targeting Pack
@@ -19,7 +19,7 @@ WINSDKVER=`regtool list '$(WINSDKKEY)' | sed -e '$$ q' -e d`
 
 ##############################
 # mintty release version
-minttyver=2.9.7
+minttyver=2.9.8
 
 # or mintty branch or commit version
 #minttyver=master
