@@ -8,10 +8,10 @@
 
 
 # wsltty release
-ver=1.9.8
+ver=3.0.0
 
 # wsltty appx release - must have 4 parts!
-verx=1.9.8.0
+verx=3.0.0.0
 
 # Windows SDK version for appx
 WINSDKKEY=/HKEY_LOCAL_MACHINE/SOFTWARE/WOW6432Node/Microsoft/.NET Framework Platform/Setup/Multi-Targeting Pack
@@ -19,7 +19,7 @@ WINSDKVER=`regtool list '$(WINSDKKEY)' | sed -e '$$ q' -e d`
 
 ##############################
 # mintty release version
-minttyver=2.9.8
+minttyver=3.0.0
 
 # or mintty branch or commit version
 #minttyver=master
@@ -132,7 +132,9 @@ wslbridge-frontend:	wslbridge-source
 	mkdir -p bin
 	cp wslbridge-$(wslbridge-commit)/out/wslbridge.exe bin/
 
-wslbridge-backend:	wslbridge-source
+wslbridge-backend:	wslbridge-source bin/wslbridge-backend
+
+bin/wslbridge-backend:
 	cd wslbridge-$(wslbridge-commit)/backend; if uname -m | grep x86_64; then cmd /C wsl make; else wslbridge make; fi
 	mkdir -p bin
 	cp wslbridge-$(wslbridge-commit)/out/wslbridge-backend bin/
@@ -154,6 +156,7 @@ mintty-build:
 	cd mintty-$(minttyver)/src; make $(wslbuild) $(wslversion)
 	mkdir -p bin
 	cp mintty-$(minttyver)/bin/mintty.exe bin/
+	strip bin/mintty.exe
 
 mintty-build-appx:
 	# ensure rebuild of version-specific check and message
@@ -162,6 +165,7 @@ mintty-build-appx:
 	cd mintty-$(minttyver)/src; make $(appxbuild) $(appxversion)
 	mkdir -p bin
 	cp mintty-$(minttyver)/bin/mintty.exe bin/
+	strip bin/mintty.exe
 
 mintty-pkg:
 	cp mintty-$(minttyver)/LICENSE LICENSE.mintty
