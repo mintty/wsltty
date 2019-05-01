@@ -8,10 +8,10 @@
 
 
 # wsltty release
-ver=3.0.0
+ver=3.0.0.2
 
 # wsltty appx release - must have 4 parts!
-verx=3.0.0.0
+verx=3.0.0.2
 
 # Windows SDK version for appx
 WINSDKKEY=/HKEY_LOCAL_MACHINE/SOFTWARE/WOW6432Node/Microsoft/.NET Framework Platform/Setup/Multi-Targeting Pack
@@ -121,20 +121,21 @@ wslbridge-package:
 
 wslbridge-source:	wslbridge-$(wslbridge-commit).zip
 	unzip -o wslbridge-$(wslbridge-commit).zip
+	cd wslbridge-$(wslbridge-commit)/backend; patch -p1 < ../../wslbridge-backend-static.patch
 	tr -d '\015' < wslbridge-$(wslbridge-commit)/LICENSE.txt > LICENSE.wslbridge
 
 wslbridge-$(wslbridge-commit).zip:
 	$(wgeto) https://github.com/rprichard/wslbridge/archive/$(wslbridge-commit).zip -o wslbridge-$(wslbridge-commit).zip
 
 wslbridge-frontend:	wslbridge-source
+	echo ------------- Compiling wslbridge frontend
 	cd wslbridge-$(wslbridge-commit)/frontend; make
 	strip wslbridge-$(wslbridge-commit)/out/wslbridge.exe
 	mkdir -p bin
 	cp wslbridge-$(wslbridge-commit)/out/wslbridge.exe bin/
 
-wslbridge-backend:	wslbridge-source bin/wslbridge-backend
-
-bin/wslbridge-backend:
+wslbridge-backend:	wslbridge-source
+	echo ------------- Compiling wslbridge backend
 	cd wslbridge-$(wslbridge-commit)/backend; if uname -m | grep x86_64; then cmd /C wsl make; else wslbridge make; fi
 	mkdir -p bin
 	cp wslbridge-$(wslbridge-commit)/out/wslbridge-backend bin/

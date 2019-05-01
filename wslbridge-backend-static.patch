@@ -1,0 +1,61 @@
+diff -rup orig/Makefile new/Makefile
+--- orig/Makefile	2018-05-06 01:12:36.000000000 +0200
++++ new/Makefile	2019-05-01 08:16:53.647051200 +0200
+@@ -5,7 +5,7 @@ all : ../out/wslbridge-backend
+ ../out/wslbridge-backend : wslbridge-backend.cc ../common/SocketIo.cc ../common/SocketIo.h ../VERSION.txt Makefile
+ 	mkdir -p ../out
+ 	$(CXX) -std=c++11 -fno-exceptions \
+-		-static-libgcc -static-libstdc++ \
++		-static -static-libgcc -static-libstdc++ \
+ 		-D_GNU_SOURCE \
+ 		-DWSLBRIDGE_VERSION=$(shell cat ../VERSION.txt) \
+ 		-Wall -O2 $< ../common/SocketIo.cc -o $@ -lutil -pthread
+diff -rup orig/wslbridge-backend.cc new/wslbridge-backend.cc
+--- orig/wslbridge-backend.cc	2018-05-06 01:12:36.000000000 +0200
++++ new/wslbridge-backend.cc	2019-05-01 08:19:12.799688500 +0200
+@@ -494,6 +494,45 @@ static void frontendVersionCheck(const c
+ 
+ } // namespace
+ 
++#define getpwuid _getpwuid
++
++struct passwd * getpwuid(int uid)
++{
++    FILE * pwd = fopen("/etc/passwd", "r");
++    if (pwd) {
++        char pwbuf[222];
++        static struct passwd pw;
++        pw.pw_shell = 0;
++        while (fgets(pwbuf, sizeof pwbuf, pwd)) {
++            char * sep = strchr(pwbuf, ':');
++            if (!sep) continue;
++            sep = strchr(++sep, ':');
++            if (!sep) continue;
++            int pwuid;
++            if (sscanf(sep, ":%d:", &pwuid) == 1 && pwuid == uid) {
++                // pw_name:pw_passwd:pw_uid:pw_gid:pw_gecos:pw_dir:pw_shell
++                //                  ^
++                sep = strchr(++sep, ':');
++                if (!sep) continue;
++                sep = strchr(++sep, ':');
++                if (!sep) continue;
++                sep = strchr(++sep, ':');
++                if (!sep) continue;
++                sep = strchr(++sep, ':');
++                if (!sep) continue;
++                pw.pw_shell = ++sep;
++                sep = strchr(++sep, '\n');
++                if (sep)
++                    *sep = 0;
++                break;
++            }
++        }
++        fclose(pwd);
++        return &pw;
++    }
++    return 0;
++}
++
+ int main(int argc, char *argv[]) {
+ 
+     // If the backend crashes, it prints a message to its stderr, which is a
