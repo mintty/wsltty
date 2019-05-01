@@ -219,7 +219,9 @@ config () {
 
         # default desktop shortcut in ~ -> Desktop
         if [ "$name" = "WSL" ]
-        then	cmd /C copy "$name Terminal.lnk" "%USERPROFILE%\\Desktop"
+        then
+              #cmd /C copy "$name Terminal.lnk" "%USERPROFILE%\\Desktop"
+              cmd /C copy "$name Terminal.lnk" "%APPDATA%\\..\\Desktop\\"
         fi
 
         # launch script in ~ -> WSLtty home, WindowsApps launch folder
