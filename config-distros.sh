@@ -104,14 +104,8 @@ fi
 lxss="/HKEY_CURRENT_USER/Software/Microsoft/Windows/CurrentVersion/Lxss"
 schema="/HKEY_CURRENT_USER/Software/Classes/Local Settings/Software/Microsoft/Windows/CurrentVersion/AppModel/SystemAppData"
 
-#(regtool list "$lxss" 2>/dev/null && echo || echo "No WSL packages registered" >&2) |
-(
-  if $alldistros
-  then  regtool list "$lxss" 2>/dev/null
-  else  true
-  fi && echo || echo "No WSL packages registered" >&2) |
-while read guid
-do
+config () {
+  guid="$1"
   ok=false
   case $guid in
   {*)
@@ -151,7 +145,7 @@ do
     bridgeargs='--distro-guid "'"$guid"'" -t'
 
     ok=true;;
-  "")	# WSL default installation
+  DefaultDistribution|"")	# WSL default installation
     distro=
     name=WSL
     icon="$installdir"'\wsl.ico'
@@ -168,6 +162,13 @@ do
   echoc "- root $root"
   target="$installdir"'\bin\mintty.exe'
   bridgeargs=" "	# deprecated
+
+  if $ok && [ -n "$distro" ]
+  then	# fix #163: backend missing +x with certain mount options
+	echo Setting +x wslbridge-backend for distro "'$distro'"
+	(cd "$LOCALAPPDATA/wsltty/bin"; wsl.exe -d "$distro" chmod +x wslbridge-backend)
+#	(cd "$LOCALAPPDATA/wsltty/bin"; "$SYSTEMROOT/System32/bash.exe" "$guid" -c chmod +x wslbridge-backend)
+  fi
 
   if $ok && $config
   then
@@ -229,4 +230,14 @@ do
 
     fi
   fi
+}
+
+for guid in `
+  if $alldistros
+  then  regtool list "$lxss" 2>/dev/null
+  else  echo DefaultDistribution
+  fi || echo "No WSL packages registered" >&2
+`
+do	config $guid
 done
+
