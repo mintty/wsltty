@@ -121,7 +121,7 @@ wslbridge-package:
 
 wslbridge-source:	wslbridge-$(wslbridge-commit).zip
 	unzip -o wslbridge-$(wslbridge-commit).zip
-	cd wslbridge-$(wslbridge-commit)/backend; patch -p1 < ../../wslbridge-backend-static.patch
+	cd wslbridge-$(wslbridge-commit)/backend; patch -T -p1 < ../../wslbridge-backend-static.patch
 	tr -d '\015' < wslbridge-$(wslbridge-commit)/LICENSE.txt > LICENSE.wslbridge
 
 wslbridge-$(wslbridge-commit).zip:
@@ -134,7 +134,12 @@ wslbridge-frontend:	wslbridge-source
 	mkdir -p bin
 	cp wslbridge-$(wslbridge-commit)/out/wslbridge.exe bin/
 
-wslbridge-backend:	wslbridge-source
+#wslbridge-backend:	wslbridge-source
+# tweak dependency to support build testing on non-Windows 10:
+backend-bin=wslbridge-$(wslbridge-commit)/out/wslbridge-backend
+backend-src=wslbridge-$(wslbridge-commit)/backend/wslbridge-backend.cc
+wslbridge-backend:	$(backend-bin) wslbridge-source
+$(backend-bin):	$(backend-src)
 	echo ------------- Compiling wslbridge backend
 	cd wslbridge-$(wslbridge-commit)/backend; if uname -m | grep x86_64; then cmd /C wsl make; else wslbridge make; fi
 	mkdir -p bin
