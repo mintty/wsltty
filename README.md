@@ -99,6 +99,12 @@ One Desktop shortcut is installed:
 Other, distribution-specific shortcuts can be copied to the desktop 
 from the Start Menu if desired.
 
+The Start menu folder WSLtty contains the link 
+<img align=absmiddle height=25 src=https://user-images.githubusercontent.com/12740416/57078483-a7846a00-6cee-11e9-9c5e-8c2e9e56cae4.png>`configure WSL shortcuts`.
+This function is initially run when wsltty is installed.
+If should be rerun after adding or removing WSL distributions, 
+in order to create the respective set of shortcuts in the Start menu.
+
 #### Command line scripts `wsl*.bat` ####
 
 WSLtty installs the following scripts into `%LOCALAPPDATA%\Microsoft\WindowsApps` 
@@ -117,9 +123,16 @@ WSLtty provides context menu entries for all installed WSL distributions
 and one for the configured default distribution,
 to start a respective WSL terminal in a specific folder from an Explorer window.
 They are not installed by default.
+
 To add launch entries for the default or all WSL distributions to the 
 Explorer context menu, or remove them, run the respective script from the 
-Start Menu subfolder `WSLtty`.
+Start Menu subfolder `WSLtty`:
+* <img align=absmiddle height=25 src=https://user-images.githubusercontent.com/12740416/57078483-a7846a00-6cee-11e9-9c5e-8c2e9e56cae4.png>`add default to context menu`
+  adds context menu entries for the default WSL distribution
+* <img align=absmiddle height=25 src=https://user-images.githubusercontent.com/12740416/57078483-a7846a00-6cee-11e9-9c5e-8c2e9e56cae4.png>`add to context menu`
+  adds context menu entries for all WSL distributions
+* <img align=absmiddle height=25 src=https://user-images.githubusercontent.com/12740416/57078483-a7846a00-6cee-11e9-9c5e-8c2e9e56cae4.png>`remove from context menu`
+  removes context menu entries for WSL distributions
 
 #### Icon ####
 
