@@ -177,15 +177,18 @@ mintty-pkg:
 	cp mintty-$(minttyver)/LICENSE LICENSE.mintty
 	cd mintty-$(minttyver)/lang; zoo a lang *.po; mv lang.zoo ../../
 	cd mintty-$(minttyver)/themes; zoo a themes *[!~]; mv themes.zoo ../../
+	cd mintty-$(minttyver)/sounds; zoo a sounds *.wav *.WAV *.md; mv sounds.zoo ../../
 	# add charnames.txt to support "Character Info"
 	cd mintty-$(minttyver)/src; sh ./mknames
 	cp mintty-$(minttyver)/src/charnames.txt .
 
 mintty-appx:
 	mkdir -p usr/share/mintty
-	cd usr/share/mintty; mkdir -p lang themes info
+	cd usr/share/mintty; mkdir -p lang themes sounds info
 	cp mintty-$(minttyver)/lang/*.po usr/share/mintty/lang/
 	cp mintty-$(minttyver)/themes/*[!~] usr/share/mintty/themes/
+	cp mintty-$(minttyver)/sounds/*.wav usr/share/mintty/sounds/
+	cp mintty-$(minttyver)/sounds/*.WAV usr/share/mintty/sounds/
 	# add charnames.txt to support "Character Info"
 	cd mintty-$(minttyver)/src; sh ./mknames
 	cp mintty-$(minttyver)/src/charnames.txt usr/share/mintty/info/
@@ -215,6 +218,7 @@ cop:	ver
 	cp bin/zoo.exe rel/
 	cp lang.zoo rel/
 	cp themes.zoo rel/
+	cp sounds.zoo rel/
 	cp charnames.txt rel/
 	cp bin/wslbridge.exe rel/
 	cp bin/wslbridge-backend rel/

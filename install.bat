@@ -60,6 +60,8 @@ mkdir "%installdir%\usr\share\mintty\lang"
 copy lang.zoo "%installdir%\usr\share\mintty\lang"
 mkdir "%installdir%\usr\share\mintty\themes"
 copy themes.zoo "%installdir%\usr\share\mintty\themes"
+mkdir "%installdir%\usr\share\mintty\sounds"
+copy sounds.zoo "%installdir%\usr\share\mintty\sounds"
 mkdir "%installdir%\usr\share\mintty\info"
 copy charnames.txt "%installdir%\usr\share\mintty\info"
 mkdir "%installdir%\usr\share\mintty\icon"
@@ -89,6 +91,8 @@ cd /D "%installdir%\usr\share\mintty\lang"
 "%installdir%\bin\zoo" xO lang
 cd /D "%installdir%\usr\share\mintty\themes"
 "%installdir%\bin\zoo" xO themes
+cd /D "%installdir%\usr\share\mintty\sounds"
+"%installdir%\bin\zoo" xO sounds
 
 
 :migrate configuration
@@ -111,8 +115,8 @@ rmdir "%oldroot%\home"
 
 rem create user config directory and subfolders
 mkdir "%configdir%\lang"
-mkdir "%configdir%\sounds"
 mkdir "%configdir%\themes"
+mkdir "%configdir%\sounds"
 
 rem create config file if it does not yet exist
 if not exist "%configdir%\config" echo # To use common configuration in %%APPDATA%%\mintty, simply remove this file>"%configdir%\config"
