@@ -221,7 +221,12 @@ config () {
         if [ "$name" = "WSL" ]
         then
               #cmd /C copy "$name Terminal.lnk" "%USERPROFILE%\\Desktop"
-              cmd /C copy "$name Terminal.lnk" "%APPDATA%\\..\\Desktop\\"
+              #cmd /C copy "$name Terminal.lnk" "%APPDATA%\\..\\Desktop\\"
+              # the above does not work reliably (see #166)
+              # determine actual Desktop folder
+              desktopkey='\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders\Desktop'
+              desktop=`regtool get "$desktopkey"`
+              cmd /C copy "$name Terminal.lnk" "$desktop\\"
         fi
 
         # launch script in ~ -> WSLtty home, WindowsApps launch folder
@@ -234,6 +239,10 @@ config () {
   fi
 }
 
+# ensure proper parameter passing to cmd /C
+chcp.com 65001 # just in case; seems to work without as well
+
+# configure for all distros, plus default distro
 for guid in `
   if $alldistros
   then  regtool list "$lxss" 2>/dev/null
