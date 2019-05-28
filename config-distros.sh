@@ -104,6 +104,24 @@ fi
 lxss="/HKEY_CURRENT_USER/Software/Microsoft/Windows/CurrentVersion/Lxss"
 schema="/HKEY_CURRENT_USER/Software/Classes/Local Settings/Software/Microsoft/Windows/CurrentVersion/AppModel/SystemAppData"
 
+appex () {
+  while read line
+  do
+	case "$line" in
+	*Application*Executable*)
+		for item in $line
+		do	case "$item" in
+			Executable=*)
+				eval $item
+				echo "$Executable"
+				break;;
+			esac
+		done
+		break;;
+	esac
+  done < $*
+}
+
 config () {
   guid="$1"
   ok=false
@@ -125,14 +143,10 @@ config () {
     if package=`regtool -q get "$lxss/$guid/PackageFamilyName"`
     then
     	instdir=`regtool get "$schema/$package/Schemas/PackageFullName"`
-
-    	# get actual executable path (may not match $distro) from the app manifest
+    	# get actual executable path (may not match $distro) from app manifest
     	manifest="$ProgramW6432/WindowsApps/$instdir/AppxManifest.xml"
     	psh_cmd='([xml]$(Get-Content '"\"$manifest\""')).Package.Applications.Application.Executable'
-    	executable=`powershell "$psh_cmd"`
-
-    	# remove trailing newline that above command introduces
-    	executable="${executable%"${executable##*[![:space:]]}"}"
+    	executable=`appex "$manifest"`
     	if [ -r "$ProgramW6432/WindowsApps/$instdir/$executable" ]
     	then	icon="%PROGRAMFILES%/WindowsApps/$instdir/$executable"
     	elif [ -r "$ProgramW6432/WindowsApps/$instdir/images/icon.ico" ]
