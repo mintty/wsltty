@@ -125,7 +125,17 @@ config () {
     if package=`regtool -q get "$lxss/$guid/PackageFamilyName"`
     then
     	instdir=`regtool get "$schema/$package/Schemas/PackageFullName"`
-    	if [ -r "$ProgramW6432/WindowsApps/$instdir/images/icon.ico" ]
+
+    	# get actual executable path (may not match $distro) from the app manifest
+    	manifest="$ProgramW6432/WindowsApps/$instdir/AppxManifest.xml"
+    	psh_cmd='([xml]$(Get-Content '"\"$manifest\""')).Package.Applications.Application.Executable'
+    	executable=`powershell "$psh_cmd"`
+
+    	# remove trailing newline that above command introduces
+    	executable="${executable%"${executable##*[![:space:]]}"}"
+    	if [ -r "$ProgramW6432/WindowsApps/$instdir/$executable" ]
+    	then	icon="%PROGRAMFILES%/WindowsApps/$instdir/$executable"
+    	elif [ -r "$ProgramW6432/WindowsApps/$instdir/images/icon.ico" ]
     	then	icon="%PROGRAMFILES%/WindowsApps/$instdir/images/icon.ico"
     	else	icon="$installdir"'\wsl.ico'
     	fi
