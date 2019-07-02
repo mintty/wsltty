@@ -79,6 +79,13 @@ WSLtty can be invoked with
 Starting the mintty terminal directly from the WSLtty installation location 
 is discouraged because that would bypass essential options.
 
+#### WSL 2 ####
+
+Due to some incompatible changes by Microsoft, wslbridge cannot connect 
+in WSL 2 mode at this time.
+Workaround:
+* `wsl --set-default-version 1`
+
 ---
 
 ### Configuration ###
