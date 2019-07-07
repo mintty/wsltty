@@ -3,7 +3,7 @@
 installdir=${installdir:-'%LOCALAPPDATA%\wsltty'}
 configdir=${configdir:-'%APPDATA%\wsltty'}
 
-PATH=/bin:"$PATH"
+PATH=/bin:"$PATH":$SYSTEMROOT/System32
 
 contextmenu=false
 remove=false
