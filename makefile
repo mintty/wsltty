@@ -8,7 +8,7 @@
 
 
 # wsltty release
-ver=3.0.2
+ver=3.0.2.2
 
 # wsltty appx release - must have 4 parts!
 verx=3.0.2.2
@@ -121,7 +121,7 @@ wslbridge-package:
 
 wslbridge-source:	wslbridge-$(wslbridge-commit).zip
 	unzip -o wslbridge-$(wslbridge-commit).zip
-	#cd wslbridge-$(wslbridge-commit)/backend; patch -T -p1 < ../../wslbridge-backend-static.patch
+	cd wslbridge-$(wslbridge-commit)/backend; patch -T -p1 < ../../wslbridge-backend-static.patch
 	tr -d '\015' < wslbridge-$(wslbridge-commit)/LICENSE.txt > LICENSE.wslbridge
 
 wslbridge-$(wslbridge-commit).zip:
