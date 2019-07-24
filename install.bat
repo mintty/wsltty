@@ -30,6 +30,7 @@ rem copy "WSL Terminal.lnk" "%installdir%"
 rem copy "WSL Terminal %%.lnk" "%installdir%"
 copy config-distros.sh "%installdir%"
 copy mkshortcut.vbs "%installdir%"
+copy uninstall.bat "%installdir%"
 rem allow persistent customization of default icon:
 if not exist "%installdir%\wsl.ico" copy tux.ico "%installdir%\wsl.ico"
 
