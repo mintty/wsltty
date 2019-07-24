@@ -190,7 +190,7 @@ config () {
   if $ok && [ -n "$distro" ]
   then	# fix #163: backend missing +x with certain mount options
 	echo Setting +x wslbridge-backend for distro "'$distro'"
-	(cd "$LOCALAPPDATA/wsltty/bin"; wsl.exe -d "$distro" chmod +x wslbridge-backend)
+	(cd "$installdir/bin"; wsl.exe -d "$distro" chmod +x wslbridge-backend)
 #	(cd "$LOCALAPPDATA/wsltty/bin"; "$SYSTEMROOT/System32/bash.exe" "$guid" -c chmod +x wslbridge-backend)
   fi
 
