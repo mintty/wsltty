@@ -154,6 +154,10 @@ config () {
     	else	icon="$installdir"'\wsl.ico'
     	fi
     	root="$basepath/rootfs"
+    elif [ -f "$basepath/$distro.exe" ]
+    then
+    	icon="$basepath/$distro.exe"
+    	root="$basepath/rootfs"
     else
     	icon="%LOCALAPPDATA%/lxss/bash.ico"
     	root="$basepath"
