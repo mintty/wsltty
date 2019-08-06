@@ -46,6 +46,7 @@ rem Shorcut key:
 rem lnk.HotKey = "ALT+CTRL+W"
 
 rem Run:
+rem 1: Normal 7: Minimized 3: Maximized
 rem lnk.WindowStyle = 1
 
 rem Comment:
