@@ -1,6 +1,19 @@
 #! /bin/sh
 
+# set some paths; capital variables are for the mkshortcut.exe case, 
+# not for the (deprecated) mkshortcut.vbs case
+
+INSTDIR=${installdir:-$LOCALAPPDATA/wsltty}
+INSTDIR=`cd "$INSTDIR"; pwd`
 installdir=${installdir:-'%LOCALAPPDATA%\wsltty'}
+
+target="$installdir"'\bin\mintty.exe'
+case "$INSTDIR" in
+*/)	TARGETPATH="$INSTDIR"bin/mintty.exe;;
+*)	TARGETPATH="$INSTDIR"/bin/mintty.exe;;
+esac
+
+CONFDIR=${configdir:-$APPDATA/wsltty}
 configdir=${configdir:-'%APPDATA%\wsltty'}
 
 PATH=/bin:"$PATH":$SYSTEMROOT/System32
@@ -163,8 +176,9 @@ config () {
     	root="$basepath"
     fi
 
-    minttyargs='--wsl --rootfs="'"$root"'" --configdir="'"$configdir"'" -o Locale=C -o Charset=UTF-8 /bin/wslbridge '
+    #minttyargs='--wsl --rootfs="'"$root"'" --configdir="'"$configdir"'" -o Locale=C -o Charset=UTF-8 /bin/wslbridge '
     minttyargs='--WSL="'"$distro"'" --configdir="'"$configdir"'"'
+    MINTARGS='--WSL="'"$distro"'" --configdir="'"$CONFDIR"'"'
     #if [ -z "$launch" ]
     #then	bridgeargs='-t /bin/bash'
     #else	bridgeargs='-l "'"$launch"'" -t /bin/bash'
@@ -178,6 +192,7 @@ config () {
     name=WSL
     icon="$installdir"'\wsl.ico'
     minttyargs='--WSL= --configdir="'"$configdir"'"'
+    MINTARGS='--WSL= --configdir="'"$CONFDIR"'"'
     bridgeargs='-t'
 
     ok=true;;
@@ -188,14 +203,14 @@ config () {
   echoc "- (launcher $launcher)"
   echoc "- icon $icon"
   echoc "- root $root"
-  target="$installdir"'\bin\mintty.exe'
   bridgeargs=" "	# deprecated
 
   if $ok && [ -n "$distro" ]
   then	# fix #163: backend missing +x with certain mount options
 	echo Setting +x wslbridge-backend for distro "'$distro'"
-	(cd "$LOCALAPPDATA/wsltty/bin"; wsl.exe -d "$distro" chmod +x wslbridge-backend)
-#	(cd "$LOCALAPPDATA/wsltty/bin"; "$SYSTEMROOT/System32/bash.exe" "$guid" -c chmod +x wslbridge-backend)
+	(cd "$INSTDIR"; cd bin; wsl.exe -d "$distro" chmod +x wslbridge-backend)
+#	(cd "$LOCALAPPDATA/wsltty/bin"; wsl.exe -d "$distro" chmod +x wslbridge-backend)
+#	(cd ... ; "$SYSTEMROOT/System32/bash.exe" "$guid" -c chmod +x wslbridge-backend)
   fi
 
   if $ok && $config
@@ -229,7 +244,8 @@ config () {
         cmd /C del "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\$name~.bat"
       else
         # desktop shortcut in %USERPROFILE% -> Start Menu - WSLtty
-        cscript /nologo mkshortcut.vbs "/name:$name Terminal %"
+        ##cscript /nologo mkshortcut.vbs "/name:$name Terminal %"
+        mkshortcut.exe -n "$name Terminal %" -i "$icon" "$TARGETPATH" -a "$MINTARGS" -d "" -w %USERPROFILE%
         cmd /C copy "$name Terminal %.lnk" "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\WSLtty"
 
         # launch script in . -> WSLtty home, WindowsApps launch folder
@@ -240,9 +256,11 @@ config () {
         # prepare versions to target WSL home directory
         #bridgeargs="-C~ $bridgeargs"
         minttyargs="$minttyargs -~"
+        MINTARGS="$MINTARGS -~"
 
         # desktop shortcut in ~ -> Start Menu
-        cscript /nologo mkshortcut.vbs "/name:$name Terminal"
+        ##cscript /nologo mkshortcut.vbs "/name:$name Terminal"
+        mkshortcut.exe -n "$name Terminal" -i "$icon" "$TARGETPATH" -a "$MINTARGS" -d "" -w %USERPROFILE%
         cmd /C copy "$name Terminal.lnk" "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs"
 
         # default desktop shortcut in ~ -> Desktop
