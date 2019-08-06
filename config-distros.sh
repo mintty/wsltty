@@ -3,6 +3,11 @@
 # set some paths; capital variables are for the mkshortcut.exe case, 
 # not for the (deprecated) mkshortcut.vbs case
 
+case "$installdir" in
+?*)	custominst=true;;
+"")	custominst=false;;
+esac
+
 INSTDIR=${installdir:-$LOCALAPPDATA/wsltty}
 INSTDIR=`cd "$INSTDIR"; pwd`
 installdir=${installdir:-'%LOCALAPPDATA%\wsltty'}
@@ -112,6 +117,16 @@ echo @echo off> %1.bat
 echo rem Start mintty terminal for WSL package %name% in current directory>> %1.bat
 echo %target% -i "%icon%" %minttyargs% %bridgeargs% %%*>> %1.bat
 /EOB
+fi
+
+if $custominst && $config && ! $remove
+then
+  mkshortcut.exe -n "add to context menu" -a "$installdir/config-distros.sh -contextmenu" "$installdir/bin/dash.exe" -i '%SystemRoot%\System32\filemgmt.dll' -s min -d "" -w "$installdir"
+  mkshortcut.exe -n "add default to context menu" -a "$installdir/config-distros.sh -contextmenu-default" "$installdir/bin/dash.exe" -i '%SystemRoot%\System32\filemgmt.dll' -s min -d "" -w "$installdir"
+  mkshortcut.exe -n "remove from context menu" -a "$installdir/config-distros.sh -contextmenu-remove" "$installdir/bin/dash.exe" -i '%SystemRoot%\System32\filemgmt.dll' -s min -d "" -w "$installdir"
+  mkshortcut.exe -n "configure WSL shortcuts" -a "$installdir/config-distros.sh" "$installdir/bin/dash.exe" -i '%SystemRoot%\System32\filemgmt.dll' -s min -d "" -w "$installdir"
+  smf="$APPDATA/Microsoft/Windows/Start Menu/Programs/WSLtty"
+  cp "add to context menu.lnk" "add default to context menu.lnk" "remove from context menu.lnk" "configure WSL shortcuts.lnk" "$smf"
 fi
 
 lxss="/HKEY_CURRENT_USER/Software/Microsoft/Windows/CurrentVersion/Lxss"

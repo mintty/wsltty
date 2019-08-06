@@ -29,10 +29,15 @@ copy "configure WSL shortcuts.lnk" "%installdir%"
 rem copy "WSL Terminal.lnk" "%installdir%"
 rem copy "WSL Terminal %%.lnk" "%installdir%"
 copy config-distros.sh "%installdir%"
-copy mkshortcut.vbs "%installdir%"
-copy uninstall.bat "%installdir%"
+
+rem copy mkshortcut.vbs "%installdir%"
+copy mkshortcut.exe "%installdir%"
+copy cygpopt-0.dll "%installdir%"
+
 rem allow persistent customization of default icon:
 if not exist "%installdir%\wsl.ico" copy tux.ico "%installdir%\wsl.ico"
+
+copy uninstall.bat "%installdir%"
 
 if not exist "%installdir%\bin" goto instbin
 rem move previous programs possibly in use out of the way
