@@ -8,10 +8,10 @@
 
 
 # wsltty release
-ver=3.0.2.2
+ver=3.0.2.3
 
 # wsltty appx release - must have 4 parts!
-verx=3.0.2.2
+verx=3.0.2.3
 
 # Windows SDK version for appx
 WINSDKKEY=/HKEY_LOCAL_MACHINE/SOFTWARE/WOW6432Node/Microsoft/.NET Framework Platform/Setup/Multi-Targeting Pack
@@ -193,7 +193,7 @@ mintty-appx:
 	cd mintty-$(minttyver)/src; sh ./mknames
 	cp mintty-$(minttyver)/src/charnames.txt usr/share/mintty/info/
 
-cygwin:	mkshortcut
+cygwin:	mkshortcutexe
 	mkdir -p bin
 	cp /bin/cygwin1.dll bin/
 	cp /bin/cygwin-console-helper.exe bin/
@@ -201,7 +201,10 @@ cygwin:	mkshortcut
 	cp /bin/regtool.exe bin/
 	cp /bin/zoo.exe bin/
 
-mkshortcut:	bin/mkshortcut.exe
+mkshortcutexe:	bin/mkshortcut.exe
+
+bin/mkshortcut.exe:	mkshortcut.c
+	echo mksh
 	gcc -o bin/mkshortcut mkshortcut.c -lpopt -lole32 /usr/lib/w32api/libuuid.a
 	cp /bin/cygpopt-0.dll bin/
 

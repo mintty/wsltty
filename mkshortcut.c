@@ -87,7 +87,14 @@ void * _cygwin_create_path (int line, cygwin_conv_path_t what, const void *from)
 #if HAVE_CONFIG_H
 # include "config.h"
 #endif
-#include "common.h"
+
+//#include "common.h"
+#include <stdio.h>
+#include <popt.h>
+#include <sys/stat.h>
+#include <errno.h>
+#define PACKAGE_VERSION "*"
+
 #include <locale.h>
 
 #include <wchar.h>
