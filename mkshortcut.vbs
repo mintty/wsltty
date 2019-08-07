@@ -1,7 +1,7 @@
 rem cscript mkshortcut.vbs [/param:arg] /target:link
 
 rem /target:%LOCALAPPDATA%\wsltty\bin\mintty.exe
-rem /workingdir:%USERPROFILE%
+rem /wdir:%USERPROFILE%
 rem /icon:%LOCALAPPDATA%\wsltty\wsl.ico
 rem deprecated: /icon:%LOCALAPPDATA%\lxss\bash.ico
 rem deprecated: %
@@ -29,8 +29,13 @@ rem wscript.echo "minttyargs: " & minttyargs
 rem wscript.echo lnk.Arguments
 
 rem Start in:
-rem lnk.WorkingDirectory = Wscript.Arguments.Named("workingdir")
-lnk.WorkingDirectory = "%USERPROFILE%"
+rem wdir = Wscript.Arguments.Named("wdir")
+wdir = wshell.ExpandEnvironmentStrings("%wdir%")
+if IsEmpty(wdir) then
+  lnk.WorkingDirectory = "%USERPROFILE%"
+else
+  lnk.WorkingDirectory = wdir
+end if
 
 rem Icon:
 rem icon = Wscript.Arguments.Named("icon")
@@ -48,6 +53,10 @@ rem lnk.HotKey = "ALT+CTRL+W"
 rem Run:
 rem 1: Normal 7: Minimized 3: Maximized
 rem lnk.WindowStyle = 1
+min = Wscript.Arguments.Named("min")
+if min then
+  lnk.WindowStyle = 7
+end if
 
 rem Comment:
 rem lnk.IconLocation = Wscript.Arguments.Named("desc")

@@ -193,7 +193,7 @@ mintty-appx:
 	cd mintty-$(minttyver)/src; sh ./mknames
 	cp mintty-$(minttyver)/src/charnames.txt usr/share/mintty/info/
 
-cygwin:	mkshortcutexe
+cygwin:	# mkshortcutexe
 	mkdir -p bin
 	cp /bin/cygwin1.dll bin/
 	cp /bin/cygwin-console-helper.exe bin/
@@ -231,10 +231,11 @@ cop:	ver
 	cp charnames.txt rel/
 	cp bin/wslbridge.exe rel/
 	cp bin/wslbridge-backend rel/
-	cp bin/mkshortcut.exe rel/
-	cp bin/cygpopt-0.dll rel/
-	cp bin/cygiconv-2.dll rel/
-	cp bin/cygintl-8.dll rel/
+	cp mkshortcut.vbs rel/
+	#cp bin/mkshortcut.exe rel/
+	#cp bin/cygpopt-0.dll rel/
+	#cp bin/cygiconv-2.dll rel/
+	#cp bin/cygintl-8.dll rel/
 	cp LICENSE.* rel/
 	cp VERSION rel/
 	cp *.lnk rel/

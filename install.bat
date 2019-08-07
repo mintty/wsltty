@@ -30,7 +30,7 @@ rem copy "WSL Terminal.lnk" "%installdir%"
 rem copy "WSL Terminal %%.lnk" "%installdir%"
 copy config-distros.sh "%installdir%"
 
-rem copy mkshortcut.vbs "%installdir%"
+copy mkshortcut.vbs "%installdir%"
 
 rem allow persistent customization of default icon:
 if not exist "%installdir%\wsl.ico" copy tux.ico "%installdir%\wsl.ico"
@@ -59,10 +59,10 @@ copy dash.exe "%installdir%\bin"
 copy regtool.exe "%installdir%\bin"
 copy zoo.exe "%installdir%\bin"
 
-copy mkshortcut.exe "%installdir%"\bin
-copy cygpopt-0.dll "%installdir%"\bin
-copy cygiconv-2.dll "%installdir%"\bin
-copy cygintl-8.dll "%installdir%"\bin
+rem copy mkshortcut.exe "%installdir%"\bin
+rem copy cygpopt-0.dll "%installdir%"\bin
+rem copy cygiconv-2.dll "%installdir%"\bin
+rem copy cygintl-8.dll "%installdir%"\bin
 
 rem create system config directory and copy config archive
 mkdir "%installdir%\usr\share\mintty\lang"

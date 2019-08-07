@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # set some paths; capital variables are for the mkshortcut.exe case, 
-# not for the (deprecated) mkshortcut.vbs case
+# not for the mkshortcut.vbs case
 
 case "$installdir" in
 ?*)	custominst=true;;
@@ -121,10 +121,25 @@ fi
 
 if $custominst && $config && ! $remove
 then
-  mkshortcut.exe -n "add to context menu" -a "$installdir/config-distros.sh -contextmenu" "$installdir/bin/dash.exe" -i '%SystemRoot%\System32\filemgmt.dll' -s min -d "" -w "$installdir"
-  mkshortcut.exe -n "add default to context menu" -a "$installdir/config-distros.sh -contextmenu-default" "$installdir/bin/dash.exe" -i '%SystemRoot%\System32\filemgmt.dll' -s min -d "" -w "$installdir"
-  mkshortcut.exe -n "remove from context menu" -a "$installdir/config-distros.sh -contextmenu-remove" "$installdir/bin/dash.exe" -i '%SystemRoot%\System32\filemgmt.dll' -s min -d "" -w "$installdir"
-  mkshortcut.exe -n "configure WSL shortcuts" -a "$installdir/config-distros.sh" "$installdir/bin/dash.exe" -i '%SystemRoot%\System32\filemgmt.dll' -s min -d "" -w "$installdir"
+  #mkshortcut.exe -n "add to context menu" -a "$installdir/config-distros.sh -contextmenu" "$installdir/bin/dash.exe" -i '%SystemRoot%\System32\filemgmt.dll' -s min -d "" -w "$installdir"
+  #mkshortcut.exe -n "add default to context menu" -a "$installdir/config-distros.sh -contextmenu-default" "$installdir/bin/dash.exe" -i '%SystemRoot%\System32\filemgmt.dll' -s min -d "" -w "$installdir"
+  #mkshortcut.exe -n "remove from context menu" -a "$installdir/config-distros.sh -contextmenu-remove" "$installdir/bin/dash.exe" -i '%SystemRoot%\System32\filemgmt.dll' -s min -d "" -w "$installdir"
+  #mkshortcut.exe -n "configure WSL shortcuts" -a "$installdir/config-distros.sh" "$installdir/bin/dash.exe" -i '%SystemRoot%\System32\filemgmt.dll' -s min -d "" -w "$installdir"
+
+  icon='%SystemRoot%\System32\filemgmt.dll'
+  wdir="$installdir"
+  target="$installdir/bin/dash.exe"
+  minttyargs="/config-distros.sh"
+  bridgeargs=
+  export icon wdir target minttyargs bridgeargs
+  cscript /nologo mkshortcut.vbs "/name:configure WSL shortcuts" "/min:true"
+  bridgeargs=-contextmenu
+  cscript /nologo mkshortcut.vbs "/name:add to context menu" "/min:true"
+  bridgeargs=-contextmenu-default
+  cscript /nologo mkshortcut.vbs "/name:add default to context menu" "/min:true"
+  bridgeargs=-contextmenu-remove
+  cscript /nologo mkshortcut.vbs "/name:remove from context menu" "/min:true"
+
   cmd /C copy "add to context menu.lnk" "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\WSLtty"
   cmd /C copy "add default to context menu.lnk" "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\WSLtty"
   cmd /C copy "remove from context menu.lnk" "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\WSLtty"
@@ -221,6 +236,7 @@ config () {
   echoc "- icon $icon"
   echoc "- root $root"
   bridgeargs=" "	# deprecated
+  wdir=%USERPROFILE%
 
   if $ok && [ -n "$distro" ]
   then	# fix #163: backend missing +x with certain mount options
@@ -232,7 +248,7 @@ config () {
 
   if $ok && $config
   then
-    export name target minttyargs bridgeargs icon
+    export wdir name target minttyargs bridgeargs icon
 
     if $contextmenu
     then
@@ -261,8 +277,8 @@ config () {
         cmd /C del "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\$name~.bat"
       else
         # desktop shortcut in %USERPROFILE% -> Start Menu - WSLtty
-        ##cscript /nologo mkshortcut.vbs "/name:$name Terminal %"
-        mkshortcut.exe -n "$name Terminal %" -i "$icon" "$TARGETPATH" -a "$MINTARGS" -d "" -w %USERPROFILE%
+        cscript /nologo mkshortcut.vbs "/name:$name Terminal %"
+        #mkshortcut.exe -n "$name Terminal %" -i "$icon" "$TARGETPATH" -a "$MINTARGS" -d "" -w %USERPROFILE%
         cmd /C copy "$name Terminal %.lnk" "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\WSLtty"
 
         # launch script in . -> WSLtty home, WindowsApps launch folder
@@ -276,8 +292,8 @@ config () {
         MINTARGS="$MINTARGS -~"
 
         # desktop shortcut in ~ -> Start Menu
-        ##cscript /nologo mkshortcut.vbs "/name:$name Terminal"
-        mkshortcut.exe -n "$name Terminal" -i "$icon" "$TARGETPATH" -a "$MINTARGS" -d "" -w %USERPROFILE%
+        cscript /nologo mkshortcut.vbs "/name:$name Terminal"
+        #mkshortcut.exe -n "$name Terminal" -i "$icon" "$TARGETPATH" -a "$MINTARGS" -d "" -w %USERPROFILE%
         cmd /C copy "$name Terminal.lnk" "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs"
 
         # default desktop shortcut in ~ -> Desktop
