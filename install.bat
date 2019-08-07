@@ -61,6 +61,8 @@ copy zoo.exe "%installdir%\bin"
 
 copy mkshortcut.exe "%installdir%"\bin
 copy cygpopt-0.dll "%installdir%"\bin
+copy cygiconv-2.dll "%installdir%"\bin
+copy cygintl-8.dll "%installdir%"\bin
 
 rem create system config directory and copy config archive
 mkdir "%installdir%\usr\share\mintty\lang"

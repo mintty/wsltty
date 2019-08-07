@@ -207,6 +207,8 @@ bin/mkshortcut.exe:	mkshortcut.c
 	echo mksh
 	gcc -o bin/mkshortcut mkshortcut.c -lpopt -lole32 /usr/lib/w32api/libuuid.a
 	cp /bin/cygpopt-0.dll bin/
+	cp /bin/cygiconv-2.dll bin/
+	cp /bin/cygintl-8.dll bin/
 
 appx-bin:
 	mkdir -p bin
@@ -231,6 +233,8 @@ cop:	ver
 	cp bin/wslbridge-backend rel/
 	cp bin/mkshortcut.exe rel/
 	cp bin/cygpopt-0.dll rel/
+	cp bin/cygiconv-2.dll rel/
+	cp bin/cygintl-8.dll rel/
 	cp LICENSE.* rel/
 	cp VERSION rel/
 	cp *.lnk rel/
