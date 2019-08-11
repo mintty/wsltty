@@ -9,10 +9,6 @@ rem delete Start Menu Folder
 set smf=%APPDATA%\Microsoft\Windows\Start Menu\Programs\WSLtty
 rmdir /S /Q "%smf%"
 
-rem delete Desktop Shortcuts (not installed anymore)
-rem del "%USERPROFILE%\Desktop\WSL % in Mintty.lnk"
-rem del "%USERPROFILE%\Desktop\WSL ~ in Mintty.lnk"
-
 
 :start menu
 

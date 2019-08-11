@@ -275,6 +275,14 @@ config () {
         cmd /C del "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\$name Terminal.lnk"
         cmd /C del "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\$name.bat"
         cmd /C del "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\$name~.bat"
+
+        if [ "$name" = "WSL" ]
+        then
+              # determine actual Desktop folder
+              desktopkey='\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders\Desktop'
+              desktop=`regtool get "$desktopkey"`
+              cmd /C del "$desktop\\$name Terminal.lnk"
+        fi
       else
         # desktop shortcut in %USERPROFILE% -> Start Menu - WSLtty
         cscript /nologo mkshortcut.vbs "/name:$name Terminal %"
