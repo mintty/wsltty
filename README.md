@@ -94,11 +94,11 @@ Workaround:
 
 In the Start Menu, the following shortcuts are installed:
 * Shortcut <img align=absmiddle height=40 src=tux1.png>`WSL Terminal` to start the default WSL distribution (as configured with the Windows tool `wslconfig`)
-* For each installed WSL distribution, for example `Ubuntu`, a shortcut <img align=absmiddle height=40 src=ubuntu1.png>`Ubuntu Terminal` to start in the WSL user home
+* For each installed WSL distribution, for example `Ubuntu`, a shortcut like <img align=absmiddle height=40 src=ubuntu1.png>`Ubuntu Terminal` to start in the WSL user home
 
 In the Start Menu subfolder WSLtty, the following additional shortcuts are installed:
 * Shortcut <img align=absmiddle height=40 src=tux1.png>`WSL Terminal %` to start the default WSL distribution in the Windows %USERPROFILE% home
-* For each installed WSL distribution, for example `Ubuntu`, a shortcut <img align=absmiddle height=40 src=ubuntu1.png>`Ubuntu Terminal %` to start in the Windows %USERPROFILE% home
+* For each installed WSL distribution, for example `Ubuntu`, a shortcut like <img align=absmiddle height=40 src=ubuntu1.png>`Ubuntu Terminal %` to start in the Windows %USERPROFILE% home
 
 One Desktop shortcut is installed:
 * Shortcut <img align=absmiddle height=40 src=tux1.png>`WSL Terminal` to start the default WSL distribution (as configured with the Windows tool `wslconfig`)
@@ -117,8 +117,8 @@ in order to create the respective set of shortcuts in the Start menu.
 WSLtty installs the following scripts into `%LOCALAPPDATA%\Microsoft\WindowsApps` 
 (and a copy in its application folder `%LOCALAPPDATA%\wsltty`):
 
-* For each installed WSL distribution, e.g. Ubuntu, command script `Ubuntu.bat` to start in the current folder/directory
-* For each installed WSL distribution, e.g. Ubuntu, command script `Ubuntu~.bat` to start in the WSL user home
+* For each installed WSL distribution, e.g. Ubuntu, a command script like `Ubuntu.bat` to start in the current folder/directory
+* For each installed WSL distribution, e.g. Ubuntu, a command script like `Ubuntu~.bat` to start in the WSL user home
 * `WSL.bat` and `WSL~.bat` to start the default WSL distribution
 
 Given that `%LOCALAPPDATA%\Microsoft\WindowsApps` is in your PATH,
