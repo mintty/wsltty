@@ -81,10 +81,8 @@ is discouraged because that would bypass essential options.
 
 #### WSL 2 ####
 
-Due to some incompatible changes by Microsoft, wslbridge cannot connect 
-in WSL 2 mode at this time.
-Workaround:
-* `wsl --set-default-version 1`
+The new wslbridge2 gateway provides two versions, for WSL V1 and V2 mode, respectively.
+Mintty automatically detects the WSL version and invokes the proper gateway.
 
 ---
 
@@ -177,9 +175,7 @@ Note:
 
 #### Shell selection and Login shell ####
 
-The WSLtty deployment does not impose a shell preference anymore.
-However, the intermediate gateways (`wslbridge` and its backend and the `bash.exe` Windows launcher) 
-are also involved.
+The WSLtty deployment does not impose a shell preference.
 
 To invoke your favourite shell or launch the shell in login mode, 
 you may append a shell pathname and an optional `-l` parameter 
@@ -199,5 +195,11 @@ including a [Hints and Tips page](https://github.com/mintty/mintty/wiki/Tips).
 It is based on [Cygwin](http://cygwin.com) 
 and includes its runtime library ([sources](http://mirrors.dotsrc.org/cygwin/x86/release/cygwin)).
 
-For interacting with WSL, it uses [wslbridge](https://github.com/rprichard/wslbridge).
-Many thanks for this enabling gateway go especially to Ryan Prichard.
+For interacting with WSL, [wslbridge](https://github.com/rprichard/wslbridge)
+used to be the gateway prototype.
+Many thanks for this enabling gateway go to Ryan Prichard.
+
+For recent changes in WSL, particularly WSL mode V2, the new gateway 
+[wslbridge2](https://github.com/Biswa96/wslbridge2) is used instead.
+Many thanks for this further development and maintenance go to Biswapriyo Nath.
+

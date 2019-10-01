@@ -20,7 +20,7 @@ del /Q "%installdir%\*.bat"
 del /Q "%installdir%\*.lnk"
 
 copy LICENSE.mintty "%installdir%"
-copy LICENSE.wslbridge "%installdir%"
+copy LICENSE.wslbridge2 "%installdir%"
 
 copy "add to context menu.lnk" "%installdir%"
 copy "add default to context menu.lnk" "%installdir%"
@@ -43,8 +43,10 @@ del /Q "%installdir%\bin\*.old"
 ren "%installdir%\bin\cygwin1.dll" cygwin1.dll.old
 ren "%installdir%\bin\cygwin-console-helper.exe" cygwin-console-helper.exe.old
 ren "%installdir%\bin\mintty.exe" mintty.exe.old
-ren "%installdir%\bin\wslbridge.exe" wslbridge.exe.old
-ren "%installdir%\bin\wslbridge-backend" wslbridge-backend.old
+ren "%installdir%\bin\wslbridge2.exe" wslbridge2.exe.old
+ren "%installdir%\bin\wslbridge2-backend" wslbridge2-backend.old
+ren "%installdir%\bin\hvpty.exe" hvpty.exe.old
+ren "%installdir%\bin\hvpty-backend" hvpty-backend.old
 del /Q "%installdir%\bin\*.old"
 
 :instbin
@@ -52,8 +54,10 @@ mkdir "%installdir%\bin"
 copy cygwin1.dll "%installdir%\bin"
 copy cygwin-console-helper.exe "%installdir%\bin"
 copy mintty.exe "%installdir%\bin"
-copy wslbridge.exe "%installdir%\bin"
-copy wslbridge-backend "%installdir%\bin"
+copy wslbridge2.exe "%installdir%\bin"
+copy wslbridge2-backend "%installdir%\bin"
+copy hvpty.exe "%installdir%\bin"
+copy hvpty-backend "%installdir%\bin"
 
 copy dash.exe "%installdir%\bin"
 copy regtool.exe "%installdir%\bin"

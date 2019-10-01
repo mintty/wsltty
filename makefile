@@ -8,10 +8,10 @@
 
 
 # wsltty release
-ver=3.0.2.3
+ver=3.0.5
 
 # wsltty appx release - must have 4 parts!
-verx=3.0.2.3
+verx=3.0.5.0
 
 # Windows SDK version for appx
 WINSDKKEY=/HKEY_LOCAL_MACHINE/SOFTWARE/WOW6432Node/Microsoft/.NET Framework Platform/Setup/Multi-Targeting Pack
@@ -19,37 +19,17 @@ WINSDKVER=`regtool list '$(WINSDKKEY)' | sed -e '$$ q' -e d`
 
 ##############################
 # mintty release version
-minttyver=3.0.2
+minttyver=3.0.5
 
 # or mintty branch or commit version
 #minttyver=master
 
 ##############################
 # wslbridge binary package; may be overridden below
-wslbridge=wslbridge-package
-wslbridgever=0.2.4
+wslbridgever=0.3
 
 # or wslbridge branch or commit to build from source;
-# also set wslbridge-commit
 wslbridge=wslbridge-frontend wslbridge-backend
-
-# release 0.2.0 does not have cygwin_internal(CW_SYNC_WINENV) yet:
-#wslbridge-commit=master
-
-# use --distro-guid option (merged into 0.2.4):
-#wslbridge-commit=cb22e3f6f989cefe5b6599d3c04422ded74db664
-
-# after 0.2.4, from branch login-mode:
-wslbridge-commit=04a060505860915c99bc336dbeb80269771a80b7
-
-# after 0.2.4, from branch wslpath:
-wslbridge-commit=29df86d87135caec8424c08f031ce121a3a39ae1
-
-# after 0.2.4, merged wslpath branch:
-wslbridge-commit=06fb7acba28d7f37611f3911685af214739895a0
-
-# after 0.2.4, with --backend option:
-wslbridge-commit=47b41bec6c32da58ab01de9345087b1a4fd836e3
 
 #############################################################################
 # default target
@@ -112,38 +92,27 @@ fix-verx:
 
 wslbridge:	$(wslbridge)
 
-wslbridge-package:
-	$(wget) https://github.com/rprichard/wslbridge/releases/download/$(wslbridgever)/wslbridge-$(wslbridgever)-$(sys).tar.gz
-	tar xvzf wslbridge-$(wslbridgever)-$(sys).tar.gz
-	mkdir -p bin
-	cp wslbridge-$(wslbridgever)-$(sys)/wslbridge* bin/
-	tr -d '\015' < wslbridge-$(wslbridgever)-$(sys)/LICENSE.txt > LICENSE.wslbridge
+wslbridge2-$(wslbridgever).zip:
+	$(wgeto) https://github.com/Biswa96/wslbridge2/archive/v$(wslbridgever).zip -o wslbridge2-$(wslbridgever).zip
 
-wslbridge-source:	wslbridge-$(wslbridge-commit).zip
-	unzip -o wslbridge-$(wslbridge-commit).zip
-	cd wslbridge-$(wslbridge-commit)/backend; patch -T -p1 < ../../wslbridge-backend-static.patch
-	tr -d '\015' < wslbridge-$(wslbridge-commit)/LICENSE.txt > LICENSE.wslbridge
-
-wslbridge-$(wslbridge-commit).zip:
-	$(wgeto) https://github.com/rprichard/wslbridge/archive/$(wslbridge-commit).zip -o wslbridge-$(wslbridge-commit).zip
+wslbridge-source:	wslbridge2-$(wslbridgever).zip
+	unzip -ou wslbridge2-$(wslbridgever).zip
+	cp wslbridge2-$(wslbridgever)/LICENSE LICENSE.wslbridge2
 
 wslbridge-frontend:	wslbridge-source
-	echo ------------- Compiling wslbridge frontend
-	cd wslbridge-$(wslbridge-commit)/frontend; make
-	strip wslbridge-$(wslbridge-commit)/out/wslbridge.exe
+	echo ------------- Compiling wslbridge2 frontend
+	cd wslbridge2-$(wslbridgever); make RELEASE=1
 	mkdir -p bin
-	cp wslbridge-$(wslbridge-commit)/out/wslbridge.exe bin/
+	cp wslbridge2-$(wslbridgever)/bin/wslbridge2.exe bin/
+	cp wslbridge2-$(wslbridgever)/bin/hvpty.exe bin/
 
-#wslbridge-backend:	wslbridge-source
-# tweak dependency to support build testing on non-Windows 10:
-backend-bin=wslbridge-$(wslbridge-commit)/out/wslbridge-backend
-backend-src=wslbridge-$(wslbridge-commit)/backend/wslbridge-backend.cc
-wslbridge-backend:	$(backend-bin) wslbridge-source
-$(backend-bin):	$(backend-src)
-	echo ------------- Compiling wslbridge backend
-	cd wslbridge-$(wslbridge-commit)/backend; if uname -m | grep x86_64; then cmd /C wsl make; else wslbridge make; fi
+wslbridge-backend:	wslbridge-source
+	echo ------------- Compiling wslbridge2 backend
+	uname -m | grep x86_64
+	cd wslbridge2-$(wslbridgever); cmd /C wsl -d Alpine make RELEASE=1 & (sleep 8; echo built backend)
 	mkdir -p bin
-	cp wslbridge-$(wslbridge-commit)/out/wslbridge-backend bin/
+	cp wslbridge2-$(wslbridgever)/bin/wslbridge2-backend bin/
+	cp wslbridge2-$(wslbridgever)/bin/hvpty-backend bin/
 
 mintty-get:
 	$(wgeto) https://github.com/mintty/mintty/archive/$(minttyver).zip -o mintty-$(minttyver).zip
@@ -229,8 +198,10 @@ cop:	ver
 	cp themes.zoo rel/
 	cp sounds.zoo rel/
 	cp charnames.txt rel/
-	cp bin/wslbridge.exe rel/
-	cp bin/wslbridge-backend rel/
+	cp bin/wslbridge2.exe rel/
+	cp bin/wslbridge2-backend rel/
+	cp bin/hvpty.exe rel/
+	cp bin/hvpty-backend rel/
 	cp mkshortcut.vbs rel/
 	#cp bin/mkshortcut.exe rel/
 	#cp bin/cygpopt-0.dll rel/
