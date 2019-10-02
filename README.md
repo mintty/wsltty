@@ -37,7 +37,7 @@ to enable the “Run anyway” button.
 
 #### Installation from source repository ####
 
-Download or checkout the wsltty repository.
+Checkout the wsltty repository, or download the source archive, unpack and rename the directory to `wsltty`.
 Invoke `make`, then `make install`.
 Note this has to be done within a Cygwin environment.
 
