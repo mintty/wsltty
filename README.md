@@ -188,6 +188,9 @@ you may append a shell pathname and an optional `-l` parameter
 to the mintty invocation (in shortcuts, scripts, or context menu entries):
 * `%LOCALAPPDATA%\wsltty\bin\mintty.exe --WSL= --configdir="%APPDATA%\wsltty" /bin/bash -l`
 
+To just request login mode, a single `-` parameter also works:
+* `%LOCALAPPDATA%\wsltty\bin\mintty.exe --WSL= --configdir="%APPDATA%\wsltty" -`
+
 ---
 
 ### Components and Credits ###
