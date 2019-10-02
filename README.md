@@ -17,6 +17,12 @@ WSLtty components
 
 ---
 
+### Requirement ###
+
+Since release 3.0.5, WSLtty requires Windows version 1809 (the November 2018 release).
+
+---
+
 ### Installation from this repository ###
 
 #### WSLtty installer ([Download](https://github.com/mintty/wsltty/releases) standalone installation) ####
