@@ -8,28 +8,29 @@
 
 
 # wsltty release
-ver=3.0.5
+ver=3.0.6
 
 # wsltty appx release - must have 4 parts!
-verx=3.0.5.0
+verx=3.0.6.0
 
+# mintty release version
+minttyver=3.0.6
+
+# wslbridge release version
+wslbridgever=0.4
+
+##############################
+
+# mintty branch or commit version
+#minttyver=master
+
+# wslbridge branch or commit to build from source;
+wslbridge=wslbridge-frontend wslbridge-backend
+
+##############################
 # Windows SDK version for appx
 WINSDKKEY=/HKEY_LOCAL_MACHINE/SOFTWARE/WOW6432Node/Microsoft/.NET Framework Platform/Setup/Multi-Targeting Pack
 WINSDKVER=`regtool list '$(WINSDKKEY)' | sed -e '$$ q' -e d`
-
-##############################
-# mintty release version
-minttyver=3.0.5
-
-# or mintty branch or commit version
-#minttyver=master
-
-##############################
-# wslbridge binary package; may be overridden below
-wslbridgever=0.3
-
-# or wslbridge branch or commit to build from source;
-wslbridge=wslbridge-frontend wslbridge-backend
 
 #############################################################################
 # default target
@@ -101,16 +102,18 @@ wslbridge-source:	wslbridge2-$(wslbridgever).zip
 
 wslbridge-frontend:	wslbridge-source
 	echo ------------- Compiling wslbridge2 frontend
-	cd wslbridge2-$(wslbridgever); make RELEASE=1
 	mkdir -p bin
+	rm -f bin/wslbridge2.exe bin/hvpty.exe
+	cd wslbridge2-$(wslbridgever); make RELEASE=1
 	cp wslbridge2-$(wslbridgever)/bin/wslbridge2.exe bin/
 	cp wslbridge2-$(wslbridgever)/bin/hvpty.exe bin/
 
 wslbridge-backend:	wslbridge-source
 	echo ------------- Compiling wslbridge2 backend
 	uname -m | grep x86_64
-	cd wslbridge2-$(wslbridgever); cmd /C wsl -d Alpine make RELEASE=1 & (sleep 8; echo built backend)
 	mkdir -p bin
+	rm -f bin/wslbridge2-backend bin/hvpty-backend
+	cd wslbridge2-$(wslbridgever); cmd /C wsl -d Alpine make RELEASE=1 < /dev/null
 	cp wslbridge2-$(wslbridgever)/bin/wslbridge2-backend bin/
 	cp wslbridge2-$(wslbridgever)/bin/hvpty-backend bin/
 
