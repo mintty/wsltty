@@ -104,16 +104,25 @@ wslbridge-frontend:	wslbridge-source
 	echo ------------- Compiling wslbridge2 frontend
 	mkdir -p bin
 	rm -f bin/wslbridge2.exe bin/hvpty.exe
+	# frontend build
 	cd wslbridge2-$(wslbridgever); make RELEASE=1
+	# extract binaries
 	cp wslbridge2-$(wslbridgever)/bin/wslbridge2.exe bin/
 	cp wslbridge2-$(wslbridgever)/bin/hvpty.exe bin/
+
+# build backend on a musl-libc-based distribution
+BuildDistr=Alpine
 
 wslbridge-backend:	wslbridge-source
 	echo ------------- Compiling wslbridge2 backend
 	uname -m | grep x86_64
 	mkdir -p bin
 	rm -f bin/wslbridge2-backend bin/hvpty-backend
-	cd wslbridge2-$(wslbridgever); cmd /C wsl -d Alpine make RELEASE=1 < /dev/null
+	# provide dependencies for backend build
+	cmd /C wsl -d $(BuildDistr) apk add make g++ linux-headers
+	# invoke backend build
+	cd wslbridge2-$(wslbridgever); cmd /C wsl -d $(BuildDistr) make RELEASE=1 < /dev/null
+	# extract binaries
 	cp wslbridge2-$(wslbridgever)/bin/wslbridge2-backend bin/
 	cp wslbridge2-$(wslbridgever)/bin/hvpty-backend bin/
 
