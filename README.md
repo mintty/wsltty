@@ -85,10 +85,10 @@ WSLtty can be invoked with
 Starting the mintty terminal directly from the WSLtty installation location 
 is discouraged because that would bypass essential options.
 
-#### WSL 2 ####
+#### WSL V2 ####
 
-The new wslbridge2 gateway provides two versions, for WSL V1 and V2 mode, respectively.
-Mintty automatically detects the WSL version and invokes the proper gateway.
+Terminal communication with WSL via its modes V1 or V2 is handled 
+automatically by wsltty (mintty and the wslbridge2 gateway).
 
 ---
 

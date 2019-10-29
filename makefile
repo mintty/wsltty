@@ -8,16 +8,16 @@
 
 
 # wsltty release
-ver=3.0.6
+ver=3.0.7
 
 # wsltty appx release - must have 4 parts!
-verx=3.0.6.0
+verx=3.0.7.0
 
 # mintty release version
-minttyver=3.0.6
+minttyver=3.0.7
 
-# wslbridge release version
-wslbridgever=0.4
+# wslbridge2 release version
+wslbridgever=0.5
 
 ##############################
 
@@ -103,12 +103,10 @@ wslbridge-source:	wslbridge2-$(wslbridgever).zip
 wslbridge-frontend:	wslbridge-source
 	echo ------------- Compiling wslbridge2 frontend
 	mkdir -p bin
-	rm -f bin/wslbridge2.exe bin/hvpty.exe
 	# frontend build
-	cd wslbridge2-$(wslbridgever); make RELEASE=1
+	cd wslbridge2-$(wslbridgever)/src; make -f Makefile.frontend RELEASE=1
 	# extract binaries
 	cp wslbridge2-$(wslbridgever)/bin/wslbridge2.exe bin/
-	cp wslbridge2-$(wslbridgever)/bin/hvpty.exe bin/
 
 # build backend on a musl-libc-based distribution
 BuildDistr=Alpine
@@ -117,14 +115,12 @@ wslbridge-backend:	wslbridge-source
 	echo ------------- Compiling wslbridge2 backend
 	uname -m | grep x86_64
 	mkdir -p bin
-	rm -f bin/wslbridge2-backend bin/hvpty-backend
 	# provide dependencies for backend build
 	cmd /C wsl -d $(BuildDistr) apk add make g++ linux-headers
 	# invoke backend build
-	cd wslbridge2-$(wslbridgever); cmd /C wsl -d $(BuildDistr) make RELEASE=1 < /dev/null
+	cd wslbridge2-$(wslbridgever)/src; cmd /C wsl -d $(BuildDistr) make -f Makefile.backend RELEASE=1 < /dev/null
 	# extract binaries
 	cp wslbridge2-$(wslbridgever)/bin/wslbridge2-backend bin/
-	cp wslbridge2-$(wslbridgever)/bin/hvpty-backend bin/
 
 mintty-get:
 	$(wgeto) https://github.com/mintty/mintty/archive/$(minttyver).zip -o mintty-$(minttyver).zip
@@ -212,8 +208,6 @@ cop:	ver
 	cp charnames.txt rel/
 	cp bin/wslbridge2.exe rel/
 	cp bin/wslbridge2-backend rel/
-	cp bin/hvpty.exe rel/
-	cp bin/hvpty-backend rel/
 	cp mkshortcut.vbs rel/
 	#cp bin/mkshortcut.exe rel/
 	#cp bin/cygpopt-0.dll rel/

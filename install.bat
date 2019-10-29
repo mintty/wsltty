@@ -45,8 +45,6 @@ ren "%installdir%\bin\cygwin-console-helper.exe" cygwin-console-helper.exe.old
 ren "%installdir%\bin\mintty.exe" mintty.exe.old
 ren "%installdir%\bin\wslbridge2.exe" wslbridge2.exe.old
 ren "%installdir%\bin\wslbridge2-backend" wslbridge2-backend.old
-ren "%installdir%\bin\hvpty.exe" hvpty.exe.old
-ren "%installdir%\bin\hvpty-backend" hvpty-backend.old
 del /Q "%installdir%\bin\*.old"
 
 :instbin
@@ -56,8 +54,6 @@ copy cygwin-console-helper.exe "%installdir%\bin"
 copy mintty.exe "%installdir%\bin"
 copy wslbridge2.exe "%installdir%\bin"
 copy wslbridge2-backend "%installdir%\bin"
-copy hvpty.exe "%installdir%\bin"
-copy hvpty-backend "%installdir%\bin"
 
 copy dash.exe "%installdir%\bin"
 copy regtool.exe "%installdir%\bin"
