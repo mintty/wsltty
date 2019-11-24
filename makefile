@@ -8,13 +8,13 @@
 
 
 # wsltty release
-ver=3.0.7
+ver=3.1.0
 
 # wsltty appx release - must have 4 parts!
-verx=3.0.7.0
+verx=3.1.0.0
 
 # mintty release version
-minttyver=3.0.7
+minttyver=3.1.0
 
 # wslbridge2 release version
 wslbridgever=0.5
@@ -66,14 +66,20 @@ wgeto=curl -R -L --connect-timeout 55
 # - ensure the path name drag-and-drop adaptation works (-> Cygwin, not MSYS)
 # - 64 Bit (x86_64) for more stable invocation (avoid fork issues)
 
-check:
+arch:=$(shell uname -m)
+
+check:	# checkarch
+	echo Building for:
+	echo $(arch) | grep .
 	# checking suitable host environment; run `make pkg` to bypass
 	# check cygwin (vs msys) for proper drag-and-drop paths:
 	uname | grep CYGWIN
+
+checkarch:
 	# check 32 bit to ensure 32-Bit Windows support, just in case:
 	#uname -m | grep i686
 	# check 64 bit to provide 64-Bit stability support:
-	uname -m | grep x86_64
+	#uname -m | grep x86_64
 
 #############################################################################
 # patch version information for appx package configuration
@@ -113,12 +119,12 @@ BuildDistr=Alpine
 
 wslbridge-backend:	wslbridge-source
 	echo ------------- Compiling wslbridge2 backend
-	uname -m | grep x86_64
+	#uname -m | grep x86_64
 	mkdir -p bin
 	# provide dependencies for backend build
-	cmd /C wsl -d $(BuildDistr) apk add make g++ linux-headers
+	PATH="${WINDIR}/Sysnative:${PATH}" cmd /C wsl.exe -u root -d $(BuildDistr) $(shell env | grep http_proxy=) apk add make g++ linux-headers
 	# invoke backend build
-	cd wslbridge2-$(wslbridgever)/src; cmd /C wsl -d $(BuildDistr) make -f Makefile.backend RELEASE=1 < /dev/null
+	cd wslbridge2-$(wslbridgever)/src; PATH="${WINDIR}/Sysnative:${PATH}" cmd /C wsl.exe -d $(BuildDistr) make -f Makefile.backend RELEASE=1 < /dev/null
 	# extract binaries
 	cp wslbridge2-$(wslbridgever)/bin/wslbridge2-backend bin/
 
@@ -195,7 +201,7 @@ appx-bin:
 cop:	ver
 	mkdir -p rel
 	rm -fr rel/wsltty-$(ver)-install.exe
-	sed -e "s,%version%,$(ver)," makewinx.cfg > rel/wsltty.SED
+	sed -e "s,%version%,$(ver)," -e "s,%arch%,$(arch)," makewinx.cfg > rel/wsltty.SED
 	cp bin/cygwin1.dll rel/
 	cp bin/cygwin-console-helper.exe rel/
 	cp bin/dash.exe rel/

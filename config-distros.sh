@@ -196,9 +196,9 @@ config () {
     	psh_cmd='([xml]$(Get-Content '"\"$manifest\""')).Package.Applications.Application.Executable'
     	executable=`appex "$manifest"`
     	if [ -r "$ProgramW6432/WindowsApps/$instdir/$executable" ]
-    	then	icon="%PROGRAMFILES%/WindowsApps/$instdir/$executable"
+    	then	icon="%ProgramW6432%/WindowsApps/$instdir/$executable"
     	elif [ -r "$ProgramW6432/WindowsApps/$instdir/images/icon.ico" ]
-    	then	icon="%PROGRAMFILES%/WindowsApps/$instdir/images/icon.ico"
+    	then	icon="%ProgramW6432%/WindowsApps/$instdir/images/icon.ico"
     	else	icon="$installdir"'\wsl.ico'
     	fi
     	root="$basepath/rootfs"
@@ -244,7 +244,7 @@ config () {
   if $ok && [ -n "$distro" ]
   then	# fix #163: backend missing +x with certain mount options
 	echo Setting +x wslbridge2 backends for distro "'$distro'"
-	(cd "$INSTDIR"; cd bin; wsl.exe -d "$distro" chmod +x wslbridge2-backend)
+	(cd "$INSTDIR"; cd bin; PATH="${WINDIR}/Sysnative:${PATH}" wsl.exe -d "$distro" chmod +x wslbridge2-backend)
 #	(cd "$LOCALAPPDATA/wsltty/bin"; wsl.exe -d "$distro" chmod +x wslbridge2-backend)
 #	(cd ... ; "$SYSTEMROOT/System32/bash.exe" "$guid" -c chmod +x wslbridge2-backend)
   fi
