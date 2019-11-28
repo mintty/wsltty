@@ -1,8 +1,5 @@
 #! /bin/sh
 
-# set some paths; capital variables are for the mkshortcut.exe case, 
-# not for the mkshortcut.vbs case
-
 case "$installdir" in
 ?*)	custominst=true;;
 "")	custominst=false;;
@@ -179,26 +176,24 @@ config () {
     case "$distro" in
     Legacy)
     	name="Bash on Windows"
-    	launch=
     	launcher="$SYSTEMROOT/System32/bash.exe"
     	;;
     *)	name="$distro"
-    	launch="$distro"
     	launcher="$LOCALAPPDATA/Microsoft/WindowsApps/$distro.exe"
     	;;
     esac
     basepath=`regtool get "$lxss/$guid/BasePath"`
     if package=`regtool -q get "$lxss/$guid/PackageFamilyName"`
     then
-    	instdir=`regtool get "$schema/$package/Schemas/PackageFullName"`
+    	distrinst=`regtool get "$schema/$package/Schemas/PackageFullName"`
     	# get actual executable path (may not match $distro) from app manifest
-    	manifest="$ProgramW6432/WindowsApps/$instdir/AppxManifest.xml"
+    	manifest="$ProgramW6432/WindowsApps/$distrinst/AppxManifest.xml"
     	psh_cmd='([xml]$(Get-Content '"\"$manifest\""')).Package.Applications.Application.Executable'
     	executable=`appex "$manifest"`
-    	if [ -r "$ProgramW6432/WindowsApps/$instdir/$executable" ]
-    	then	icon="%ProgramW6432%/WindowsApps/$instdir/$executable"
-    	elif [ -r "$ProgramW6432/WindowsApps/$instdir/images/icon.ico" ]
-    	then	icon="%ProgramW6432%/WindowsApps/$instdir/images/icon.ico"
+    	if [ -r "$ProgramW6432/WindowsApps/$distrinst/$executable" ]
+    	then	icon="%ProgramW6432%/WindowsApps/$distrinst/$executable"
+    	elif [ -r "$ProgramW6432/WindowsApps/$distrinst/images/icon.ico" ]
+    	then	icon="%ProgramW6432%/WindowsApps/$distrinst/images/icon.ico"
     	else	icon="$installdir"'\wsl.ico'
     	fi
     	root="$basepath/rootfs"
@@ -211,15 +206,12 @@ config () {
     	root="$basepath"
     fi
 
-    #minttyargs='--wsl --rootfs="'"$root"'" --configdir="'"$configdir"'" -o Locale=C -o Charset=UTF-8 /bin/wslbridge '
+    # invocation parameters for mintty
     minttyargs='--WSL="'"$distro"'" --configdir="'"$configdir"'"'
+    # MINTARGS deprecated; used for mkshortcut.exe rather than mkshortcut.vbs
     MINTARGS='--WSL="'"$distro"'" --configdir="'"$CONFDIR"'"'
-    #if [ -z "$launch" ]
-    #then	bridgeargs='-t /bin/bash'
-    #else	bridgeargs='-l "'"$launch"'" -t /bin/bash'
-    #fi
-    bridgeargs='--distro-guid "'"$guid"'" -t /bin/bash'
-    bridgeargs='--distro-guid "'"$guid"'" -t'
+    # invocation commands (deprecated for mintty, used for start menu scripts)
+    #bridgeargs='--distro-guid "'"$guid"'" -t'
 
     ok=true;;
   DefaultDistribution|"")	# WSL default installation
@@ -228,17 +220,18 @@ config () {
     icon="$installdir"'\wsl.ico'
     minttyargs='--WSL= --configdir="'"$configdir"'"'
     MINTARGS='--WSL= --configdir="'"$CONFDIR"'"'
-    bridgeargs='-t'
+    #bridgeargs='-t'
 
     ok=true;;
   esac
+  bridgeargs=" -"	# now used to request login mode
+
   echoc "distro '$distro'"
   echoc "- name '$name'"
   echoc "- guid $guid"
   echoc "- (launcher $launcher)"
   echoc "- icon $icon"
   echoc "- root $root"
-  bridgeargs=" "	# deprecated
   wdir=%USERPROFILE%
 
   if $ok && [ -n "$distro" ]
@@ -256,7 +249,6 @@ config () {
     if $contextmenu
     then
       # context menu entries
-      #cmd /C mkcontext "$name"
       direckey='HKEY_CURRENT_USER\Software\Classes\Directory'
       keyname="${name}_Terminal"
       if $remove
