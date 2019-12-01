@@ -200,7 +200,7 @@ appx-bin:
 
 cop:	ver
 	mkdir -p rel
-	rm -fr rel/wsltty-$(ver)-install.exe
+	rm -f rel/wsltty-$(ver)-install-$(arch).exe
 	sed -e "s,%version%,$(ver)," -e "s,%arch%,$(arch)," makewinx.cfg > rel/wsltty.SED
 	cp bin/cygwin1.dll rel/
 	cp bin/cygwin-console-helper.exe rel/
