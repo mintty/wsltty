@@ -181,15 +181,17 @@ Note:
 
 #### Shell selection and Login shell ####
 
-The WSLtty deployment does not impose a shell preference.
-
-To invoke your favourite shell or launch the shell in login mode, 
-you may append a shell pathname and an optional `-l` parameter 
-to the mintty invocation (in shortcuts, scripts, or context menu entries):
-* `%LOCALAPPDATA%\wsltty\bin\mintty.exe --WSL= --configdir="%APPDATA%\wsltty" /bin/bash -l`
-
-To just request login mode, a single `-` parameter also works:
+The WSLtty deployment does not impose a shell preference;
+it invokes the user’s default shell in login mode by the final `-` parameter:
 * `%LOCALAPPDATA%\wsltty\bin\mintty.exe --WSL= --configdir="%APPDATA%\wsltty" -`
+
+You may tweak shortcuts, scripts, or context menu entries as follows:
+
+To launch a default shell in non-login mode, remove the final dash.
+
+To invoke your preferred shell, replace the final dash with 
+a shell pathname and an optional `-l` parameter 
+* `%LOCALAPPDATA%\wsltty\bin\mintty.exe --WSL= --configdir="%APPDATA%\wsltty" /bin/bash -l`
 
 ---
 
