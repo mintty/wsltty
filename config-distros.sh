@@ -191,9 +191,11 @@ config () {
     	psh_cmd='([xml]$(Get-Content '"\"$manifest\""')).Package.Applications.Application.Executable'
     	executable=`appex "$manifest"`
     	if [ -r "$ProgramW6432/WindowsApps/$distrinst/$executable" ]
-    	then	icon="%ProgramW6432%/WindowsApps/$distrinst/$executable"
+    	then	#icon="%ProgramW6432%/WindowsApps/$distrinst/$executable"
+    		icon="$ProgramW6432/WindowsApps/$distrinst/$executable"
     	elif [ -r "$ProgramW6432/WindowsApps/$distrinst/images/icon.ico" ]
-    	then	icon="%ProgramW6432%/WindowsApps/$distrinst/images/icon.ico"
+    	then	#icon="%ProgramW6432%/WindowsApps/$distrinst/images/icon.ico"
+    		icon="$ProgramW6432/WindowsApps/$distrinst/images/icon.ico"
     	else	icon="$installdir"'\wsl.ico'
     	fi
     	root="$basepath/rootfs"
