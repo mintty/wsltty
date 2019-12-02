@@ -122,7 +122,7 @@ wslbridge-backend:	wslbridge-source
 	#uname -m | grep x86_64
 	mkdir -p bin
 	# provide dependencies for backend build
-	PATH="${WINDIR}/Sysnative:${PATH}" cmd /C wsl.exe -u root -d $(BuildDistr) $(shell env | grep http_proxy=) apk add make g++ linux-headers
+	PATH="${WINDIR}/Sysnative:${PATH}" cmd /C wsl.exe -u root -d $(BuildDistr) $(shell env | grep http_proxy=) apk add make g++ linux-headers < /dev/null
 	# invoke backend build
 	cd wslbridge2-$(wslbridgever)/src; PATH="${WINDIR}/Sysnative:${PATH}" cmd /C wsl.exe -d $(BuildDistr) make -f Makefile.backend RELEASE=1 < /dev/null
 	# extract binaries
