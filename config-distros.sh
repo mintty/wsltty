@@ -34,8 +34,26 @@ case "$1" in
 -info)
   config=false
   shift;;
+-shortcuts)
+  shift;;
 -shortcuts-remove)
   remove=true
+
+  (cd "$INSTDIR"
+   for lnk in *.lnk
+   do
+     if cmd /C comp/M "$lnk" "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\$lnk"
+     then cmd /C del "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\$lnk"
+     fi
+   done
+   for bat in *.bat
+   do
+     if cmd /C comp/M "$bat" "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\$bat"
+     then cmd /C del "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\$bat"
+     fi
+   done
+  )
+
   shift;;
 -contextmenu)
   contextmenu=true
@@ -255,6 +273,7 @@ config () {
       keyname="${name}_Terminal"
       if $remove
       then
+        # obsolete; handled above
         reg delete "$direckey\\shell\\$keyname" /f
         reg delete "$direckey\\Background\\shell\\$keyname" /f
       else
@@ -288,8 +307,14 @@ config () {
 
         # launch script in . -> WSLtty home, WindowsApps launch folder
         cmd /C mkbat.bat "$name"
-        cmd /C copy "$name.bat" "$installdir"
         cmd /C copy "$name.bat" "%LOCALAPPDATA%\\Microsoft\\WindowsApps"
+
+        # store backup copies in installation dir
+        if [ "$PWD" != "$INSTDIR" ]
+        then
+              cmd /C copy "$name Terminal %.lnk" "$installdir"
+              cmd /C copy "$name.bat" "$installdir"
+        fi
 
         # prepare versions to target WSL home directory
         #bridgeargs="-C~ $bridgeargs"
@@ -315,8 +340,14 @@ config () {
 
         # launch script in ~ -> WSLtty home, WindowsApps launch folder
         cmd /C mkbat.bat "$name~"
-        cmd /C copy "$name~.bat" "$installdir"
         cmd /C copy "$name~.bat" "%LOCALAPPDATA%\\Microsoft\\WindowsApps"
+
+        # store backup copies in installation dir
+        if [ "$PWD" != "$INSTDIR" ]
+        then
+              cmd /C copy "$name Terminal.lnk" "$installdir"
+              cmd /C copy "$name~.bat" "$installdir"
+        fi
       fi
 
     fi
