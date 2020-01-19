@@ -1,12 +1,12 @@
 @echo off
 
 set refinstalldir=%%LOCALAPPDATA%%\wsltty
-set installdir=%LOCALAPPDATA%\wsltty
+set installdir="%LOCALAPPDATA%\wsltty"
 set refconfigdir=%%APPDATA%%\wsltty
-set configdir=%APPDATA%\wsltty
-set oldroot=%installdir%
-set oldhomedir=%installdir%\home\%USERNAME%
-set oldconfigdir=%oldhomedir%\.config\mintty
+set configdir="%APPDATA%\wsltty"
+set oldroot="%installdir%"
+set oldhomedir="%installdir%\home\%USERNAME%"
+set oldconfigdir="%oldhomedir%\.config\mintty"
 if not "%1" == "" set refinstalldir=%1 && set installdir=%1
 if not "%2" == "" set refconfigdir=%2 && set configdir=%2
 
@@ -79,7 +79,7 @@ copy mintty.ico "%installdir%\usr\share\mintty\icon"
 
 
 rem create Start Menu Folder
-set smf=%APPDATA%\Microsoft\Windows\Start Menu\Programs\WSLtty
+set smf="%APPDATA%\Microsoft\Windows\Start Menu\Programs\WSLtty"
 mkdir "%smf%"
 
 rem clean up previous installation

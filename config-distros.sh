@@ -5,7 +5,7 @@ case "$installdir" in
 "")	custominst=false;;
 esac
 
-INSTDIR=${installdir:-$LOCALAPPDATA/wsltty}
+INSTDIR="${installdir:-$LOCALAPPDATA/wsltty}"
 INSTDIR=`cd "$INSTDIR"; pwd`
 installdir=${installdir:-'%LOCALAPPDATA%\wsltty'}
 
@@ -15,7 +15,7 @@ case "$INSTDIR" in
 *)	TARGETPATH="$INSTDIR"/bin/mintty.exe;;
 esac
 
-CONFDIR=${configdir:-$APPDATA/wsltty}
+CONFDIR="${configdir:-$APPDATA/wsltty}"
 configdir=${configdir:-'%APPDATA%\wsltty'}
 
 PATH=/bin:"$PATH":$SYSTEMROOT/System32

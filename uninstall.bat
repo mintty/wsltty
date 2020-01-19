@@ -1,12 +1,12 @@
 @echo off
 
-if "%installdir%" == "" set installdir=%LOCALAPPDATA%\wsltty
+if "%installdir%" == "" set installdir="%LOCALAPPDATA%\wsltty"
 
 
 :shortcuts
 
 rem delete Start Menu Folder
-set smf=%APPDATA%\Microsoft\Windows\Start Menu\Programs\WSLtty
+set smf="%APPDATA%\Microsoft\Windows\Start Menu\Programs\WSLtty"
 rmdir /S /Q "%smf%"
 
 
