@@ -8,10 +8,10 @@
 
 
 # wsltty release
-ver=3.1.0
+ver=3.1.0.2
 
 # wsltty appx release - must have 4 parts!
-verx=3.1.0.0
+verx=3.1.0.2
 
 # mintty release version
 minttyver=3.1.0
