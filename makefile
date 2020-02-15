@@ -8,10 +8,10 @@
 
 
 # wsltty release
-ver=3.1.0.2
+ver=3.1.0.3
 
 # wsltty appx release - must have 4 parts!
-verx=3.1.0.2
+verx=3.1.0.3
 
 # mintty release version
 minttyver=3.1.0
@@ -117,14 +117,16 @@ wslbridge-frontend:	wslbridge-source
 # build backend on a musl-libc-based distribution
 BuildDistr=Alpine
 
+windir=$(shell cd "${WINDIR}"; pwd)
+
 wslbridge-backend:	wslbridge-source
 	echo ------------- Compiling wslbridge2 backend
 	#uname -m | grep x86_64
 	mkdir -p bin
 	# provide dependencies for backend build
-	PATH="${WINDIR}/Sysnative:${PATH}" cmd /C wsl.exe -u root -d $(BuildDistr) $(shell env | grep http_proxy=) apk add make g++ linux-headers < /dev/null
+	PATH="$(windir)/Sysnative:${PATH}" cmd /C wsl.exe -u root -d $(BuildDistr) $(shell env | grep http_proxy=) apk add make g++ linux-headers < /dev/null
 	# invoke backend build
-	cd wslbridge2-$(wslbridgever)/src; PATH="${WINDIR}/Sysnative:${PATH}" cmd /C wsl.exe -d $(BuildDistr) make -f Makefile.backend RELEASE=1 < /dev/null
+	cd wslbridge2-$(wslbridgever)/src; PATH="$(windir)/Sysnative:${PATH}" cmd /C wsl.exe -d $(BuildDistr) make -f Makefile.backend RELEASE=1 < /dev/null
 	# extract binaries
 	cp wslbridge2-$(wslbridgever)/bin/wslbridge2-backend bin/
 
