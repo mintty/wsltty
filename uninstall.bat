@@ -12,19 +12,19 @@ rmdir /S /Q "%smf%"
 
 :start menu
 
-cd %installdir%
+cd /D "%installdir%"
 bin\dash.exe config-distros.sh -shortcuts-remove
 
 
 :explorer context menu
 
-cd %installdir%
+cd /D "%installdir%"
 bin\dash.exe config-distros.sh -contextmenu-remove
 
 
 :undeploy
 
-cd %installdir%
+cd /D "%installdir%"
 rem currently not removing software
 
 

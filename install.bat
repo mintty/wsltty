@@ -131,7 +131,7 @@ rem create config file if it does not yet exist
 if not exist "%configdir%\config" echo # To use common configuration in %%APPDATA%%\mintty, simply remove this file>"%configdir%\config"
 
 rem distro-specific stuff: shortcuts and launch scripts
-cd "%installdir%"
+cd /D "%installdir%"
 bin\dash.exe "%installdir%\config-distros.sh"
 rem bin\dash.exe "%installdir%\config-distros.sh" -contextmenu
 
