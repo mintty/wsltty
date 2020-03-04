@@ -38,22 +38,6 @@ case "$1" in
   shift;;
 -shortcuts-remove)
   remove=true
-
-  (cd "$INSTDIR"
-   for lnk in *.lnk
-   do
-     if cmd /C comp/M "$lnk" "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\$lnk"
-     then cmd /C del "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\$lnk"
-     fi
-   done
-   for bat in *.bat
-   do
-     if cmd /C comp/M "$bat" "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\$bat"
-     then cmd /C del "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\$bat"
-     fi
-   done
-  )
-
   shift;;
 -contextmenu)
   contextmenu=true
@@ -91,6 +75,25 @@ case "$1" in
   exit
   shift;;
 esac
+
+if $config && ! $contextmenu
+then
+  # remove shortcut entries in Start menu and cmd-line bat shortcuts
+  (cd "$INSTDIR"
+   for lnk in *.lnk
+   do
+     if cmd /C comp/M "$lnk" "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\$lnk"
+     then cmd /C del "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\$lnk"
+     fi
+   done
+   for bat in *.bat
+   do
+     if cmd /C comp/M "$bat" "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\$bat"
+     then cmd /C del "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\$bat"
+     fi
+   done
+  )
+fi
 
 # test w/o WSL: call this script with REGTOOLFAKE=true dash config-distros.sh
 if ${REGTOOLFAKE:-false}
