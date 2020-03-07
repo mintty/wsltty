@@ -8,13 +8,13 @@
 
 
 # wsltty release
-ver=3.1.0.3
+ver=3.1.4
 
 # wsltty appx release - must have 4 parts!
-verx=3.1.0.3
+verx=3.1.4.0
 
 # mintty release version
-minttyver=3.1.0
+minttyver=3.1.4
 
 # wslbridge2 release version
 wslbridgever=0.5
