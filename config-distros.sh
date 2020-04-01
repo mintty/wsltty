@@ -225,7 +225,7 @@ config () {
     	icon="$basepath/$distro.exe"
     	root="$basepath/rootfs"
     else
-    	icon="%LOCALAPPDATA%/lxss/bash.ico"
+    	icon="$installdir"'\wsl.ico'
     	root="$basepath"
     fi
 
