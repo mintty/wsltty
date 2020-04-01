@@ -224,9 +224,15 @@ config () {
     then
     	icon="$basepath/$distro.exe"
     	root="$basepath/rootfs"
-    else
-    	icon="$installdir"'\wsl.ico'
+    elif [ -d "$LOCALAPPDATA/lxss" ]
+    then
+    	# legacy "Bash on Windows"
+    	icon="%LOCALAPPDATA%/lxss/bash.ico"
     	root="$basepath"
+    else
+    	# imported distro? (#226, #236)
+    	icon="$installdir"'\wsl.ico'
+    	root="$basepath/rootfs"
     fi
 
     # invocation parameters for mintty
