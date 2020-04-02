@@ -4,16 +4,21 @@ set refinstalldir=%%LOCALAPPDATA%%\wsltty
 set installdir="%LOCALAPPDATA%\wsltty"
 set refconfigdir=%%APPDATA%%\wsltty
 set configdir="%APPDATA%\wsltty"
+call dequote installdir
+call dequote configdir
 set oldroot="%installdir%"
 set oldhomedir="%installdir%\home\%USERNAME%"
+call dequote oldroot
+call dequote oldhomedir
 set oldconfigdir="%oldhomedir%\.config\mintty"
+call dequote oldconfigdir
 if not "%1" == "" set refinstalldir=%1 && set installdir=%1
 if not "%2" == "" set refconfigdir=%2 && set configdir=%2
 
 
 :deploy
 
-mkdir "%installdir%"
+mkdir "%installdir%" 2> nul:
 
 rem clean up previous installation artefacts
 del /Q "%installdir%\*.bat"
@@ -31,6 +36,8 @@ rem copy "WSL Terminal %%.lnk" "%installdir%"
 copy config-distros.sh "%installdir%"
 
 copy mkshortcut.vbs "%installdir%"
+copy cmd2.bat "%installdir%"
+copy dequote.bat "%installdir%"
 
 rem allow persistent customization of default icon:
 if not exist "%installdir%\wsl.ico" copy tux.ico "%installdir%\wsl.ico"
@@ -39,16 +46,16 @@ copy uninstall.bat "%installdir%"
 
 if not exist "%installdir%\bin" goto instbin
 rem move previous programs possibly in use out of the way
-del /Q "%installdir%\bin\*.old"
+del /Q "%installdir%\bin\*.old" 2> nul:
 ren "%installdir%\bin\cygwin1.dll" cygwin1.dll.old
 ren "%installdir%\bin\cygwin-console-helper.exe" cygwin-console-helper.exe.old
 ren "%installdir%\bin\mintty.exe" mintty.exe.old
 ren "%installdir%\bin\wslbridge2.exe" wslbridge2.exe.old
 ren "%installdir%\bin\wslbridge2-backend" wslbridge2-backend.old
-del /Q "%installdir%\bin\*.old"
+del /Q "%installdir%\bin\*.old" 2> nul:
 
 :instbin
-mkdir "%installdir%\bin"
+mkdir "%installdir%\bin" 2> nul:
 copy cygwin1.dll "%installdir%\bin"
 copy cygwin-console-helper.exe "%installdir%\bin"
 copy mintty.exe "%installdir%\bin"
@@ -65,22 +72,23 @@ rem copy cygiconv-2.dll "%installdir%"\bin
 rem copy cygintl-8.dll "%installdir%"\bin
 
 rem create system config directory and copy config archive
-mkdir "%installdir%\usr\share\mintty\lang"
+mkdir "%installdir%\usr\share\mintty\lang" 2> nul:
 copy lang.zoo "%installdir%\usr\share\mintty\lang"
-mkdir "%installdir%\usr\share\mintty\themes"
+mkdir "%installdir%\usr\share\mintty\themes" 2> nul:
 copy themes.zoo "%installdir%\usr\share\mintty\themes"
-mkdir "%installdir%\usr\share\mintty\sounds"
+mkdir "%installdir%\usr\share\mintty\sounds" 2> nul:
 copy sounds.zoo "%installdir%\usr\share\mintty\sounds"
-mkdir "%installdir%\usr\share\mintty\info"
+mkdir "%installdir%\usr\share\mintty\info" 2> nul:
 copy charnames.txt "%installdir%\usr\share\mintty\info"
-mkdir "%installdir%\usr\share\mintty\icon"
+mkdir "%installdir%\usr\share\mintty\icon" 2> nul:
 copy tux.ico "%installdir%\usr\share\mintty\icon"
 copy mintty.ico "%installdir%\usr\share\mintty\icon"
 
 
 rem create Start Menu Folder
 set smf="%APPDATA%\Microsoft\Windows\Start Menu\Programs\WSLtty"
-mkdir "%smf%"
+call dequote smf
+mkdir "%smf%" 2> nul:
 
 rem clean up previous installation
 del /Q "%smf%\*.lnk"
@@ -93,7 +101,7 @@ copy "configure WSL shortcuts.lnk" "%smf%"
 rem copy "WSL Terminal.lnk" "%smf%"
 rem copy "WSL Terminal %%.lnk" "%smf%"
 rem clean up previous installation
-rmdir /S /Q "%smf%\context menu shortcuts"
+rmdir /S /Q "%smf%\context menu shortcuts" 2> nul:
 
 rem unpack config files in system config directory
 cd /D "%installdir%\usr\share\mintty\lang"
@@ -102,6 +110,7 @@ cd /D "%installdir%\usr\share\mintty\themes"
 "%installdir%\bin\zoo" xO themes
 cd /D "%installdir%\usr\share\mintty\sounds"
 "%installdir%\bin\zoo" xO sounds
+cd /D "%installdir%"
 
 
 :migrate configuration
@@ -116,24 +125,28 @@ rmdir "%oldhomedir%\.config"
 if exist "%configdir%\config" goto deloldhome
 if exist "%oldhomedir%\.minttyrc" copy "%oldhomedir%\.minttyrc" "%configdir%\config" && del "%oldhomedir%\.minttyrc"
 :deloldhome
-rmdir "%oldhomedir%"
-rmdir "%oldroot%\home"
+rmdir "%oldhomedir%" 2> nul:
+rmdir "%oldroot%\home" 2> nul:
 
 
 :userconfig
 
 rem create user config directory and subfolders
-mkdir "%configdir%\lang"
-mkdir "%configdir%\themes"
-mkdir "%configdir%\sounds"
+mkdir "%configdir%\lang" 2> nul:
+mkdir "%configdir%\themes" 2> nul:
+mkdir "%configdir%\sounds" 2> nul:
 
 rem create config file if it does not yet exist
 if not exist "%configdir%\config" echo # To use common configuration in %%APPDATA%%\mintty, simply remove this file>"%configdir%\config"
 
+
+:appconfig
+
 rem distro-specific stuff: shortcuts and launch scripts
 cd /D "%installdir%"
-bin\dash.exe "%installdir%\config-distros.sh"
-rem bin\dash.exe "%installdir%\config-distros.sh" -contextmenu
+echo Configuring for WSL distributions
+bin\dash.exe "config-distros.sh"
+rem rem bin\dash.exe "config-distros.sh" -contextmenu
 
 
 :end

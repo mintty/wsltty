@@ -1,12 +1,42 @@
 #! /bin/sh
 
+# dash built-in echo enforces interpretation of \t etc
+echoc () {
+  #cmd /c echo $*
+  printf '%s\n' "$*"
+}
+
+copy () {
+  from="$1"
+  to="$2"
+  export from to
+  cmd /c cmd2.bat copy
+}
+
+delete () {
+  from=/F
+  to="$1"
+  export from to
+  cmd /c cmd2.bat del
+}
+
+compare () {
+  from="$1"
+  to="$2"
+  export from to
+  cmd /c cmd2.bat comp/M
+}
+
+
 case "$installdir" in
 ?*)	custominst=true;;
 "")	custominst=false;;
 esac
 
 INSTDIR="${installdir:-$LOCALAPPDATA/wsltty}"
+echoc "Installing wsltty into $INSTDIR"
 INSTDIR=`cd "$INSTDIR"; pwd`
+installcop=${installdir:-"$LOCALAPPDATA\\wsltty"}
 installdir=${installdir:-'%LOCALAPPDATA%\wsltty'}
 
 target="$installdir"'\bin\mintty.exe'
@@ -38,6 +68,9 @@ case "$1" in
   shift;;
 -shortcuts-remove)
   remove=true
+  shift;;
+-default)
+  alldistros=false
   shift;;
 -contextmenu)
   contextmenu=true
@@ -76,20 +109,21 @@ case "$1" in
   shift;;
 esac
 
+
 if $config && ! $contextmenu
 then
   # remove shortcut entries in Start menu and cmd-line bat shortcuts
   (cd "$INSTDIR"
    for lnk in *.lnk
    do
-     if cmd /C comp/M "$lnk" "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\$lnk"
-     then cmd /C del "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\$lnk"
+     if compare "$lnk" "$APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\$lnk"
+     then delete "$APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\$lnk"
      fi
    done
    for bat in *.bat
    do
-     if cmd /C comp/M "$bat" "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\$bat"
-     then cmd /C del "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\$bat"
+     if compare "$bat" "$LOCALAPPDATA\\Microsoft\\WindowsApps\\$bat"
+     then delete "$LOCALAPPDATA\\Microsoft\\WindowsApps\\$bat"
      fi
    done
   )
@@ -121,10 +155,6 @@ regtool () {
 }
 fi
 
-# dash built-in echo enforces interpretation of \t etc
-echoc () {
-  cmd /c echo $*
-}
 
 if $config
 then while read line; do echo "$line"; done <</EOB > mkbat.bat
@@ -158,10 +188,10 @@ then
   bridgeargs=-contextmenu-remove
   cscript /nologo mkshortcut.vbs "/name:remove from context menu" "/min:true"
 
-  cmd /C copy "add to context menu.lnk" "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\WSLtty"
-  cmd /C copy "add default to context menu.lnk" "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\WSLtty"
-  cmd /C copy "remove from context menu.lnk" "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\WSLtty"
-  cmd /C copy "configure WSL shortcuts.lnk" "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\WSLtty"
+  copy "add to context menu.lnk" "$APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\WSLtty"
+  copy "add default to context menu.lnk" "$APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\WSLtty"
+  copy "remove from context menu.lnk" "$APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\WSLtty"
+  copy "configure WSL shortcuts.lnk" "$APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\WSLtty"
 
   # restore target
   target="$installdir"'\bin\mintty.exe'
@@ -212,12 +242,10 @@ config () {
     	psh_cmd='([xml]$(Get-Content '"\"$manifest\""')).Package.Applications.Application.Executable'
     	executable=`appex "$manifest"`
     	if [ -r "$ProgramW6432/WindowsApps/$distrinst/$executable" ]
-    	then	#icon="%ProgramW6432%/WindowsApps/$distrinst/$executable"
-    		icon="$ProgramW6432/WindowsApps/$distrinst/$executable"
+    	then	icon="$ProgramW6432/WindowsApps/$distrinst/$executable"
     	elif [ -r "$ProgramW6432/WindowsApps/$distrinst/images/icon.ico" ]
-    	then	#icon="%ProgramW6432%/WindowsApps/$distrinst/images/icon.ico"
-    		icon="$ProgramW6432/WindowsApps/$distrinst/images/icon.ico"
-    	else	icon="$installdir"'\wsl.ico'
+    	then	icon="$ProgramW6432/WindowsApps/$distrinst/images/icon.ico"
+    	else	icon="$installcop"'\wsl.ico'
     	fi
     	root="$basepath/rootfs"
     elif [ -f "$basepath/$distro.exe" ]
@@ -227,11 +255,11 @@ config () {
     elif [ -d "$LOCALAPPDATA/lxss" ]
     then
     	# legacy "Bash on Windows"
-    	icon="%LOCALAPPDATA%/lxss/bash.ico"
+    	icon="$LOCALAPPDATA/lxss/bash.ico"
     	root="$basepath"
     else
     	# imported distro? (#226, #236)
-    	icon="$installdir"'\wsl.ico'
+    	icon="$installcop"'\wsl.ico'
     	root="$basepath/rootfs"
     fi
 
@@ -246,7 +274,7 @@ config () {
   DefaultDistribution|"")	# WSL default installation
     distro=
     name=WSL
-    icon="$installdir"'\wsl.ico'
+    icon="$installcop"'\wsl.ico'
     minttyargs='--WSL= --configdir="'"$configdir"'"'
     MINTARGS='--WSL= --configdir="'"$CONFDIR"'"'
     #bridgeargs='-t'
@@ -286,43 +314,57 @@ config () {
         reg delete "$direckey\\shell\\$keyname" /f
         reg delete "$direckey\\Background\\shell\\$keyname" /f
       else
-        reg add "$direckey\\shell\\$keyname" /d "$name Terminal" /f
-        reg add "$direckey\\shell\\$keyname" /v Icon /d "$icon" /f
-        cmd /C reg add "$direckey\\shell\\$keyname\\command" /d "\"$target\" -i \"$icon\" --dir \"%1\" $minttyargs $bridgeargs" /f
-        reg add "$direckey\\Background\\shell\\$keyname" /d "$name Terminal" /f
-        reg add "$direckey\\Background\\shell\\$keyname" /v Icon /d "$icon" /f
-        cmd /C reg add "$direckey\\Background\\shell\\$keyname\\command" /d "\"$target\" -i \"$icon\" $minttyargs $bridgeargs" /f
+        direckey='/HKEY_CURRENT_USER/Software/Classes/Directory'
+        echoc Registry setting "$direckey/[Background/]shell/$keyname"
+        target="$installcop"'\bin\mintty.exe'
+
+        regtool add "$direckey/shell"
+        regtool add "$direckey/shell/$keyname"
+        regtool set "$direckey/shell/$keyname/" -s "$name Terminal"
+        regtool set "$direckey/shell/$keyname/Icon" -s "$icon"
+        regtool add "$direckey/shell/$keyname/command"
+        regtool set "$direckey/shell/$keyname/command/" -s "\"$target\" -i \"$icon\" --dir \"%1\" $MINTARGS $bridgeargs"
+
+        regtool add "$direckey/Background/shell"
+        regtool add "$direckey/Background/shell/$keyname"
+        regtool set "$direckey/Background/shell/$keyname/" -s "$name Terminal"
+        regtool set "$direckey/Background/shell/$keyname/Icon" -s "$icon"
+        regtool add "$direckey/Background/shell/$keyname/command"
+        regtool set "$direckey/Background/shell/$keyname/command/" -s "\"$target\" -i \"$icon\" $MINTARGS $bridgeargs"
       fi
     else
       # invocation shortcuts and scripts
       if $remove
       then
-        cmd /C del "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\$name Terminal.lnk"
-        cmd /C del "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\$name.bat"
-        cmd /C del "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\$name~.bat"
+        delete "$APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\$name Terminal.lnk"
+        delete "$LOCALAPPDATA\\Microsoft\\WindowsApps\\$name.bat"
+        delete "$LOCALAPPDATA\\Microsoft\\WindowsApps\\$name~.bat"
 
         if [ "$name" = "WSL" ]
         then
               # determine actual Desktop folder
               desktopkey='\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders\Desktop'
               desktop=`regtool get "$desktopkey"`
-              cmd /C del "$desktop\\$name Terminal.lnk"
+              case "$desktop" in
+              %USERPROFILE%*)	desktop="$USERPROFILE${desktop#%USERPROFILE%}";;
+              esac
+              delete "$desktop\\$name Terminal.lnk"
         fi
       else
         # desktop shortcut in %USERPROFILE% -> Start Menu - WSLtty
         cscript /nologo mkshortcut.vbs "/name:$name Terminal %"
         #mkshortcut.exe -n "$name Terminal %" -i "$icon" "$TARGETPATH" -a "$MINTARGS" -d "" -w %USERPROFILE%
-        cmd /C copy "$name Terminal %.lnk" "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\WSLtty"
+        copy "$name Terminal %.lnk" "$APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\WSLtty"
 
         # launch script in . -> WSLtty home, WindowsApps launch folder
         cmd /C mkbat.bat "$name"
-        cmd /C copy "$name.bat" "%LOCALAPPDATA%\\Microsoft\\WindowsApps"
+        copy "$name.bat" "$LOCALAPPDATA\\Microsoft\\WindowsApps"
 
         # store backup copies in installation dir
         if [ "$PWD" != "$INSTDIR" ]
         then
-              cmd /C copy "$name Terminal %.lnk" "$installdir"
-              cmd /C copy "$name.bat" "$installdir"
+              copy "$name Terminal %.lnk" "$installcop"
+              copy "$name.bat" "$installcop"
         fi
 
         # prepare versions to target WSL home directory
@@ -333,29 +375,32 @@ config () {
         # desktop shortcut in ~ -> Start Menu
         cscript /nologo mkshortcut.vbs "/name:$name Terminal"
         #mkshortcut.exe -n "$name Terminal" -i "$icon" "$TARGETPATH" -a "$MINTARGS" -d "" -w %USERPROFILE%
-        cmd /C copy "$name Terminal.lnk" "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs"
+        copy "$name Terminal.lnk" "$APPDATA\\Microsoft\\Windows\\Start Menu\\Programs"
 
         # default desktop shortcut in ~ -> Desktop
         if [ "$name" = "WSL" ]
         then
-              #cmd /C copy "$name Terminal.lnk" "%USERPROFILE%\\Desktop"
-              #cmd /C copy "$name Terminal.lnk" "%APPDATA%\\..\\Desktop\\"
+              #copy "$name Terminal.lnk" "$USERPROFILE\\Desktop"
+              #copy "$name Terminal.lnk" "$APPDATA\\..\\Desktop\\"
               # the above does not work reliably (see #166)
               # determine actual Desktop folder
               desktopkey='\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders\Desktop'
               desktop=`regtool get "$desktopkey"`
-              cmd /C copy "$name Terminal.lnk" "$desktop\\"
+              case "$desktop" in
+              %USERPROFILE%*)	desktop="$USERPROFILE${desktop#%USERPROFILE%}";;
+              esac
+              copy "$name Terminal.lnk" "$desktop\\"
         fi
 
         # launch script in ~ -> WSLtty home, WindowsApps launch folder
         cmd /C mkbat.bat "$name~"
-        cmd /C copy "$name~.bat" "%LOCALAPPDATA%\\Microsoft\\WindowsApps"
+        copy "$name~.bat" "$LOCALAPPDATA\\Microsoft\\WindowsApps"
 
         # store backup copies in installation dir
         if [ "$PWD" != "$INSTDIR" ]
         then
-              cmd /C copy "$name Terminal.lnk" "$installdir"
-              cmd /C copy "$name~.bat" "$installdir"
+              copy "$name Terminal.lnk" "$installcop"
+              copy "$name~.bat" "$installcop"
         fi
       fi
 
