@@ -90,6 +90,14 @@ is discouraged because that would bypass essential options.
 Terminal communication with WSL via its modes V1 or V2 is handled 
 automatically by wsltty (mintty and the wslbridge2 gateway).
 
+#### Starting issues ####
+
+If wsltty fails with an 
+`Error: Could not fork child process: Resource temporarily unavailable`...,
+its runtime may be affected by some over-ambitious virus defense strategy.
+For example, with Windows Defender, option “Force randomization for images” 
+should be disabled.
+
 ---
 
 ### Configuration ###
@@ -158,10 +166,11 @@ Mintty can maintain its configuration file in various locations,
 with the following precedence:
 * file given with mintty option `-c` (not used by wsltty default installation)
 * file `config` in directory given with mintty option `--configdir`
-  * This is `%APPDATA%\wsltty\config` in the default wsltty installation.
+  * **`%APPDATA%\wsltty\config`** in the default wsltty installation
 * `%HOME%\.minttyrc` (usage deprecated with wsltty)
 * `%HOME%\.config\mintty\config` (usage deprecated with wsltty)
-* `%APPDATA%\mintty\config`
+* common config file for all mintty installation instances
+  * **`%APPDATA%\mintty\config`**
 * `%LOCALAPPDATA%\wsltty\etc\minttyrc` (usage deprecated with wsltty)
 
 Note:
