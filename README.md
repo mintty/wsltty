@@ -1,4 +1,4 @@
-Mintty as a terminal for WSL (Windows Subsystem for Linux).
+Mintty as a terminal for WSL (Windows Subsystem for Linux).  
 
 <img align=right src=wsltty.png>
 
@@ -49,23 +49,6 @@ The optional first parameter designates the installation target,
 the optional second parameter designates the configuration directory.
 
 ### Installation with other package management environments ###
-
-#### Chocolatey ####
-
-If you use the [Chocolatey package manager](https://chocolatey.org/), 
-invoke one of
-<img height=222 align=right src=https://github.com/mintty/wsltty.appx/raw/master/wsltty.appx.png>
-* `choco install wsltty`
-* `choco upgrade wsltty`
-
-#### Scoop ####
-
-If you use the [Scoop package manager](https://scoop.sh/), 
-* `scoop bucket add extras`
-
-then, invoke one of
-* `scoop install wsltty`
-* `scoop update wsltty`
 
 #### Windows Appx package ####
 
