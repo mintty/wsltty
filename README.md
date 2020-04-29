@@ -50,6 +50,9 @@ the optional second parameter designates the configuration directory.
 
 ### Installation with other package management environments ###
 
+Note that these are 3rd-party contributions and do not necessarily 
+provide the latest version.
+
 #### Chocolatey ####
 
 If you use the [Chocolatey package manager](https://chocolatey.org/), 
