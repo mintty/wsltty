@@ -101,6 +101,10 @@ its runtime may be affected by some over-ambitious virus defense strategy.
 For example, with Windows Defender, option “Force randomization for images” 
 should be disabled.
 
+If wsltty fails with an error message that mentions a disk mount path (e.g. `/mnt/c`),
+workarounds may be the shutdown of the WSL V2 virtual machine (`wsl --shutdown` on the distro) 
+or turning off “fast startup” in the Windows power settings (#246, #248).
+
 ---
 
 ### Configuration ###
