@@ -8,17 +8,21 @@
 
 
 # wsltty release
-ver=3.1.4.2
+ver=3.1.8
 
 # wsltty appx release - must have 4 parts!
-verx=3.1.4.2
+verx=3.1.8.0
 
 
 # mintty release version
-minttyver=3.1.4
+minttyver=3.1.8
 
 # wslbridge2 release version
-wslbridgever=0.5
+#repo=Biswa96/wslbridge2
+#wslbridgever=0.5
+
+repo=mintty/wslbridge2
+wslbridgever=0.5.1
 
 ##############################
 
@@ -101,12 +105,19 @@ fix-verx:
 	echo patched AppxManifest.xml
 
 #############################################################################
+# clear binaries
+
+clean:
+	rm -fr wslbridge2-$(wslbridgever)/bin
+	rm -fr bin
+
+#############################################################################
 # generation
 
 wslbridge:	$(wslbridge)
 
 wslbridge2-$(wslbridgever).zip:
-	$(wgeto) https://github.com/Biswa96/wslbridge2/archive/v$(wslbridgever).zip -o wslbridge2-$(wslbridgever).zip
+	$(wgeto) https://github.com/$(repo)/archive/v$(wslbridgever).zip -o wslbridge2-$(wslbridgever).zip
 
 wslbridge-source:	wslbridge2-$(wslbridgever).zip
 	unzip -ou wslbridge2-$(wslbridgever).zip
