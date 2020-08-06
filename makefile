@@ -8,14 +8,14 @@
 
 
 # wsltty release
-ver=3.2.0
+ver=3.3.0
 
 # wsltty appx release - must have 4 parts!
-verx=3.2.0.0
+verx=3.3.0.0
 
 
 # mintty release version
-minttyver=3.2.0
+minttyver=3.3.0
 
 # wslbridge2 release version
 #repo=Biswa96/wslbridge2
