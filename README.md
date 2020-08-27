@@ -38,8 +38,13 @@ to enable the “Run anyway” button.
 #### Installation from source repository ####
 
 Checkout the wsltty repository, or download the source archive, unpack and rename the directory to `wsltty`.
-Invoke `make`, then `make install`.
-Note this has to be done within a Cygwin environment.
+Invoke `make` (or `make pkg` if directory is called `wsltty-master`), 
+then `make install`.
+
+Note this has to be done within a Cygwin environment. A minimal Cygwin 
+environment for this purpose would be installed with the 
+[Cygwin installer](https://cygwin.com/setup-x86_64.exe) from cygwin.com, 
+with additional packages `make`, `gcc-g++ 9.3.0`, `unzip`, `zoo`.
 
 #### Installation to non-default locations ####
 
