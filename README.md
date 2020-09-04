@@ -43,7 +43,8 @@ then `make install`.
 
 Note this has to be done within a Cygwin environment. A minimal Cygwin 
 environment for this purpose would be installed with the 
-[Cygwin installer](https://cygwin.com/setup-x86_64.exe) from cygwin.com, 
+[Cygwin installer](https://cygwin.com/setup-x86_64.exe) 
+from [cygwin.com](https://cygwin.com/), 
 with additional packages `make`, `gcc-g++ 9.3.0`, `unzip`, `zoo`.
 
 #### Installation to non-default locations ####
@@ -110,6 +111,21 @@ If wsltty fails with an error message that mentions a disk mount path (e.g. `/mn
 workarounds may be the shutdown of the WSL V2 virtual machine (`wsl --shutdown` on the distro) 
 or turning off “fast startup” in the Windows power settings (#246, #248).
 
+#### WSL shell starting issues ####
+
+With WSL V2, an additional background shell is run which may cause trouble 
+for example when setting up automatic interaction between Windows side and 
+WSL side 
+(see https://github.com/mintty/wsltty/issues/197#issuecomment-687030527).
+As a workaround, the following may be added to (the beginning of) the 
+WSL shell initialization script `.bashrc` (adapt for other shells):
+```
+    # work around https://github.com/mintty/wsltty/issues/197
+    if [[ -n "$WSL_DISTRO_NAME" ]]; then
+      command -v cmd.exe > /dev/null || exit
+    fi
+```
+
 ---
 
 ### Configuration ###
@@ -117,7 +133,7 @@ or turning off “fast startup” in the Windows power settings (#246, #248).
 #### Start Menu and Desktop shortcuts ####
 
 In the Start Menu, the following shortcuts are installed:
-* Shortcut <img align=absmiddle height=40 src=tux1.png>`WSL Terminal` to start the default WSL distribution (as configured with the Windows tool `wslconfig`)
+* Shortcut <img align=absmiddle height=40 src=tux1.png>`WSL Terminal` to start the default WSL distribution (as configured with the Windows tool `wslconfig` or `wsl -s`)
 * For each installed WSL distribution, for example `Ubuntu`, a shortcut like <img align=absmiddle height=40 src=ubuntu1.png>`Ubuntu Terminal` to start in the WSL user home
 
 In the Start Menu subfolder WSLtty, the following additional shortcuts are installed:
@@ -125,7 +141,7 @@ In the Start Menu subfolder WSLtty, the following additional shortcuts are insta
 * For each installed WSL distribution, for example `Ubuntu`, a shortcut like <img align=absmiddle height=40 src=ubuntu1.png>`Ubuntu Terminal %` to start in the Windows %USERPROFILE% home
 
 One Desktop shortcut is installed:
-* Shortcut <img align=absmiddle height=40 src=tux1.png>`WSL Terminal` to start the default WSL distribution (as configured with the Windows tool `wslconfig`)
+* Shortcut <img align=absmiddle height=40 src=tux1.png>`WSL Terminal` to start the default WSL distribution (as configured with the Windows tool `wslconfig` or `wsl -s`)
 
 Other, distribution-specific shortcuts can be copied to the desktop 
 from the Start Menu if desired.
@@ -186,7 +202,7 @@ with the following precedence:
 * `%LOCALAPPDATA%\wsltty\etc\minttyrc` (usage deprecated with wsltty)
 
 Note:
-* `%APPDATA%\wsltty\config` is the new user configuration file location. 
+* `%APPDATA%\wsltty\config` is the user configuration file location. 
   Further subdirectories of `%APPDATA%\wsltty` are used for language, 
   themes, and sounds resource configuration. 
   Note the distinction from `%LOCALAPPDATA%\wsltty` which is the default 
@@ -198,7 +214,7 @@ Note:
   root directory of the cygwin standalone installation hosting wsltty. 
   So `%HOME%` would mean `%LOCALAPPDATA%\wsltty\home\%USERNAME%`.
   If you define `HOME` at Windows level, this changes accordingly.
-  Note, however, that the WSL `HOME` is a completely different setting.
+  Note, however, that the WSL `$HOME` is a completely different setting.
 
 #### Shell selection and Login shell ####
 
