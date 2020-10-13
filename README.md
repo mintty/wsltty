@@ -80,7 +80,12 @@ then, invoke one of
 
 A Windows Appx package and certificate is available in the [wsltty.appx](https://github.com/mintty/wsltty.appx/) repository.
 
-<br clear=all>
+### Uninstallation ###
+
+To uninstall wsltty desktop, start menu, and context menu integration:
+Open a Windows `cmd`, go into the wsltty installation folder:
+`cd %LOCALAPPDATA%\wsltty` and run the `uninstall` script.
+To uninstall wsltty software completely, remove the installation folder manually.
 
 ---
 
