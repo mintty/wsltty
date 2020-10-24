@@ -38,6 +38,7 @@ to enable the “Run anyway” button.
 #### Installation from source repository ####
 
 Checkout the wsltty repository, or download the source archive, unpack and rename the directory to `wsltty`.
+Install Alpine WSL from the Microsoft Store.
 Invoke `make` (or `make pkg` if directory is called `wsltty-master`), 
 then `make install`.
 
