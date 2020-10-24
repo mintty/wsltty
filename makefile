@@ -8,21 +8,45 @@
 
 
 # wsltty release
-ver=3.3.0
+ver=3.4.1
 
 # wsltty appx release - must have 4 parts!
-verx=3.3.0.0
+verx=3.4.1.0
 
 
+##############################
 # mintty release version
-minttyver=3.3.0
 
-# wslbridge2 release version
-#repo=Biswa96/wslbridge2
-#wslbridgever=0.5
+minttyver=3.4.1
 
-repo=mintty/wslbridge2
-wslbridgever=0.5.1
+##############################
+
+# wslbridge2 repository
+repo=Biswa96/wslbridge2
+
+# wslbridge2 master release version
+wslbridgever=0.6
+
+# wslbridge2 latest version
+#archive=master
+#wslbridgedir=wslbridge2-$(archive)
+
+# wslbridge2 branch or commit version (from fix-window-resize branch) and dir
+#commit=70e0dcea1db122d076ce1578f2a45280cc92d09f
+#commit=8b6dd7ee2b3102d72248990c21764c5cf86c6612
+#archive=$(commit)
+#wslbridgedir=wslbridge2-$(archive)
+
+
+# wslbridge2 fork repository and version
+#repo=mintty/wslbridge2
+#wslbridgever=0.5.1
+
+
+# wslbridge2 release or fork archive and dir
+archive=v$(wslbridgever)
+wslbridgedir=wslbridge2-$(wslbridgever)
+
 
 ##############################
 
@@ -108,7 +132,7 @@ fix-verx:
 # clear binaries
 
 clean:
-	rm -fr wslbridge2-$(wslbridgever)/bin
+	rm -fr $(wslbridgedir)/bin
 	rm -fr bin
 
 #############################################################################
@@ -116,20 +140,22 @@ clean:
 
 wslbridge:	$(wslbridge)
 
-wslbridge2-$(wslbridgever).zip:
-	$(wgeto) https://github.com/$(repo)/archive/v$(wslbridgever).zip -o wslbridge2-$(wslbridgever).zip
+$(wslbridgedir).zip:
+	$(wgeto) https://github.com/$(repo)/archive/$(archive).zip -o $(wslbridgedir).zip
 
-wslbridge-source:	wslbridge2-$(wslbridgever).zip
-	unzip -ou wslbridge2-$(wslbridgever).zip
-	cp wslbridge2-$(wslbridgever)/LICENSE LICENSE.wslbridge2
+wslbridge-source:	$(wslbridgedir).zip
+	unzip -o $(wslbridgedir).zip
+	cp $(wslbridgedir)/LICENSE LICENSE.wslbridge2
+	# patch
+	cd $(wslbridgedir); patch -p1 < ../0001-notify-size-change-inband.patch
 
 wslbridge-frontend:	wslbridge-source
 	echo ------------- Compiling wslbridge2 frontend
 	mkdir -p bin
 	# frontend build
-	cd wslbridge2-$(wslbridgever)/src; make -f Makefile.frontend RELEASE=1
+	cd $(wslbridgedir)/src; make -f Makefile.frontend RELEASE=1
 	# extract binaries
-	cp wslbridge2-$(wslbridgever)/bin/wslbridge2.exe bin/
+	cp $(wslbridgedir)/bin/wslbridge2.exe bin/
 
 windir=$(shell cd "${WINDIR}"; pwd)
 
@@ -140,9 +166,9 @@ wslbridge-backend:	wslbridge-source
 	# provide dependencies for backend build
 	PATH="$(windir)/Sysnative:${PATH}" cmd /C wsl.exe -u root $(BuildDistr) $(shell env | grep http_proxy=) apk add make g++ linux-headers < /dev/null
 	# invoke backend build
-	cd wslbridge2-$(wslbridgever)/src; PATH="$(windir)/Sysnative:${PATH}" cmd /C wsl.exe $(BuildDistr) make -f Makefile.backend RELEASE=1 < /dev/null
+	cd $(wslbridgedir)/src; PATH="$(windir)/Sysnative:${PATH}" cmd /C wsl.exe $(BuildDistr) make -f Makefile.backend RELEASE=1 < /dev/null
 	# extract binaries
-	cp wslbridge2-$(wslbridgever)/bin/wslbridge2-backend bin/
+	cp $(wslbridgedir)/bin/wslbridge2-backend bin/
 
 mintty-get:
 	$(wgeto) https://github.com/mintty/mintty/archive/$(minttyver).zip -o mintty-$(minttyver).zip

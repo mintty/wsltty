@@ -237,6 +237,24 @@ a shell pathname and an optional `-l` parameter
 
 ---
 
+### WSL locale setup and character encoding ###
+
+Character encoding setup by locale setting is propagated from the terminal 
+towards WSL. So you can select your favourite locale with configuration 
+options or with command-line options, for example in a copied dedicated 
+desktop shortcut.
+
+If for example you wish to run WSL in GB18030 encoding, you may set options
+`Locale=zh_CN` and `Charset=GB18030` and the WSL shell will adopt that 
+setting, provided that the selected locale is configured to be available 
+in the locale database of the WSL distribution.
+This can be achieved in Ubuntu with the following commands:
+* `sudo mkdir -p /var/lib/locales/supported.d`
+* `sudo echo zh_CN.GB18030 GB18030 >> /var/lib/locales/supported.d/local`
+* `sudo locale-gen`
+
+---
+
 ### Components and Credits ###
 
 For mintty, see the [Mintty homepage](http://mintty.github.io/) 
