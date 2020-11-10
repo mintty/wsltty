@@ -8,16 +8,16 @@
 
 
 # wsltty release
-ver=3.4.2
+ver=3.4.3
 
 # wsltty appx release - must have 4 parts!
-verx=3.4.2.0
+verx=3.4.3.0
 
 
 ##############################
 # mintty release version
 
-minttyver=3.4.2
+minttyver=3.4.3
 
 ##############################
 
@@ -268,7 +268,7 @@ copcab:	ver
 	cp *.url $(CAB)/
 	cp *.bat $(CAB)/
 	cp config-distros.sh $(CAB)/
-	cp makeshortcut.vbs $(CAB)/
+	cp mkshortcut.vbs $(CAB)/
 
 cop:	copcab
 	mkdir -p rel
