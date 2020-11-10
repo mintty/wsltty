@@ -35,6 +35,12 @@ You may need to open the Properties of the installer first, tab “General”
 section “Security” (if available) and select “Unblock”, 
 to enable the “Run anyway” button.
 
+#### Installation from archive ####
+
+In case a local anti-virus guard barfs about the wsltty installer, the 
+release also contains a `.cab` file. Download it, open it, extract its files 
+to some temporary deployment directory, and invoke `install.bat` from there.
+
 #### Installation from source repository ####
 
 Checkout the wsltty repository, or download the source archive, unpack and rename the directory to `wsltty`.
