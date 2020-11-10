@@ -240,38 +240,48 @@ appx-bin:
 	cp /bin/cygwin1.dll bin/
 	cp /bin/cygwin-console-helper.exe bin/
 
-cop:	ver
+CAB=wsltty-$(ver)-$(arch)
+
+copcab:	ver
+	mkdir -p $(CAB)
+	cp bin/cygwin1.dll $(CAB)/
+	cp bin/cygwin-console-helper.exe $(CAB)/
+	cp bin/dash.exe $(CAB)/
+	cp bin/regtool.exe $(CAB)/
+	cp bin/mintty.exe $(CAB)/
+	cp bin/zoo.exe $(CAB)/
+	cp lang.zoo $(CAB)/
+	cp themes.zoo $(CAB)/
+	cp sounds.zoo $(CAB)/
+	cp charnames.txt $(CAB)/
+	cp bin/wslbridge2.exe $(CAB)/
+	cp bin/wslbridge2-backend $(CAB)/
+	cp mkshortcut.vbs $(CAB)/
+	#cp bin/mkshortcut.exe $(CAB)/
+	#cp bin/cygpopt-0.dll $(CAB)/
+	#cp bin/cygiconv-2.dll $(CAB)/
+	#cp bin/cygintl-8.dll $(CAB)/
+	cp LICENSE.* $(CAB)/
+	cp VERSION $(CAB)/
+	cp *.lnk $(CAB)/
+	cp *.ico $(CAB)/
+	cp *.url $(CAB)/
+	cp *.bat $(CAB)/
+	cp config-distros.sh $(CAB)/
+	cp makeshortcut.vbs $(CAB)/
+
+cop:	copcab
 	mkdir -p rel
+	cp -fl $(CAB)/* rel/
+
+installer:	cop
+	# prepare build of installer
 	rm -f rel/wsltty-$(ver)-install-$(arch).exe
 	sed -e "s,%version%,$(ver)," -e "s,%arch%,$(arch)," makewinx.cfg > rel/wsltty.SED
-	cp bin/cygwin1.dll rel/
-	cp bin/cygwin-console-helper.exe rel/
-	cp bin/dash.exe rel/
-	cp bin/regtool.exe rel/
-	cp bin/mintty.exe rel/
-	cp bin/zoo.exe rel/
-	cp lang.zoo rel/
-	cp themes.zoo rel/
-	cp sounds.zoo rel/
-	cp charnames.txt rel/
-	cp bin/wslbridge2.exe rel/
-	cp bin/wslbridge2-backend rel/
-	cp mkshortcut.vbs rel/
-	#cp bin/mkshortcut.exe rel/
-	#cp bin/cygpopt-0.dll rel/
-	#cp bin/cygiconv-2.dll rel/
-	#cp bin/cygintl-8.dll rel/
-	cp LICENSE.* rel/
-	cp VERSION rel/
-	cp *.lnk rel/
-	cp *.ico rel/
-	cp *.url rel/
-	cp *.bat rel/
-	cp *.sh rel/
-	cp *.vbs rel/
-
-cab:	cop
+	# build installer
 	cd rel; iexpress /n wsltty.SED
+	# build cab archive
+	lcab -r $(CAB) rel/$(CAB).cab
 
 install:	cop installbat
 
@@ -289,7 +299,7 @@ mintty-usr:	mintty-get mintty-appx
 wsltty:	wslbridge cygwin mintty-build mintty-pkg
 
 # standalone wsltty package build target:
-pkg:	wslbridge cygwin mintty-get mintty-build mintty-pkg cab
+pkg:	wslbridge cygwin mintty-get mintty-build mintty-pkg installer
 
 # appx package contents target:
 wsltty-appx:	wslbridge appx-bin mintty-get mintty-build-appx mintty-appx
