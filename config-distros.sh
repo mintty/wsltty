@@ -14,10 +14,10 @@ copy () {
 }
 
 delete () {
-  from=/F
-  to="$1"
+  from="$1"
+  to="$1"	# same again, to fill parameter
   export from to
-  cmd /c cmd2.bat del
+  cmd /c cmd2.bat del/F
 }
 
 compare () {
@@ -291,7 +291,7 @@ config () {
   echoc "- root $root"
   wdir=%USERPROFILE%
 
-  if $ok && [ -n "$distro" ]
+  if $ok && ! $remove && [ -n "$distro" ]
   then	# fix #163: backend missing +x with certain mount options
 	echo Setting +x wslbridge2 backends for distro "'$distro'"
 	(cd "$INSTDIR"; cd bin; PATH="${WINDIR}/Sysnative:${PATH}" wsl.exe -d "$distro" chmod +x wslbridge2-backend)
