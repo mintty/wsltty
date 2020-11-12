@@ -4,6 +4,8 @@
 # make targets:
 # make [all]	build a distributable installer (default)
 # make pkg	build an installer, bypassing the system checks
+# make build	build the software (no installer)
+# make install	install wsltty locally from build (no installer needed)
 # make wsltty	build the software, using the local copy of mintty
 
 
@@ -297,6 +299,9 @@ mintty-usr:	mintty-get mintty-appx
 
 # local wsltty build target:
 wsltty:	wslbridge cygwin mintty-build mintty-pkg
+
+# build software without installer:
+build:	wslbridge cygwin mintty-get mintty-build mintty-pkg
 
 # standalone wsltty package build target:
 pkg:	wslbridge cygwin mintty-get mintty-build mintty-pkg installer

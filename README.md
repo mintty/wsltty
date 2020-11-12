@@ -45,8 +45,7 @@ to some temporary deployment directory, and invoke `install.bat` from there.
 
 Checkout the wsltty repository, or download the source archive, unpack and rename the directory to `wsltty`.
 Install Alpine WSL from the Microsoft Store.
-Invoke `make` (or `make pkg` if directory is called `wsltty-master`), 
-then `make install`.
+Invoke `make build`, then `make install`.
 
 Note this has to be done within a Cygwin environment. A minimal Cygwin 
 environment for this purpose would be installed with the 
