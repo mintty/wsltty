@@ -278,7 +278,7 @@ cop:	copcab
 
 installer:	cop
 	# prepare build of installer
-	rm -f rel/wsltty-$(ver)-install-$(arch).exe
+	rm -f rel/$(CAB)-install.exe
 	sed -e "s,%version%,$(ver)," -e "s,%arch%,$(arch)," makewinx.cfg > rel/wsltty.SED
 	# build installer
 	cd rel; iexpress /n wsltty.SED
