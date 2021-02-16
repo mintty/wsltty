@@ -51,7 +51,7 @@ Note this has to be done within a Cygwin environment. A minimal Cygwin
 environment for this purpose would be installed with the 
 [Cygwin installer](https://cygwin.com/setup-x86_64.exe) 
 from [cygwin.com](https://cygwin.com/), 
-with additional packages `make`, `gcc-g++ 9.3.0`, `unzip`, `zoo`.
+with additional packages `make`, `gcc-g++`, `unzip`, `zoo`, `patch`, (`lcab`).
 
 #### Installation to non-default locations ####
 
