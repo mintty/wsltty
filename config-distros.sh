@@ -291,6 +291,11 @@ config () {
   echoc "- root $root"
   wdir=%USERPROFILE%
 
+  case "$name" in
+  docker*)	echo skipping docker system
+  		return;;
+  esac
+
   if $ok && ! $remove && [ -n "$distro" ]
   then	# fix #163: backend missing +x with certain mount options
 	echo Setting +x wslbridge2 backends for distro "'$distro'"
