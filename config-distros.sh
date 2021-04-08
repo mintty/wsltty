@@ -295,6 +295,10 @@ config () {
   docker*)	echo skipping docker system
   		return;;
   esac
+  case "$root" in
+  *\\Docker*)	echo skipping docker system
+  		return;;
+  esac
 
   if $ok && ! $remove && [ -n "$distro" ]
   then	# fix #163: backend missing +x with certain mount options
