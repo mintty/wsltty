@@ -27,7 +27,7 @@ minttyver=3.5.0
 repo=Biswa96/wslbridge2
 
 # wslbridge2 master release version
-wslbridgever=0.6
+wslbridgever=0.8
 
 # wslbridge2 latest version
 #archive=master
