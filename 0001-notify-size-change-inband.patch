@@ -1,25 +1,16 @@
-diff -rup old/src/wslbridge2-backend.cpp new/src/wslbridge2-backend.cpp
---- old/src/wslbridge2-backend.cpp	2020-10-18 15:03:06.000000000 +0000
-+++ new/src/wslbridge2-backend.cpp	2021-03-18 18:31:35.684184400 +0000
-@@ -21,6 +21,7 @@
- #include <termios.h>
+diff --git a/src/wslbridge2-backend.cpp b/src/wslbridge2-backend.cpp
+index 8b86cc6..63a19e5 100644
+--- a/src/wslbridge2-backend.cpp
++++ b/src/wslbridge2-backend.cpp
+@@ -17,6 +17,7 @@
+ #include <sys/wait.h>
  #include <unistd.h>
  #include <wordexp.h>
 +#include <limits.h> // PIPE_BUF
  
  #include <string>
  #include <vector>
-@@ -321,6 +322,9 @@ int main(int argc, char *argv[])
-         /* Use dupped master fd to read OR write */
-         const int mfd_dp = dup(mfd);
-         assert(mfd_dp > 0);
-+#ifdef debug_to_input
-+        FILE * debug = fdopen(mfd_dp, "w"); // for fprintf
-+#endif
- 
-         struct pollfd fds[] = {
-                 { ioSockets.inputSock, POLLIN, 0 },
-@@ -330,6 +334,7 @@ int main(int argc, char *argv[])
+@@ -196,6 +197,7 @@ int main(int argc, char *argv[])
  
          ssize_t readRet = 0, writeRet = 0;
          char data[1024]; /* Buffer to hold raw data from pty */
@@ -27,13 +18,12 @@ diff -rup old/src/wslbridge2-backend.cpp new/src/wslbridge2-backend.cpp
  
          do
          {
-@@ -340,8 +345,86 @@ int main(int argc, char *argv[])
+@@ -206,8 +208,85 @@ int main(int argc, char *argv[])
              if (fds[0].revents & POLLIN)
              {
                  readRet = recv(ioSockets.inputSock, data, sizeof data, 0);
 -                if (readRet > 0)
 -                    writeRet = write(mfd_dp, data, readRet);
-+
 +                char * s = data;
 +                int len = readRet;
 +                writeRet = 1;
@@ -116,14 +106,14 @@ diff -rup old/src/wslbridge2-backend.cpp new/src/wslbridge2-backend.cpp
              }
  
              /* Resize window when buffer received in control socket */
-diff -rup old/src/wslbridge2.cpp new/src/wslbridge2.cpp
---- old/src/wslbridge2.cpp	2020-10-18 15:03:06.000000000 +0000
-+++ new/src/wslbridge2.cpp	2021-02-26 17:45:28.437040700 +0000
-@@ -57,32 +57,85 @@ union IoSockets
+diff --git a/src/wslbridge2.cpp b/src/wslbridge2.cpp
+index 300ad57..3ba9096 100644
+--- a/src/wslbridge2.cpp
++++ b/src/wslbridge2.cpp
+@@ -43,19 +43,41 @@ union IoSockets
  /* global variable */
- static union IoSockets g_ioSockets = { 0, 0, 0 };
+ static volatile union IoSockets g_ioSockets = { 0 };
  
-+
 +#define dont_debug_inband
 +#define dont_use_controlsocket
 +
@@ -136,7 +126,7 @@ diff -rup old/src/wslbridge2.cpp new/src/wslbridge2.cpp
  
      /* Send terminal window size to control socket */
 -    ioctl(STDIN_FILENO, TIOCGWINSZ, &winp);
-     send(g_ioSockets.controlSock, &winp, sizeof winp, 0);
+     send(g_ioSockets.controlSock, (char *)&winp, sizeof winp, 0);
 +#else
 +    static char wins[2 + sizeof(struct winsize)] = {0, 16};
 +    static struct winsize * winsp = (struct winsize *)&wins[2];
@@ -159,27 +149,16 @@ diff -rup old/src/wslbridge2.cpp new/src/wslbridge2.cpp
  {
      int ret;
      char data[1024];
--
--    struct pollfd fds = { STDIN_FILENO, POLLIN, 0 };
 +    assert(sizeof data <= PIPE_BUF);
  
      while (1)
      {
-+#ifdef use_poll
-+        // we could poll on a single channel but we don't need to
-+        static struct pollfd fds = { STDIN_FILENO, POLLIN, 0 };
-         ret = poll(&fds, 1, -1);
- 
-         if (fds.revents & POLLIN)
-+#else
-+        if (1)
-+#endif
-         {
-             ret = read(STDIN_FILENO, data, sizeof data);
--            if (ret > 0)
--                ret = send(g_ioSockets.inputSock, data, ret, 0);
--            else
-+
+@@ -65,8 +87,33 @@ static void* send_buffer(void *param)
+             closesocket(g_ioSockets.inputSock);
+             break;
+         }
+-        if (!send(g_ioSockets.inputSock, data, ret, 0))
+-            break;
 +            char * s = data;
 +            int len = ret;
 +            while (ret > 0 && len > 0)
@@ -207,33 +186,27 @@ diff -rup old/src/wslbridge2.cpp new/src/wslbridge2.cpp
 +                    }
 +                }
 +            }
-+            if (ret <= 0)
-                 break;
-         }
-     }
-@@ -164,6 +217,7 @@ int main(int argc, char *argv[])
-     if (GetWindowsBuild() < 17763)
-         fatal("Windows 10 version is older than minimal requirement.\n");
- 
-+    setlocale(LC_ALL, "");
- #ifdef __CYGWIN__
-     cygwin_internal(CW_SYNC_WINENV);
- #endif
-@@ -529,13 +583,6 @@ int main(int argc, char *argv[])
-         g_ioSockets.controlSock = AcceptLocSock(controlSocket);
      }
  
--    /* Create thread to send window size through control socket */
--    struct sigaction act = {};
+     pthread_exit(&ret);
+@@ -480,16 +527,6 @@ int main(int argc, char *argv[])
+         g_ioSockets.controlSock = win_local_accept(controlSock);
+     }
+ 
+-    /* Capture window resize signal and send buffer to control socket */
+-    {
+-    struct sigaction act;
+-    memset(&act, 0, sizeof act);
 -    act.sa_handler = resize_window;
 -    act.sa_flags = SA_RESTART;
 -    ret = sigaction(SIGWINCH, &act, NULL);
 -    assert(ret == 0);
+-    }
 -
      /* Create thread to send input buffer to input socket */
      pthread_t tidInput;
      ret = pthread_create(&tidInput, nullptr, send_buffer, nullptr);
-@@ -548,6 +595,17 @@ int main(int argc, char *argv[])
+@@ -502,6 +539,17 @@ int main(int argc, char *argv[])
  
      termState.enterRawMode();
  
