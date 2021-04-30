@@ -10,10 +10,10 @@
 
 
 # wsltty release
-ver=3.5.0
+ver=3.5.0.2
 
 # wsltty appx release - must have 4 parts!
-verx=3.5.0.0
+verx=3.5.0.2
 
 
 ##############################
