@@ -185,6 +185,7 @@ appxversion=VERSION_SUFFIX="– wsltty appx $(verx)" WSLTTY_VERSION="$(verx)"
 mintty-build:
 	# ensure rebuild of version-specific check and message
 	rm -f mintty-$(minttyver)/bin/*/windialog.o
+	rm -f mintty-$(minttyver)/bin/*/winmain.o
 	# build mintty
 	cd mintty-$(minttyver)/src; make $(wslbuild) $(wslversion)
 	mkdir -p bin
