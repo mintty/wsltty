@@ -277,14 +277,25 @@ cop:	copcab
 	mkdir -p rel
 	cp -fl $(CAB)/* rel/
 
-installer:	cop
+installer:	cop cab normal-installer silent-installer
+
+cab:
+	# build cab archive
+	lcab -r $(CAB) rel/$(CAB).cab
+
+normal-installer:
 	# prepare build of installer
 	rm -f rel/$(CAB)-install.exe
 	sed -e "s,%version%,$(ver)," -e "s,%arch%,$(arch)," makewinx.cfg > rel/wsltty.SED
 	# build installer
 	cd rel; iexpress /n wsltty.SED
-	# build cab archive
-	lcab -r $(CAB) rel/$(CAB).cab
+
+silent-installer:
+	# prepare build of installer
+	rm -f rel/$(CAB)-install-quiet.exe
+	cd rel; sed -e "/ShowInstallProgramWindow/ s/0/1/" -e "/HideExtractAnimation/ s/0/1/" -e "/InstallPrompt/ s/=.*/=/" -e "/FinishMessage/ s/=.*/=/" -e "/TargetName/ s/install.exe/install-quiet.exe/" wsltty.SED > wsltty-quiet.SED
+	# build installer
+	cd rel; iexpress /n wsltty-quiet.SED
 
 install:	cop installbat
 
