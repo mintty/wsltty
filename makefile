@@ -10,16 +10,16 @@
 
 
 # wsltty release
-ver=3.5.1
+ver=3.5.3
 
 # wsltty appx release - must have 4 parts!
-verx=3.5.1.1
+verx=3.5.3.0
 
 
 ##############################
 # mintty release version
 
-minttyver=3.5.1
+minttyver=3.5.3
 
 ##############################
 
@@ -150,6 +150,8 @@ wslbridge-source:	$(wslbridgedir).zip
 	cp $(wslbridgedir)/LICENSE LICENSE.wslbridge2
 	# patch
 	cd $(wslbridgedir); patch -p1 < ../0001-notify-size-change-inband.patch
+	# patch to https://github.com/Biswa96/wslbridge2/commit/41575379b416703c49e2687e957440239a4cdfb7
+	cd $(wslbridgedir); patch -p0 < ../0002-add-com-for-lifted-wsl.patch
 
 wslbridge-frontend:	wslbridge-source
 	echo ------------- Compiling wslbridge2 frontend

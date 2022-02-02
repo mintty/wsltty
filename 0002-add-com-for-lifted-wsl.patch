@@ -1,0 +1,62 @@
+diff -rup src/sav/GetVmId.cpp src/GetVmId.cpp
+--- src/sav/GetVmId.cpp	2021-04-27 13:50:51.000000000 +0000
++++ src/GetVmId.cpp	2022-02-03 19:43:53.684999800 +0000
+@@ -46,11 +46,24 @@ void ComInit(void)
+                                 EOAC_STATIC_CLOAKING, NULL);
+     assert(hRes == 0);
+ 
+-    hRes = CoCreateInstance(CLSID_LxssUserSession,
++    // First try with COM server in lifted WSL service
++    hRes = CoCreateInstance(CLSID_WslService,
+                             NULL,
+                             CLSCTX_LOCAL_SERVER,
+-                            IID_ILxssUserSession,
++                            IID_IWSLService,
+                             (PVOID *)&wslSession);
++
++
++    // Now try with COM server in system WSL service
++    if (FAILED(hRes))
++    {
++        hRes = CoCreateInstance(CLSID_LxssUserSession,
++                                NULL,
++                                CLSCTX_LOCAL_SERVER,
++                                IID_ILxssUserSession,
++                                (PVOID *)&wslSession);
++    }
++
+     assert(hRes == 0);
+ }
+ 
+diff -rup src/sav/LxssUserSession.hpp src/LxssUserSession.hpp
+--- src/sav/LxssUserSession.hpp	2021-04-27 13:50:51.000000000 +0000
++++ src/LxssUserSession.hpp	2022-02-03 19:45:22.846298200 +0000
+@@ -11,14 +11,26 @@
+ #ifndef LXSSUSERSESSION_H
+ #define LXSSUSERSESSION_H
+ 
+-/* Class identifier */
++// COM IDs for lifted WSL service
++static const GUID CLSID_WslService = {
++    0xF122531F,
++    0x326B,
++    0x4514,
++    { 0x85, 0xAE, 0xDC, 0x99, 0xD3, 0x1D, 0x82, 0x56 } };
++
++static const GUID IID_IWSLService = {
++    0x50047071,
++    0x122C,
++    0x4CAD,
++    { 0x9C, 0x93, 0x94, 0x72, 0x0E, 0xB7, 0x7B, 0x06 } };
++
++// COM IDs for system WSL service
+ static const GUID CLSID_LxssUserSession = {
+     0x4F476546,
+     0xB412,
+     0x4579,
+     { 0xB6, 0x4C, 0x12, 0x3D, 0xF3, 0x31, 0xE3, 0xD6 } };
+ 
+-/* Interface identifier */
+ static const GUID IID_ILxssUserSession = {
+     0x536A6BCF,
+     0xFE04,
