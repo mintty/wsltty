@@ -62,14 +62,18 @@ the optional second parameter designates the configuration directory.
 
 ### Installation with other package management environments ###
 
-Note that these are 3rd-party contributions and do not necessarily 
-provide the latest version.
+#### Windows Package Manager ####
+
+To install wsltty from the 
+[Windows Package Manager Community Repository](https://github.com/microsoft/winget-pkgs), 
+invoke one of
+* `winget install wsltty`
+* `winget upgrade wsltty`
 
 #### Chocolatey ####
 
 If you use the [Chocolatey package manager](https://chocolatey.org/), 
 invoke one of
-<img height=222 align=right src=https://github.com/mintty/wsltty.appx/raw/master/wsltty.appx.png>
 * `choco install wsltty`
 * `choco upgrade wsltty`
 
@@ -81,10 +85,6 @@ If you use the [Scoop package manager](https://scoop.sh/),
 then, invoke one of
 * `scoop install wsltty`
 * `scoop update wsltty`
-
-#### Windows Appx package ####
-
-A Windows Appx package and certificate is available in the [wsltty.appx](https://github.com/mintty/wsltty.appx/) repository.
 
 ### Uninstallation ###
 
