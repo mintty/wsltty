@@ -62,6 +62,8 @@ the optional second parameter designates the configuration directory.
 
 ### Installation with other package management environments ###
 
+Note: These are 3rd-party packages, not managed by this repository.
+
 #### Windows Package Manager ####
 
 To install wsltty from the 
