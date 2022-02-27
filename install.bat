@@ -1,8 +1,10 @@
 @echo off
 
 set refinstalldir=%%LOCALAPPDATA%%\wsltty
-set installdir="%LOCALAPPDATA%\wsltty"
 set refconfigdir=%%APPDATA%%\wsltty
+if "%installdir%" == "" set installdir="%LOCALAPPDATA%\wsltty"
+if "%configdir%" == "" set configdir="%APPDATA%\wsltty"
+set installdir="%LOCALAPPDATA%\wsltty"
 set configdir="%APPDATA%\wsltty"
 call dequote installdir
 call dequote configdir
