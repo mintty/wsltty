@@ -35,11 +35,23 @@ You may need to open the Properties of the installer first, tab “General”
 section “Security” (if available) and select “Unblock”, 
 to enable the “Run anyway” button.
 
+#### WSLtty Portable installer
+
+For a portable installation, e.g. on a USB stick, choose the 
+“-install-portable.exe” file for download. Installation will prompt 
+for a portable installation folder interactively. 
+For example, choosing `U:\opt` will create and use folder 
+`U:\opt\wsltty` both as installation directory and configuration directory.
+Portable installation does not install any start menu or desktop shortcuts 
+and no context menu entries. It creates a shortcut in the selected 
+portable installation folder to start the default WSL distribution.
+
 #### Installation from archive ####
 
 In case a local anti-virus guard barfs about the wsltty installer, the 
 release also contains a `.cab` file. Download it, open it, extract its files 
-to some temporary deployment directory, and invoke `install.bat` from there.
+to some temporary deployment directory, and invoke `install.bat` from there, 
+or `install-portable.bat` for a portable installation.
 
 #### Installation from source repository ####
 

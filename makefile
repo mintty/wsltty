@@ -279,7 +279,7 @@ cop:	copcab
 	mkdir -p rel
 	cp -fl $(CAB)/* rel/
 
-installer:	cop cab normal-installer silent-installer
+installer:	cop cab normal-installer silent-installer portable-installer
 
 cab:
 	# build cab archive
@@ -298,6 +298,16 @@ silent-installer:
 	cd rel; sed -e "/ShowInstallProgramWindow/ s/0/1/" -e "/HideExtractAnimation/ s/0/1/" -e "/InstallPrompt/ s/=.*/=/" -e "/FinishMessage/ s/=.*/=/" -e "/TargetName/ s/install.exe/install-quiet.exe/" wsltty.SED > wsltty-quiet.SED
 	# build installer
 	cd rel; iexpress /n wsltty-quiet.SED
+
+InstallPrompt=Install Mintty terminal for WSL Portable?
+FinishMessage=Mintty for WSL Portable installation finished
+
+portable-installer:
+	# prepare build of installer
+	rm -f rel/$(CAB)-install-portable.exe
+	cd rel; sed -e "/InstallPrompt/ s/=.*/=$(InstallPrompt)/" -e "/FinishMessage/ s/=.*/=$(FinishMessage)/" -e "/AppLaunched/ s/install/install-portable/" -e "/TargetName/ s/install.exe/install-portable.exe/" wsltty.SED > wsltty-portable.SED
+	# build installer
+	cd rel; iexpress /n wsltty-portable.SED
 
 install:	cop installbat
 

@@ -137,10 +137,15 @@ mkdir "%configdir%\themes" 2> nul:
 mkdir "%configdir%\sounds" 2> nul:
 
 rem create config file if it does not yet exist
-if not exist "%configdir%\config" echo # To use common configuration in %%APPDATA%%\mintty, simply remove this file>"%configdir%\config"
+if exist "%configdir%\config" goto appconfig
+echo # To use common configuration in %%APPDATA%%\mintty, simply remove this file>"%configdir%\config"
+if "%3" == "/P" echo # Do not remove this file for WSLtty Portable>>"%configdir%\config"
 
 
 :appconfig
+
+rem skip configuration for WSLtty Portable
+if "%3" == "/P" goto end
 
 rem distro-specific stuff: shortcuts and launch scripts
 cd /D "%installdir%"
