@@ -1,0 +1,26 @@
+# This file is part of wsltty project
+
+# Build image; of course wsltty has nothing to do with Visual Studio -
+# this is just the name of Appveyor's build environment image
+# that also contains cygwin
+image: Visual Studio 2022
+
+# Version format
+version: "#{build}"
+
+# Do not increment build number after pull requests
+pull_requests:
+  do_not_increment_build_number: true
+
+# Do not start a new build when a new Git tag is created
+skip_tags: true
+
+build_script:
+- cmd: |
+    set PATH=C:\cygwin64\bin;%PATH%
+    make
+
+test_script:
+- cmd: |
+    bin\mintty.exe --log mintty.log --exec echo hello mintty
+    grep echo mintty.log
