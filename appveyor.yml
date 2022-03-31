@@ -15,9 +15,14 @@ pull_requests:
 # Do not start a new build when a new Git tag is created
 skip_tags: true
 
+init:
+- cmd: |
+    set PATH=C:\cygwin64;C:\cygwin64\bin;%windir%\System32
+    setup-x86_64 -q -P unzip -P zoo -P patch -P lcab
+    winget install Alpine
+
 build_script:
 - cmd: |
-    set PATH=C:\cygwin64\bin;%PATH%
     make
 
 test_script:
