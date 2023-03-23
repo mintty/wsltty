@@ -71,7 +71,7 @@ rem copy cygpopt-0.dll "%installdir%"\bin
 rem copy cygiconv-2.dll "%installdir%"\bin
 rem copy cygintl-8.dll "%installdir%"\bin
 
-rem create system config directory and copy config archive
+rem create system config directory and copy config archive and scripts
 mkdir "%installdir%\usr\share\mintty\lang" 2> nul:
 copy lang.zoo "%installdir%\usr\share\mintty\lang"
 mkdir "%installdir%\usr\share\mintty\themes" 2> nul:
@@ -83,6 +83,9 @@ copy charnames.txt "%installdir%\usr\share\mintty\info"
 mkdir "%installdir%\usr\share\mintty\icon" 2> nul:
 copy tux.ico "%installdir%\usr\share\mintty\icon"
 copy mintty.ico "%installdir%\usr\share\mintty\icon"
+mkdir "%installdir%\usr\share\mintty\emojis" 2> nul:
+copy getemojis "%installdir%\usr\share\mintty\emojis" 2> nul:
+copy getflags "%installdir%\usr\share\mintty\emojis" 2> nul:
 
 
 rem create Start Menu Folder
@@ -131,10 +134,13 @@ rmdir "%oldroot%\home" 2> nul:
 
 :userconfig
 
-rem create user config directory and subfolders
+rem create user config directory and subfolders, copy scripts
 mkdir "%configdir%\lang" 2> nul:
 mkdir "%configdir%\themes" 2> nul:
 mkdir "%configdir%\sounds" 2> nul:
+mkdir "%configdir%\emojis" 2> nul:
+copy "%installdir%\usr\share\mintty\emojis\getemojis" "%configdir%\emojis" 2> nul:
+copy "%installdir%\usr\share\mintty\emojis\getflags" "%configdir%\emojis" 2> nul:
 
 rem create config file if it does not yet exist
 if exist "%configdir%\config" goto appconfig

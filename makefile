@@ -216,7 +216,7 @@ mintty-pkg:
 
 mintty-appx:
 	mkdir -p usr/share/mintty
-	cd usr/share/mintty; mkdir -p lang themes sounds info
+	cd usr/share/mintty; mkdir -p lang themes sounds info emojis
 	cp mintty-$(minttyver)/lang/*.po usr/share/mintty/lang/
 	cp mintty-$(minttyver)/themes/*[!~] usr/share/mintty/themes/
 	cp mintty-$(minttyver)/sounds/*.wav usr/share/mintty/sounds/
@@ -224,6 +224,7 @@ mintty-appx:
 	# add charnames.txt to support "Character Info"
 	cd mintty-$(minttyver)/src; sh ./mknames
 	cp mintty-$(minttyver)/src/charnames.txt usr/share/mintty/info/
+	cp /usr/share/mintty/emojis/get*[!~] usr/share/mintty/emojis/
 
 cygwin:	# mkshortcutexe
 	mkdir -p bin
@@ -276,6 +277,7 @@ copcab:	ver
 	cp *.bat $(CAB)/
 	cp config-distros.sh $(CAB)/
 	cp mkshortcut.vbs $(CAB)/
+	cp mintty-$(minttyver)/tools/get*[!~] $(CAB)/
 
 cop:	copcab
 	mkdir -p rel
