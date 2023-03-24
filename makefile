@@ -10,16 +10,16 @@
 
 
 # wsltty release
-ver=3.6.1.2
+ver=3.6.4
 
 # wsltty appx release - must have 4 parts!
-verx=3.6.1.2
+verx=3.6.4.1
 
 
 ##############################
 # mintty release version
 
-minttyver=3.6.1
+minttyver=3.6.4
 
 ##############################
 
@@ -27,7 +27,7 @@ minttyver=3.6.1
 repo=Biswa96/wslbridge2
 
 # wslbridge2 master release version
-wslbridgever=0.10
+wslbridgever=0.11
 
 # wslbridge2 latest version
 #archive=master

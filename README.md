@@ -241,6 +241,19 @@ Note:
   If you define `HOME` at Windows level, this changes accordingly.
   Note, however, that the WSL `$HOME` is a completely different setting.
 
+#### Emoji deployment ####
+
+Mintty and the wsltty package do not bundle actual emoji graphics but 
+there are scripts to support easy download and deployment.
+If you have another instance of mintty installed (e.g. in cygwin) 
+and have emojis deployed already in the common config folder 
+`%APPDATA%\mintty\emojis`, they will be reused by wsltty.
+
+To deploy emojis standalone for wsltty, use the scripts installed in 
+`%APPDATA%\wsltty\emojis`:
+* `getemojis` to provide emoji graphics as listed by Unicode.org
+* `getflags` to provide emoji flag graphics (extending Unicode dynamically) from various sources
+
 #### Shell selection and Login shell ####
 
 The WSLtty deployment does not impose a shell preference;
