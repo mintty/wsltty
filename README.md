@@ -251,6 +251,7 @@ and have emojis deployed already in the common config folder
 
 To deploy emojis standalone for wsltty, use the scripts installed in 
 `%APPDATA%\wsltty\emojis`:
+* `cd $(wslpath "$APPDATA/wsltty/emojis")`
 * `getemojis` to provide emoji graphics as listed by Unicode.org
 * `getflags` to provide emoji flag graphics (extending Unicode dynamically) from various sources
 
