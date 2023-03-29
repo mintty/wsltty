@@ -11,6 +11,7 @@ WSLtty components
   (“home”-located configuration files from a previously installed version 
   will be migrated to the new default location)
 * Start Menu shortcuts to start WSL terminals
+* Desktop shorcut to start a terminal for the default WSL distribution
 * `*.bat` scripts to invoke WSL terminals from the command line
 * optional context menu entries for Windows Explorer to start WSL terminals in the respective folder
 * install/uninstall context menu items from Start Menu subfolder `WSLtty`
@@ -113,7 +114,7 @@ To uninstall wsltty software completely, remove the installation folder manually
 
 WSLtty can be invoked with
 * installed Start Menu shortcuts (or Desktop shortcuts if copied there)
-* *.bat scripts (optionally with WSL command as parameters)
+* *.bat scripts (optionally with WSL command as parameters) (see [Command line scripts](#command-line-scripts-wslbat) below)
 * Explorer context menu (if installed from the Start Menu `WSLtty` subfolder)
 
 Starting the mintty terminal directly from the WSLtty installation location 
@@ -174,7 +175,7 @@ from the Start Menu if desired.
 The Start menu folder WSLtty contains the link 
 <img align=absmiddle height=25 src=https://user-images.githubusercontent.com/12740416/57078483-a7846a00-6cee-11e9-9c5e-8c2e9e56cae4.png>`configure WSL shortcuts`.
 This function is initially run when wsltty is installed.
-If should be rerun after adding or removing WSL distributions, 
+It should be rerun after adding or removing WSL distributions, 
 in order to create the respective set of shortcuts in the Start menu.
 
 #### Command line scripts `wsl*.bat` ####
@@ -250,7 +251,7 @@ and have emojis deployed already in the common config folder
 `%APPDATA%\mintty\emojis`, they will be reused by wsltty.
 
 To deploy emojis standalone for wsltty, use the scripts installed in 
-`%APPDATA%\wsltty\emojis`:
+`%APPDATA%\wsltty\emojis` within WSL:
 * `cd $(wslpath "$APPDATA/wsltty/emojis")`
 * `getemojis` to provide emoji graphics as listed by Unicode.org
 * `getflags` to provide emoji flag graphics (extending Unicode dynamically) from various sources
