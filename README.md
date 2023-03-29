@@ -79,6 +79,7 @@ Note: These are 3rd-party packages, not managed by this repository.
 
 #### Windows Package Manager ####
 
+([Check package](https://github.com/microsoft/winget-pkgs/tree/master/manifests/m/Mintty/WSLtty))
 To install wsltty from the 
 [Windows Package Manager Community Repository](https://github.com/microsoft/winget-pkgs), 
 invoke one of
@@ -87,6 +88,7 @@ invoke one of
 
 #### Chocolatey ####
 
+([Check package](https://community.chocolatey.org/packages/wsltty))
 If you use the [Chocolatey package manager](https://chocolatey.org/), 
 invoke one of
 * `choco install wsltty`
@@ -94,6 +96,7 @@ invoke one of
 
 #### Scoop ####
 
+([Check package](https://scoop.sh/#/apps?q=wsltty))
 If you use the [Scoop package manager](https://scoop.sh/), 
 * `scoop bucket add extras`
 
