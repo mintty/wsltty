@@ -10,16 +10,16 @@
 
 
 # wsltty release
-ver=3.6.4
+ver=3.6.5
 
 # wsltty appx release - must have 4 parts!
-verx=3.6.4.1
+verx=3.6.5.1
 
 
 ##############################
 # mintty release version
 
-minttyver=3.6.4
+minttyver=3.6.5
 
 ##############################
 
