@@ -20,8 +20,11 @@ WSLtty components
 
 ### Requirements ###
 
-Since Windows 22H2 (maybe patch KB4023057 or KB5032190), wsltty does not seem to work with WSL V2 mode (#343).
-As a short-term remedy, please configure your WSL distributions to run in WSL V1 mode, for example:
+Wsltty does not seem to work with WSL V2 mode since release 2.0.0 (#343).
+As a workaround until a solution in the wslbridge gateway, it is suggested 
+to install [release 1.3.17](https://github.com/microsoft/WSL/releases/tag/1.3.17); 
+maybe uninstall WSL first, see [issue 343 comment](https://github.com/mintty/wsltty/issues/343#issuecomment-1818367512).
+Another remedy could be to configure your WSL distributions to run in WSL V1 mode, for example:
 `wsl --set-version Ubuntu 1`.
 
 Since release 3.0.5, WSLtty requires Windows version 1809 (the November 2018 release).
