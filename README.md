@@ -35,8 +35,10 @@ Since release 3.0.5, WSLtty requires Windows version 1809 (the November 2018 rel
 
 #### WSLtty installer ([Download](https://github.com/mintty/wsltty/releases) standalone installation) ####
 
-Run the [installer](https://github.com/mintty/wsltty/releases) to install 
-the components listed above.
+From the [release downloads](https://github.com/mintty/wsltty/releases), 
+run the wsltty-VERSION-x86_64-install.exe installer to install 
+the components listed above. Make sure to select a 64-bit installer 
+on a 64-bit system.
 If Windows complains with a “Windows protected your PC” popup, 
 you may need to click “Run anyway” to proceed with the installation.
 You may need to open the Properties of the installer first, tab “General” 
@@ -60,6 +62,11 @@ In case a local anti-virus guard barfs about the wsltty installer, the
 release also contains a `.cab` file. Download it, open it, extract its files 
 to some temporary deployment directory, and invoke `install.bat` from there, 
 or `install-portable.bat` for a portable installation.
+
+#### Quiet installer ####
+
+The wsltty-VERSION-x86_64-install-quiet.exe installer is intended for 
+integration in another installation framework.
 
 #### Installation from source repository ####
 
@@ -221,7 +228,7 @@ Start Menu subfolder `WSLtty`:
 
 Wsltty installation and the mintty terminal try to use the icon of the 
 respective WSL distribution. If it cannot be determined, a penguin icon 
-is used as a default. You can replace it with your preferred fallback icon 
+is used as a fallback. You can replace it with your preferred default icon 
 by replacing the icon file `%LOCALAPPDATA%\wsltty\wsl.ico`.
 
 #### Mintty settings ####
