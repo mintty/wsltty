@@ -80,6 +80,12 @@ environment for this purpose would be installed with the
 from [cygwin.com](https://cygwin.com/), 
 with additional packages `make`, `gcc-g++`, `unzip`, `zoo`, `patch`, (`lcab`).
 
+#### Build installers ####
+
+Install a minimal Cygwin environment plus the additional packages as 
+listed for «Installation from source repository».
+Invoke `make pkg` or just `make`.
+
 #### Installation to non-default locations ####
 
 (For experts)
