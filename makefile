@@ -10,16 +10,16 @@
 
 
 # wsltty release
-ver=3.7.3
+ver=3.7.4
 
 # wsltty appx release - must have 4 parts!
-verx=3.7.3.1
+verx=3.7.4.1
 
 
 ##############################
 # mintty release version
 
-minttyver=3.7.3
+minttyver=3.7.4
 
 ##############################
 
@@ -73,9 +73,14 @@ WINSDKVER=`regtool list '$(WINSDKKEY)' | sed -e '$$ q' -e d`
 
 all:	all-$(notdir $(CURDIR))
 
-all-wsltty:	check pkg
+# targets and version checking
+
+all-wsltty:	check committed pkg
 
 all-wsltty.appx:	appx
+
+committed:
+	if git status -suno | sed -e "s,^..,," | grep .; then false; fi
 
 #############################################################################
 # target checking and some defs
