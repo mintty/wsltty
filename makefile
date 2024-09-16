@@ -75,8 +75,7 @@ all:	all-$(notdir $(CURDIR))
 
 # targets and version checking
 
-#all-wsltty:	check committed pkg
-all-wsltty:	check pkg
+all-wsltty:	check committed pkg
 
 all-wsltty.appx:	appx
 
