@@ -10,16 +10,16 @@
 
 
 # wsltty release
-ver=3.7.4
+ver=3.7.5
 
 # wsltty appx release - must have 4 parts!
-verx=3.7.4.1
+verx=3.7.5.1
 
 
 ##############################
 # mintty release version
 
-minttyver=3.7.4
+minttyver=3.7.5
 
 ##############################
 
@@ -75,7 +75,8 @@ all:	all-$(notdir $(CURDIR))
 
 # targets and version checking
 
-all-wsltty:	check committed pkg
+#all-wsltty:	check committed pkg
+all-wsltty:	check pkg
 
 all-wsltty.appx:	appx
 
