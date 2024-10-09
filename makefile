@@ -56,7 +56,7 @@ wslbridgedir=wslbridge2-$(wslbridgever)
 #minttyver=master
 
 # wslbridge branch or commit to build from source;
-wslbridge=wslbridge-frontend wslbridge-backend
+wslbridge=wslbridge-source wslbridge-frontend wslbridge-backend
 
 ##############################
 # build backend on a musl-libc-based distribution
@@ -160,7 +160,7 @@ wslbridge-source:	$(wslbridgedir).zip
 	# patch to https://github.com/Biswa96/wslbridge2/commit/41575379b416703c49e2687e957440239a4cdfb7
 	#cd $(wslbridgedir); patch -p0 < ../0002-add-com-for-lifted-wsl.patch
 
-wslbridge-frontend:	wslbridge-source
+wslbridge-frontend:
 	echo ------------- Compiling wslbridge2 frontend
 	mkdir -p bin
 	# frontend build
@@ -170,7 +170,7 @@ wslbridge-frontend:	wslbridge-source
 
 windir=$(shell cd "${WINDIR}"; pwd)
 
-wslbridge-backend:	wslbridge-source
+wslbridge-backend:
 	echo ------------- Compiling wslbridge2 backend
 	#uname -m | grep x86_64
 	mkdir -p bin
