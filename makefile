@@ -159,6 +159,8 @@ wslbridge-source:	$(wslbridgedir).zip
 	#cd $(wslbridgedir); patch -p1 < ../0001-notify-size-change-inband.patch
 	# patch to https://github.com/Biswa96/wslbridge2/commit/41575379b416703c49e2687e957440239a4cdfb7
 	#cd $(wslbridgedir); patch -p0 < ../0002-add-com-for-lifted-wsl.patch
+	# patch to fix WSL 2 launching, again
+	cd $(wslbridgedir); patch -p1 < ../0012-get-vmid-from-registry.patch
 
 wslbridge-frontend:
 	echo ------------- Compiling wslbridge2 frontend
