@@ -183,10 +183,16 @@ wslbridge-backend:
 	# extract binaries
 	cp $(wslbridgedir)/bin/wslbridge2-backend bin/
 
-mintty-get:
+mintty-get:	mintty-git	# mintty-download or mintty-git
+	cp mintty-$(minttyver)/icon/terminal.ico mintty.ico
+
+mintty-download:
 	$(wgeto) https://github.com/mintty/mintty/archive/$(minttyver).zip -o mintty-$(minttyver).zip
 	unzip -o mintty-$(minttyver).zip
-	cp mintty-$(minttyver)/icon/terminal.ico mintty.ico
+
+mintty-git:
+	test -d mintty-$(minttyver) || git clone --depth 111 https://github.com/mintty/mintty.git mintty-$(minttyver)
+	cd mintty-$(minttyver); git checkout $(minttyver)
 
 wslbuild=LDFLAGS="-static -static-libgcc -s"
 appxbuild=$(wslbuild) CCOPT=-DWSLTTY_APPX
