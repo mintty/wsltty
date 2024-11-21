@@ -12,8 +12,13 @@ call dequote oldroot
 call dequote oldhomedir
 set oldconfigdir="%oldhomedir%\.config\mintty"
 call dequote oldconfigdir
-if not "%1" == "" set refinstalldir=%1 && set installdir=%1
-if not "%2" == "" set refconfigdir=%2 && set configdir=%2
+rem override installdir, configdir if parameters given
+set arg1=%1
+set arg2=%2
+call dequote arg1
+call dequote arg2
+if not "%arg1%" == "" set refinstalldir=%arg1% && set installdir=%arg1%
+if not "%arg2%" == "" set refconfigdir=%arg2% && set configdir=%arg2%
 
 
 :deploy
