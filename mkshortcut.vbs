@@ -29,10 +29,14 @@ rem wscript.echo "minttyargs: " & minttyargs
 rem wscript.echo lnk.Arguments
 
 rem Start in:
+rem Working directory; Arguments.Named would take "/wdir:C:\..." parameters
 rem wdir = Wscript.Arguments.Named("wdir")
+rem Working directory; function ExpandEnvironmentStrings cannot pass empty
 wdir = wshell.ExpandEnvironmentStrings("%wdir%")
 if IsEmpty(wdir) then
   lnk.WorkingDirectory = "%USERPROFILE%"
+elseif wdir = "." then
+  lnk.WorkingDirectory = ""
 else
   lnk.WorkingDirectory = wdir
 end if
