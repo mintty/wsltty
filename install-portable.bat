@@ -4,6 +4,7 @@ set sel="Select folder to place installation of portable wsltty"
 
 for /f "usebackq delims=" %%f in (`powershell "(new-object -COM Shell.Application).BrowseForFolder(0, '%sel%', 0, 0).self.path"`) do set f=%%f
 set instdir=%f%\wsltty
+if exist %f%\LICENSE.mintty set instdir=%f%
 
 if "%f%"=="" (
 	echo no installation
