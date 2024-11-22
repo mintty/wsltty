@@ -15,9 +15,7 @@ call dequote oldconfigdir
 
 rem override installdir, configdir if parameters given
 set arg1=%1
-echo %arg1%
 call dequote arg1
-echo %arg1%
 if "%arg1%" == "%%arg1%%" goto deploy
 set refinstalldir=%arg1%
 set installdir=%arg1%
