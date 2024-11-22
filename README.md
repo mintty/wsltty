@@ -57,6 +57,13 @@ Portable installation does not install any start menu or desktop shortcuts
 and no context menu entries. It creates a shortcut in the selected 
 portable installation folder to start the default WSL distribution.
 
+Note: For an update installation, either the parent directory or the target 
+directory itself can be selected.
+
+Note: If you rename or move the installation directory, the icon of the 
+“WSL Terminal Portable” shortcut will not work anymore; re-run the 
+install-portable.bat script in the installation folder to refresh it.
+
 #### Installation from archive ####
 
 In case a local anti-virus guard barfs about the wsltty installer, the 

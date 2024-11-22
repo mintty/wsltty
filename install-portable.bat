@@ -2,6 +2,13 @@
 
 chcp 65001 > nul
 
+if not exist "WSL Terminal Portable.lnk" goto install
+echo Rebuilding WSL Terminal Portable shortcut
+set instdir=%~dp0
+goto shortcut
+
+:install
+
 echo Installing WSL Terminal Portable
 echo Select target folder in popup dialog ...
 
@@ -24,6 +31,13 @@ if "%f%"=="" (
 rem call main installation
 call install "%instdir%" "%instdir%" /P
 rem this already changes into "%instdir%"
+
+rem copy additional portable installation files
+rem do this after call install as that deletes previous .bat files
+copy "%~dp0\install-portable.bat" .
+dir "%instdir%"\install-portable.bat
+
+:shortcut
 
 rem create shortcut
 cd /D "%instdir%"
