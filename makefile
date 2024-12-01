@@ -10,10 +10,10 @@
 
 
 # wsltty release
-ver=3.7.6
+ver=3.7.6.2
 
 # wsltty appx release - must have 4 parts!
-verx=3.7.6.1
+verx=3.7.6.2
 
 
 ##############################
@@ -25,22 +25,9 @@ minrepo=git@github.com:mintty/mintty.git
 
 ##############################
 
-# wslbridge2 repository
+# wslbridge2 repository and release version
 repo=Biswa96/wslbridge2
-
-# wslbridge2 master release version
-wslbridgever=0.12
-
-# wslbridge2 latest version
-#archive=master
-#wslbridgedir=wslbridge2-$(archive)
-
-# wslbridge2 branch or commit version (from fix-window-resize branch) and dir
-#commit=70e0dcea1db122d076ce1578f2a45280cc92d09f
-#commit=8b6dd7ee2b3102d72248990c21764c5cf86c6612
-#archive=$(commit)
-#wslbridgedir=wslbridge2-$(archive)
-
+wslbridgever=0.13
 
 # wslbridge2 fork repository and version
 #repo=mintty/wslbridge2
@@ -50,6 +37,23 @@ wslbridgever=0.12
 # wslbridge2 release or fork archive and dir
 archive=v$(wslbridgever)
 wslbridgedir=wslbridge2-$(wslbridgever)
+
+
+# wslbridge2 latest version
+#archive=master
+#wslbridgedir=wslbridge2-$(archive)
+
+
+# wslbridge2 branch or commit version (from fix-window-resize branch) and dir
+#commit=70e0dcea1db122d076ce1578f2a45280cc92d09f
+#commit=8b6dd7ee2b3102d72248990c21764c5cf86c6612
+# trying post-0.12 WSL V2 patches:
+#commit=5b2b652d1a7355b004e7860b4370a585737e5ac9
+#commit=274530b35a05df203d3a69f0e28d5015844f39bd
+# pixel size patch + fix (retagged as 0.13):
+#commit=a7162d852ff438d2d5a8dd8dae61795addb3d980
+#archive=$(commit)
+#wslbridgedir=wslbridge2-$(archive)
 
 
 ##############################
@@ -162,7 +166,12 @@ wslbridge-source:	$(wslbridgedir).zip
 	# patch to https://github.com/Biswa96/wslbridge2/commit/41575379b416703c49e2687e957440239a4cdfb7
 	#cd $(wslbridgedir); patch -p0 < ../0002-add-com-for-lifted-wsl.patch
 	# patch to fix WSL 2 launching, again
-	cd $(wslbridgedir); patch -p1 < ../0012-get-vmid-from-registry.patch
+	# this was replaced with another patch upstream
+	#cd $(wslbridgedir); patch -p1 < ../0012-get-vmid-from-registry.patch
+	# patch to add WINCH/pty pixel size support (Biswa96/wslbridge2#44)
+	#cd $(wslbridgedir); patch -p1 < ../0013-pty-pixel-size.patch
+	# patch to fix the pixel patch of 0.13
+	#cd $(wslbridgedir); patch -p1 < ../0013-pty-pixel-size-fix.patch
 
 wslbridge-frontend:
 	echo ------------- Compiling wslbridge2 frontend
