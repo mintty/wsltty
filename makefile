@@ -21,6 +21,8 @@ verx=3.7.6.1
 
 minttyver=3.7.6
 
+minrepo=git@github.com:mintty/mintty.git
+
 ##############################
 
 # wslbridge2 repository
@@ -191,7 +193,7 @@ mintty-download:
 	unzip -o mintty-$(minttyver).zip
 
 mintty-git:
-	test -d mintty-$(minttyver) || git clone --depth 111 https://github.com/mintty/mintty.git mintty-$(minttyver)
+	test -d mintty-$(minttyver) || git clone --branch $(minttyver) --depth 1 $(minrepo) mintty-$(minttyver)
 	cd mintty-$(minttyver); git checkout $(minttyver)
 
 wslbuild=LDFLAGS="-static -static-libgcc -s"
