@@ -155,17 +155,40 @@ regtool () {
 }
 fi
 
-
-if $config
-then while read line; do echo "$line"; done <</EOB > mkbat.bat
-@echo off
-echo Creating %1.bat
-
-echo @echo off> %1.bat
-echo rem Start mintty terminal for WSL package %name% in current directory>> %1.bat
-echo %target% -i "%icon%" %minttyargs% %bridgeargs% %%*>> %1.bat
-/EOB
-fi
+mkbat () {
+	echo Creating "$1.bat"
+	while read line; do echo "$line"; done <<-\/EOB > "$1".bat
+	@echo off
+	rem Start mintty terminal for WSL
+	
+	rem get basename of this script file,
+	rem use it to select WSL distribution and homedir flag
+	set dist=%~n0
+	
+	rem start in current directory
+	set cdir=
+	rem if script name ends with ~, extract WSL distribution and param -~
+	if "%dist:~-1%" == "~" set cdir=-~ && set dist=%dist:~0,-1%
+	rem map WSL default distribution
+	if "%dist%" == "WSL" set dist=
+	
+	rem check if we have an explicit -d DIST parameter
+	if "%1" == "-d" set dist=%2 && shift && shift
+	
+	chcp 65001 > nul:
+	
+	if "%1" == "" goto login
+	
+	:cmd
+	"%LOCALAPPDATA%/wsltty/bin/mintty.exe" -i "%LOCALAPPDATA%/wsltty/wsl.ico" --WSL="%dist%" --configdir="%APPDATA%/wsltty" %cdir% %*
+	goto end
+	
+	:login
+	"%LOCALAPPDATA%/wsltty/bin/mintty.exe" -i "%LOCALAPPDATA%/wsltty/wsl.ico" --WSL="%dist%" --configdir="%APPDATA%/wsltty" %cdir% -
+	
+	:end
+	/EOB
+}
 
 if $custominst && $config && ! $remove
 then
@@ -366,7 +389,8 @@ config () {
         copy "$name Terminal %.lnk" "$APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\WSLtty"
 
         # launch script in . -> WSLtty home, WindowsApps launch folder
-        cmd /C mkbat.bat "$name"
+        #cmd /C mkbat.bat "$name"
+        mkbat "$name"
         copy "$name.bat" "$LOCALAPPDATA\\Microsoft\\WindowsApps"
 
         # store backup copies in installation dir
@@ -402,7 +426,8 @@ config () {
         fi
 
         # launch script in ~ -> WSLtty home, WindowsApps launch folder
-        cmd /C mkbat.bat "$name~"
+        #cmd /C mkbat.bat "$name~"
+        mkbat "$name~"
         copy "$name~.bat" "$LOCALAPPDATA\\Microsoft\\WindowsApps"
 
         # store backup copies in installation dir
