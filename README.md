@@ -218,6 +218,8 @@ WSLtty installs the following scripts into `%LOCALAPPDATA%\Microsoft\WindowsApps
 * For each installed WSL distribution, e.g. Ubuntu, a command script like `Ubuntu~.bat` to start in the WSL user home
 * `WSL.bat` and `WSL~.bat` to start the default WSL distribution
 
+The scripts accept an optional invocation command (since 3.7.8).
+
 Given that `%LOCALAPPDATA%\Microsoft\WindowsApps` is in your PATH,
 the scripts can be invoked from cmd.exe, PowerShell, or via WIN+R.
 
