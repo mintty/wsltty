@@ -10,16 +10,16 @@
 
 
 # wsltty release
-ver=3.7.7
+ver=3.7.8
 
 # wsltty appx release - must have 4 parts!
-verx=3.7.7.1
+verx=3.7.8.1
 
 
 ##############################
 # mintty release version
 
-minttyver=3.7.7
+minttyver=3.7.8
 
 minrepo=git@github.com:mintty/mintty.git
 
