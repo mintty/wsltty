@@ -229,11 +229,18 @@ mintty-build-appx:
 	cp mintty-$(minttyver)/bin/mintty.exe bin/
 	strip bin/mintty.exe
 
+terminfoxt=78/xterm 78/xterm-vt220 78/xterm-256color 78/xterm-direct
+terminfovt=76/vt100 76/vt220 76/vt340 76/vt420 76/vt525
+terminfomt=6d/mintty 6d/mintty-direct
+terminfo=$(terminfoxt) $(terminfovt) $(terminfomt)
+
 mintty-pkg:
 	cp mintty-$(minttyver)/LICENSE LICENSE.mintty
 	cd mintty-$(minttyver)/lang; zoo a lang *.po; mv lang.zoo ../../
 	cd mintty-$(minttyver)/themes; zoo a themes *[!~]; mv themes.zoo ../../
 	cd mintty-$(minttyver)/sounds; zoo a sounds *.wav *.WAV *.md; mv sounds.zoo ../../
+	cd /usr/share/terminfo; zoo a /tmp/terminfo $(terminfo)
+	mv /tmp/terminfo.zoo .
 	# add charnames.txt to support "Character Info"
 	cd mintty-$(minttyver)/src; sh ./mknames
 	cp mintty-$(minttyver)/src/charnames.txt .
@@ -285,6 +292,7 @@ copcab:	ver
 	cp lang.zoo $(CAB)/
 	cp themes.zoo $(CAB)/
 	cp sounds.zoo $(CAB)/
+	cp terminfo.zoo $(CAB)/
 	cp charnames.txt $(CAB)/
 	cp bin/wslbridge2.exe $(CAB)/
 	cp bin/wslbridge2-backend $(CAB)/

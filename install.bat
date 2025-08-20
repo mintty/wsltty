@@ -95,6 +95,8 @@ copy mintty.ico "%installdir%\usr\share\mintty\icon"
 mkdir "%installdir%\usr\share\mintty\emojis" 2> nul:
 copy getemojis "%installdir%\usr\share\mintty\emojis" 2> nul:
 copy getflags "%installdir%\usr\share\mintty\emojis" 2> nul:
+mkdir "%installdir%\usr\share\terminfo" 2> nul:
+copy terminfo.zoo "%installdir%\usr\share\terminfo"
 
 
 rem create Start Menu Folder
@@ -122,6 +124,8 @@ cd /D "%installdir%\usr\share\mintty\themes"
 "%installdir%\bin\zoo" xO themes
 cd /D "%installdir%\usr\share\mintty\sounds"
 "%installdir%\bin\zoo" xO sounds
+cd /D "%installdir%\usr\share\terminfo"
+"%installdir%\bin\zoo" xO terminfo
 cd /D "%installdir%"
 
 
