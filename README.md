@@ -114,14 +114,6 @@ invoke one of
 * `winget install wsltty`
 * `winget upgrade wsltty`
 
-#### Chocolatey ####
-
-([Check package](https://community.chocolatey.org/packages/wsltty))
-If you use the [Chocolatey package manager](https://chocolatey.org/), 
-invoke one of
-* `choco install wsltty`
-* `choco upgrade wsltty`
-
 #### Scoop ####
 
 ([Check package](https://scoop.sh/#/apps?q=wsltty))
@@ -131,6 +123,14 @@ If you use the [Scoop package manager](https://scoop.sh/),
 then, invoke one of
 * `scoop install wsltty`
 * `scoop update wsltty`
+
+#### Chocolatey ####
+
+([Check package](https://community.chocolatey.org/packages/wsltty))
+If you use the [Chocolatey package manager](https://chocolatey.org/), 
+invoke one of
+* `choco install wsltty`
+* `choco upgrade wsltty`
 
 ### Uninstallation ###
 
@@ -332,13 +332,13 @@ the [Mintty manual page](http://mintty.github.io/mintty.1.html),
 including a [Hints and Tips page](https://github.com/mintty/mintty/wiki/Tips).
 
 It is based on [Cygwin](http://cygwin.com) 
-and includes its runtime library ([sources](http://mirrors.dotsrc.org/cygwin/x86/release/cygwin)).
+and includes its runtime library ([sources](http://mirrors.dotsrc.org/cygwin/x86_64/release/cygwin)).
 
 For interacting with WSL, [wslbridge](https://github.com/rprichard/wslbridge)
 used to be the gateway prototype.
 Many thanks for this enabling gateway go to Ryan Prichard.
 
-For recent changes in WSL, particularly WSL mode V2, the new gateway 
-[wslbridge2](https://github.com/Biswa96/wslbridge2) is used instead.
+For later changes in WSL, particularly WSL mode V2, the new gateway 
+[wslbridge2](https://github.com/Biswa96/wslbridge2) was used instead.
 Many thanks for this further development and maintenance go to Biswapriyo Nath.
 
