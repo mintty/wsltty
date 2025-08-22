@@ -18,9 +18,33 @@ WSLtty components
 
 ---
 
-### Requirements ###
+### Launching WSL ###
 
-To connect to WSL, wsltty uses wslbridge2, which uses undocumented 
+Since wsltty 3.8.0, mintty launches WSL using the native Windows launcher 
+gateway `wsl.exe`. Previously, this approach used to fail due to two problems:
+* The wslbridge approach would fail in notoriously frequent cases 
+  due to its need to use undocumented Windows APIs.
+* Using `wsl.exe` directly, the _conhost_ layer hooked into the 
+  workflow used to obstruct transparent terminal operation in multiple ways.
+
+The _conhost_ layer has meanwhile been modernised and its enforced detour 
+through the Windows console API has been dropped, in the course of the 
+Windows Terminal project. The new _conhost_, however, has not yet been 
+deployed with Windows (as of summer 2025) and will probably not be 
+deployed with Windows 10 anymore. So in order to get fully transparent 
+terminal interaction between WSL and wsltty, the updated _conhost_ needs 
+to be patched into Windows manually, following instruction in the 
+[mintty wiki, section Interaction with WSL](https://github.com/mintty/mintty/wiki/Tips#interaction-with-wsl-and-other-windows-programs).
+
+If for some reason, you should need to switch back to the wslbridge approach, 
+this can be configured with setting `WSLbridge=2` in the config file. The 
+wslbridge2 gateway is still deployed with wsltty for that matter. 
+(If for a very old Windows 10 version you still need the original 
+wslbridge gateway, set `WSLbridge=1` and deploy it manually.)
+
+#### WSL bridge requirements in previous releases ####
+
+To connect to WSL, wsltty used wslbridge2, which uses undocumented 
 Windows APIs that have been changed various times, so wslbridge2 needed 
 to catch up with incompatible changes, particularly to support WSL V2.
 (See e.g. issue #343; to work with WSL V2, wsltty 2.0.0 needed a WSL update 

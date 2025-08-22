@@ -9,19 +9,17 @@
 # make wsltty	build the software, using the local copy of mintty
 
 
-# wsltty release
-ver=3.7.8
-
-# wsltty appx release - must have 4 parts!
-verx=3.7.8.1
-
-
 ##############################
-# mintty release version
+# mintty and wsltty release versions
+ver=3.8.0
 
-minttyver=3.7.8
+minttyver=3.8.0
 
 minrepo=git@github.com:mintty/mintty.git
+
+##############################
+# wsltty appx release (obsolete) - must have 4 parts!
+appxver=$(wslttyver).1
 
 ##############################
 
@@ -131,14 +129,14 @@ checkarch:
 #############################################################################
 # patch version information for appx package configuration
 
-fix-verx:
+fix-appxver:
 	echo patching $(WINSDKVER) into Launcher config
 	cd Launcher; sed -i~ -e "/<supportedRuntime / s,Version=v[.0-9]*,Version=$(WINSDKVER)," app.config
 	echo patched app.config
 	cd Launcher; sed -i~ -e "/<TargetFrameworkVersion>/ s,v[.0-9]*,$(WINSDKVER)," Launcher.csproj
 	echo patched Launcher.csproj
-	echo patching $(verx) into app config
-	sed -i~ -e '/<Identity / s,Version="[.0-9]*",Version="$(verx)",' AppxManifest.xml
+	echo patching $(appxver) into app config
+	sed -i~ -e '/<Identity / s,Version="[.0-9]*",Version="$(appxver)",' AppxManifest.xml
 	echo patched AppxManifest.xml
 
 #############################################################################
@@ -207,8 +205,8 @@ mintty-git:
 
 wslbuild=LDFLAGS="-static -static-libgcc -s"
 appxbuild=$(wslbuild) CCOPT=-DWSLTTY_APPX
-wslversion=VERSION_SUFFIX="– wsltty $(ver)" WSLTTY_VERSION="$(ver)"
-appxversion=VERSION_SUFFIX="– wsltty appx $(verx)" WSLTTY_VERSION="$(verx)"
+wslversion=VERSION_SUFFIX="– wsltty $(wslttyver)" WSLTTY_VERSION="$(wslttyver)"
+appxversion=VERSION_SUFFIX="– wsltty appx $(appxver)" WSLTTY_VERSION="$(appxver)"
 
 mintty-build:
 	# ensure rebuild of version-specific check and message
@@ -279,7 +277,7 @@ appx-bin:
 	cp /bin/cygwin1.dll bin/
 	cp /bin/cygwin-console-helper.exe bin/
 
-CAB=wsltty-$(ver)-$(arch)
+CAB=wsltty-$(wslttyver)-$(arch)
 
 copcab:	ver
 	mkdir -p $(CAB)
@@ -324,16 +322,16 @@ cab:
 normal-installer:
 	# prepare build of installer
 	rm -f rel/$(CAB)-install.exe
-	sed -e "s,%version%,$(ver)," -e "s,%arch%,$(arch)," makewinx.cfg > rel/wsltty.SED
+	sed -e "s,%version%,$(wslttyver)," -e "s,%arch%,$(arch)," makewinx.cfg > rel/wsltty.SED
 	# build installer
-	cd rel; iexpress /n wsltty.SED
+	cd rel; iexpress /n /q wsltty.SED
 
 silent-installer:
 	# prepare build of installer
 	rm -f rel/$(CAB)-install-quiet.exe
 	cd rel; sed -e "/ShowInstallProgramWindow/ s/0/1/" -e "/HideExtractAnimation/ s/0/1/" -e "/InstallPrompt/ s/=.*/=/" -e "/FinishMessage/ s/=.*/=/" -e "/TargetName/ s/install.exe/install-quiet.exe/" wsltty.SED > wsltty-quiet.SED
 	# build installer
-	cd rel; iexpress /n wsltty-quiet.SED
+	cd rel; iexpress /n /q wsltty-quiet.SED
 
 InstallPrompt=Install Mintty terminal for WSL Portable?
 FinishMessage=Mintty for WSL Portable installation finished
@@ -343,7 +341,7 @@ portable-installer:
 	rm -f rel/$(CAB)-install-portable.exe
 	cd rel; sed -e "/InstallPrompt/ s/=.*/=$(InstallPrompt)/" -e "/FinishMessage/ s/=.*/=$(FinishMessage)/" -e "/AppLaunched/ s/install/install-portable/" -e "/TargetName/ s/install.exe/install-portable.exe/" wsltty.SED > wsltty-portable.SED
 	# build installer
-	cd rel; iexpress /n wsltty-portable.SED
+	cd rel; iexpress /n /q wsltty-portable.SED
 
 install:	cop installbat
 
@@ -351,7 +349,7 @@ installbat:
 	cd rel; cmd /C install
 
 ver:
-	echo $(ver) > VERSION
+	echo $(wslttyver) > VERSION
 
 mintty:	mintty-get mintty-build
 
@@ -370,7 +368,7 @@ pkg:	wslbridge cygwin mintty-get mintty-build mintty-pkg installer
 wsltty-appx:	wslbridge appx-bin mintty-get mintty-build-appx mintty-appx
 
 # appx package target:
-appx:	wsltty-appx fix-verx
+appx:	wsltty-appx fix-appxver
 	sh ./build.sh
 
 #############################################################################
