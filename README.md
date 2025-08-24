@@ -33,8 +33,9 @@ Windows Terminal project. The new _conhost_, however, has not yet been
 deployed with Windows (as of summer 2025) and will probably not be 
 deployed with Windows 10 anymore. So in order to get fully transparent 
 terminal interaction between WSL and wsltty, the updated _conhost_ needs 
-to be patched into Windows manually, following instruction in the 
-[mintty wiki, section Interaction with WSL](https://github.com/mintty/mintty/wiki/Tips#interaction-with-wsl-and-other-windows-programs).
+to be patched into Windows manually, following the instructions in the 
+[mintty wiki, section Interaction with WSL](https://github.com/mintty/mintty/wiki/Tips#interaction-with-wsl-and-other-windows-programs) 
+to patch OpenConsole into your Windows as conhost replacement.
 
 If for some reason, you should need to switch back to the wslbridge approach, 
 this can be configured with setting `WSLbridge=2` in the config file. The 
