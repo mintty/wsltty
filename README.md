@@ -37,9 +37,13 @@ to be patched into Windows manually, following the instructions in the
 [mintty wiki, section Interaction with WSL](https://github.com/mintty/mintty/wiki/Tips#interaction-with-wsl-and-other-windows-programs) 
 to patch OpenConsole into your Windows as conhost replacement.
 
-If for some reason, you should need to switch back to the wslbridge approach, 
-this can be configured with setting `WSLbridge=2` in the config file. The 
-wslbridge2 gateway is still deployed with wsltty for that matter. 
+#### Troubleshooting display glitches ####
+
+The new conhost layer unfortunately still breaks display in certain cases.
+As a workaround, you may switch back to the wslbridge approach with the 
+following setting in a config file (%APPDATA%/wsltty/config):
+`WSLbridge=2`.
+The wslbridge2 gateway is still deployed with wsltty for that matter. 
 (If for a very old Windows 10 version you still need the original 
 wslbridge gateway, set `WSLbridge=1` and deploy it manually.)
 
