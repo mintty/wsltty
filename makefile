@@ -11,7 +11,7 @@
 
 ##############################
 # mintty and wsltty release versions
-wslttyver=3.8.0
+wslttyver=3.8.0.2
 
 minttyver=3.8.0
 
