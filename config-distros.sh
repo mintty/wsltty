@@ -325,7 +325,7 @@ config () {
 
   if $ok && ! $remove && [ -n "$distro" ]
   then	# fix #163: backend missing +x with certain mount options
-	echo Setting +x wslbridge2 backends for distro "'$distro'"
+	echo Setting +x wslbridge2 backend for distro "'$distro'"
 	(cd "$INSTDIR"; cd bin; PATH="${WINDIR}/Sysnative:${PATH}" wsl.exe -d "$distro" chmod +x wslbridge2-backend)
 #	(cd "$LOCALAPPDATA/wsltty/bin"; wsl.exe -d "$distro" chmod +x wslbridge2-backend)
 #	(cd ... ; "$SYSTEMROOT/System32/bash.exe" "$guid" -c chmod +x wslbridge2-backend)

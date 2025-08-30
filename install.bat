@@ -155,6 +155,7 @@ mkdir "%configdir%\emojis" 2> nul:
 copy "%installdir%\usr\share\mintty\emojis\getemojis" "%configdir%\emojis" 2> nul:
 copy "%installdir%\usr\share\mintty\emojis\getflags" "%configdir%\emojis" 2> nul:
 
+goto noetc
 rem 3.8.0.2: create global config file for troubleshooting
 mkdir "%installdir%\etc" 2> nul:
 echo ###########################>"%installdir%\etc\minttyrc"
@@ -162,6 +163,15 @@ echo # Troubleshooting>>"%installdir%\etc\minttyrc"
 echo # To work around a pty interworking issue between wsl and cygwin,>>"%installdir%\etc\minttyrc"
 echo # we need to apply this configuration for now:>>"%installdir%\etc\minttyrc"
 echo Baud=999999>>"%installdir%\etc\minttyrc"
+goto etcok
+
+:noetc
+rem 3.8.0.3: remove previous troubleshooting patch
+if exist "%installdir%\etc\minttyrc" del "%installdir%\etc\minttyrc"
+if exist "%installdir%\etc" rmdir "%installdir%\etc"
+
+:etcok
+
 
 rem create config file if it does not yet exist
 if exist "%configdir%\config" goto appconfig
