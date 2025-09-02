@@ -21,38 +21,35 @@ WSLtty components
 ### Launching WSL ###
 
 Since wsltty 3.8.0, mintty launches WSL using the native Windows launcher 
-gateway `wsl.exe`. Previously, this approach used to fail due to two problems:
-* The wslbridge approach would fail in notoriously frequent cases 
-  due to its need to use undocumented Windows APIs.
-* Using `wsl.exe` directly, the _conhost_ layer hooked into the 
-  workflow used to obstruct transparent terminal operation in multiple ways.
+gateway `wsl.exe` by default.
+Proper display in certain cases depends on an up-to-date version of the 
+Windows conpty layer. Its version currently deployed with Windows has 
+unfortunately still some problems. There are two ways to fix this:
+* Revert to the previous launching method for now. The problem is that 
+  this way of launching WSL does not appear to work on some users’ systems.
+  For this solution, configure this in config file `%APPDATA%/wsltty/config`.
+  `WSLbridge=2`
+* Update the Windows conpty layer manually, by replacing 
+  `%SYSTEMROOT%/System32/conhost.exe` following the instructions in the 
+  [mintty wiki, section Interaction with WSL](https://github.com/mintty/mintty/wiki/Tips#interaction-with-wsl-and-other-windows-programs).
 
-The _conhost_ layer has meanwhile been modernised and its enforced detour 
-through the Windows console API has been dropped, in the course of the 
-Windows Terminal project. The new _conhost_, however, has not yet been 
-deployed with Windows (as of summer 2025) and will probably not be 
-deployed with Windows 10 anymore. So in order to get fully transparent 
-terminal interaction between WSL and wsltty, the updated _conhost_ needs 
-to be patched into Windows manually, following the instructions in the 
-[mintty wiki, section Interaction with WSL](https://github.com/mintty/mintty/wiki/Tips#interaction-with-wsl-and-other-windows-programs) 
+#### Launcher and display interworking background ####
+
+The approach to use wsl.exe directly used to fail because the 
+_conhost_ layer hooked into the workflow used to obstruct transparent 
+terminal operation in multiple ways.
+
+The _conhost_ layer has meanwhile been modernised, including the _conpty_ 
+layer, and its enforced detour through the Windows console API has 
+been dropped, in the course of the Windows Terminal project.
+The new _conhost_, however, has not yet been deployed with Windows 
+(as of summer 2025) and will probably not be deployed with Windows 10 anymore.
+So in order to get fully transparent terminal interaction between WSL 
+and wsltty, the updated _conhost_ needs to be patched into Windows 
+manually, following the instructions linked above, 
 to patch OpenConsole into your Windows as conhost replacement.
 
-#### Troubleshooting display corruption ####
-
-With the new conhost/conpty layer unfortunately display appears broken 
-in certain cases. Two workarounds are available, both setting an option 
-in a config file (%APPDATA%/wsltty/config):
-* `Baud=999999`
-
-or
-* `WSLbridge=2`.
-
-The latter switches back to the wslbridge launching approach; the 
-wslbridge2 gateway is still deployed with wsltty for that matter. 
-(If for a very old Windows 10 version you still need the original 
-wslbridge gateway, set `WSLbridge=1` and deploy it manually.)
-
-#### WSL bridge requirements in previous releases ####
+#### The wslbridge approach ####
 
 To connect to WSL, wsltty used wslbridge2, which uses undocumented 
 Windows APIs that have been changed various times, so wslbridge2 needed 
@@ -63,6 +60,12 @@ to [release 1.3.17](https://github.com/microsoft/WSL/releases/tag/1.3.17).)
 Since release 3.0.5, WSLtty requires Windows version 1809 (the November 2018 release).
 
 By end of 2024, wsltty works again with recent updates of the WSL subsystem.
+
+Configuration option `WSLbridge=2` switches back to the previous 
+wslbridge launching approach; the wslbridge2 gateway is still deployed 
+with wsltty for that matter. (If for a very old Windows 10 version you 
+still need the original wslbridge gateway, set `WSLbridge=1` and 
+deploy it manually.)
 
 ---
 
